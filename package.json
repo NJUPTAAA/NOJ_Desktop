@@ -1,66 +1,79 @@
 {
-  "name": "noj_desktop",
-  "productName": "noj_desktop",
-  "version": "1.0.0",
-  "description": "My Electron application description",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
-  },
-  "keywords": [],
-  "author": {
-    "name": "Youjie Zhang",
-    "email": "zsgsdesign@gmail.com"
-  },
-  "homepage": "https://github.com/NJUPTAAA/NOJ_Desktop",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:NJUPTAAA/NOJ_Desktop.git"
-  },
-  "bugs": {
-    "url": "https://github.com/NJUPTAAA/NOJ_Desktop/issues"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "noj_desktop"
-          }
+    "name": "noj_desktop",
+    "productName": "noj_desktop",
+    "version": "1.0.0",
+    "description": "NOJ Desktop is a contest optimized version supporting Windows, Mac and Linux.",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "electron-forge start",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder",
+        "postinstall": "electron-builder install-app-deps",
+        "lint": "echo \"No linting configured\""
+    },
+    "keywords": [
+        "noj",
+        "cross-platform",
+        "electron"
+    ],
+    "engines": {
+        "node": "12.x"
+    },
+    "author": {
+        "name": "Youjie Zhang",
+        "email": "zsgsdesign@gmail.com"
+    },
+    "homepage": "https://github.com/NJUPTAAA/NOJ_Desktop",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:NJUPTAAA/NOJ_Desktop.git"
+    },
+    "bugs": {
+        "url": "https://github.com/NJUPTAAA/NOJ_Desktop/issues"
+    },
+    "build": {
+        "appId": "com.onlinejudge.noj.desktop",
+        "productName": "NOJ Desktop",
+        "copyright": "Copyright © 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.",
+        "artifactName": "${productName}-${version}-${platform}.${ext}",
+        "publish": [
+            {
+                "provider": "github",
+                "releaseType": "release"
+            }
+        ],
+        "directories": {
+            "output": "release"
         },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+        "asar": true,
+        "win": {
+            "icon": "assets/icon.ico",
+            "target": ["nsis", "zip"],
+            "publisherName": "Fangtang Zhixing Network Technology(Nanjing) Co,Ltd."
         },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+        "nsis": {
+            "oneClick": false,
+            "perMachine": false,
+            "createDesktopShortcut": false,
+            "createStartMenuShortcut": true,
+            "installerIcon": "assets/installerIcon.ico",
+            "artifactName": "${productName}-${version}-installer.${ext}"
         }
-      ]
+    },
+    "dependencies": {
+        "electron-squirrel-startup": "^1.0.0"
+    },
+    "devDependencies": {
+        "@electron-forge/cli": "^6.0.0-beta.51",
+        "@electron-forge/maker-deb": "^6.0.0-beta.51",
+        "@electron-forge/maker-rpm": "^6.0.0-beta.51",
+        "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
+        "@electron-forge/maker-zip": "^6.0.0-beta.51",
+        "electron": "8.2.4",
+        "electron-builder": "^22.6.0"
     }
-  },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
-  },
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.51",
-    "@electron-forge/maker-deb": "^6.0.0-beta.51",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.51",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
-    "@electron-forge/maker-zip": "^6.0.0-beta.51",
-    "electron": "8.2.4"
-  }
 }
