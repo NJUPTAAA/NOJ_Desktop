@@ -1,12 +1,99 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css">
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-  </body>
+    <title>NOJ Desktop</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="stylesheet" href="fonts/Roboto/roboto.css">
+    <link rel="stylesheet" href="fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="fonts/Roboto-Slab/roboto-slab.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="css/main.css?version=0.3.2-48-gc106d2c">
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
+    <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="fonts/Devicon/devicon.css">
+    <style>
+        body{
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            align-items: center;
+            justify-content: center;
+        }
+        img.noj-header-icon{
+            width: 15rem;
+            padding-bottom: 0.5rem;
+        }
+        button.noj-login-btn{
+            width: 100%;
+            border-radius: 100px;
+        }
+        .noj-form-group-with-icon{
+            display: flex;
+        }
+        .noj-form-group-with-icon > i{
+            padding-top: 2.1875rem;
+            font-size: 1rem;
+            padding-right: 1rem;
+            transform: scale(1.2);
+            color: rgba(0,0,0,.4);
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+        .noj-form-group-with-icon > div{
+            flex-shrink: 1;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img src="resources/noj.png" class="noj-header-icon">
+        <div>
+            <div style="padding-bottom: 1rem;">
+                <div class="noj-form-group-with-icon">
+                    <i class="MDI server-network"></i>
+                    <div class="form-group">
+                        <label for="domainConfig" class="bmd-label-floating">Domain Configuration</label>
+                        <input type="url" class="form-control" id="domainConfig">
+                    </div>
+                </div>
+                <div class="noj-form-group-with-icon">
+                    <i class="MDI email-variant"></i>
+                    <div class="form-group">
+                        <label for="accountEmail" class="bmd-label-floating">Account Email</label>
+                        <input type="email" class="form-control" id="accountEmail">
+                    </div>
+                </div>
+                <div class="noj-form-group-with-icon">
+                    <i class="MDI asterisk"></i>
+                    <div class="form-group">
+                        <label for="accountPassword" class="bmd-label-floating">Account Password</label>
+                        <input type="password" class="form-control" id="accountPassword">
+                    </div>
+                </div>
+                <div class="noj-form-group-with-icon">
+                    <i class="MDI barcode"></i>
+                    <div class="form-group">
+                        <label for="contestPinCode" class="bmd-label-floating">Contest Pin Code</label>
+                        <input type="text" class="form-control" id="contestPinCode">
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-raised btn-primary noj-login-btn"><i class="MDI key-variant"></i> Login</button>
+        </div>
+    </div>
+</body>
+<script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
+<script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="../node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('body').bootstrapMaterialDesign();
+    });
+</script>
+
 </html>
