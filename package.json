@@ -13,10 +13,18 @@
   },
   "keywords": [],
   "author": {
-    "name": "ZsgsDesign",
+    "name": "Youjie Zhang",
     "email": "zsgsdesign@gmail.com"
   },
+  "homepage": "https://github.com/NJUPTAAA/NOJ_Desktop",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:NJUPTAAA/NOJ_Desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NJUPTAAA/NOJ_Desktop/issues"
+  },
   "config": {
     "forge": {
       "packagerConfig": {},
