@@ -52,7 +52,10 @@
         "asar": true,
         "win": {
             "icon": "assets/icon.ico",
-            "target": ["nsis", "zip"],
+            "target": [
+                "nsis",
+                "zip"
+            ],
             "publisherName": "Fangtang Zhixing Network Technology(Nanjing) Co,Ltd."
         },
         "nsis": {
@@ -65,7 +68,11 @@
         }
     },
     "dependencies": {
-        "electron-squirrel-startup": "^1.0.0"
+        "animate.css": "^3.7.2",
+        "bootstrap-material-design": "^4.1.2",
+        "electron-squirrel-startup": "^1.0.0",
+        "jquery": "^3.5.0",
+        "popper.js": "^1.15.0"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.51",
