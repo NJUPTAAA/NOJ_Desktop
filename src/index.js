@@ -5,6 +5,7 @@ const os = require('os');
 const request = require('request');
 const Store = require('electron-store');
 const store = new Store();
+const isDebug = app.isPackaged === false;
 
 function sleep(ms) {
     return new Promise((resolve) => {
@@ -46,7 +47,7 @@ const createMenu = () => {
         },
         // { role: 'editMenu' }
         // { role: 'viewMenu' }
-        {
+        ...(isDebug ? [{
             label: 'Debugger',
             submenu: [
                 { role: 'reload' },
@@ -65,7 +66,8 @@ const createMenu = () => {
                 { type: 'separator' },
                 { role: 'togglefullscreen' }
             ]
-        },
+        }] : []),
+
         // { role: 'windowMenu' }
         {
             label: 'Window',
@@ -141,7 +143,6 @@ const createWindow = () => {
     loginView.webContents.loadFile(path.join(__dirname, 'login.html'));
     loginView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true });
     loginView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
-    // mainWindow.loadFile(path.join(__dirname, 'index.html'));
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
     });
@@ -162,8 +163,26 @@ app.on('activate', () => {
     }
 });
 
+function showContestView() {
+    contestView = new BrowserView({
+        center: true,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+    contestView.webContents.loadFile(path.join(__dirname, 'contest.html'));
+    contestView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true });
+    contestView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
+    mainWindow.setBrowserView(contestView);
+    // fixed view bugs
+    mainWindow.hide();
+    mainWindow.show();
+}
+
 ipcMain.on('attemptLogin', (event, arg) => {
-    // loginView.webContents.send('changeButtonStage', 'start');
+    if (isDebug) {
+        return showContestView();
+    }
     request.post({
         url: `${arg.domain}/api/system`
     }, async function optionalCallback(err, httpResponse, body) {
@@ -178,7 +197,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
         } else {
             console.log('DOMAIN SUCCESS:');
             console.log(body);
-            if (body.product == "NOJ" && body.version >= "0.4.0") {
+            if (typeof body.product !== 'undefined' && body.product == "NOJ" && typeof body.version !== 'undefined' && body.version >= "0.4.0") {
                 request.post({
                     url: `${arg.domain}/api/auth`,
                     form: {
@@ -199,11 +218,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
                         console.log(body);
                         if (!body.data.err) {
                             store.set('user.token', body.data.token);
-                            loginView.webContents.send('attempedtLogin', {
-                                code: 200,
-                                desc: "Account Logined.",
-                                data: null
-                            });
+                            showContestView();
                         } else {
                             loginView.webContents.send('attempedtLogin', {
                                 code: 3002,
