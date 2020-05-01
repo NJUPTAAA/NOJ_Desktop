@@ -1,4 +1,4 @@
-const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu } = require('electron');
+const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -45,41 +45,13 @@ const createMenu = () => {
             ]
         },
         // { role: 'editMenu' }
-        {
-            label: 'Edit',
-            submenu: [
-                { role: 'undo' },
-                { role: 'redo' },
-                { type: 'separator' },
-                { role: 'cut' },
-                { role: 'copy' },
-                { role: 'paste' },
-                ...(isMac ? [
-                    { role: 'pasteAndMatchStyle' },
-                    { role: 'delete' },
-                    { role: 'selectAll' },
-                    { type: 'separator' },
-                    {
-                        label: 'Speech',
-                        submenu: [
-                            { role: 'startspeaking' },
-                            { role: 'stopspeaking' }
-                        ]
-                    }
-                ] : [
-                        { role: 'delete' },
-                        { type: 'separator' },
-                        { role: 'selectAll' }
-                    ])
-            ]
-        },
         // { role: 'viewMenu' }
         {
-            label: 'View',
+            label: 'Debugger',
             submenu: [
                 { role: 'reload' },
                 { role: 'forcereload' },
-                { 
+                {
                     label: 'Toggle Developer Tools',
                     accelerator: 'Ctrl+Shift+I',
                     click() {
@@ -99,7 +71,6 @@ const createMenu = () => {
             label: 'Window',
             submenu: [
                 { role: 'minimize' },
-                { role: 'zoom' },
                 ...(isMac ? [
                     { type: 'separator' },
                     { role: 'front' },
@@ -111,13 +82,32 @@ const createMenu = () => {
             ]
         },
         {
-            role: 'help',
+            label: 'About',
             submenu: [
+                {
+                    label: 'About NOJ Desktop',
+                    click() {
+                        dialog.showMessageBoxSync(mainWindow, {
+                            type: "info",
+                            title: "About",
+                            message: "NOJ Desktop [Stable Version]",
+                            detail: "Version: 1.0.0\nAuthor: John Zhang and various\nCopyright (C) 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd."
+                        });
+                    }
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Open-Source',
+                    click: async () => {
+                        await shell.openExternal('https://github.com/NJUPTAAA/NOJ_Desktop');
+                    }
+                },
                 {
                     label: 'Report Issues',
                     click: async () => {
-                        const { shell } = require('electron')
-                        await shell.openExternal('https://github.com/NJUPTAAA/NOJ_Desktop/issues')
+                        await shell.openExternal('https://github.com/NJUPTAAA/NOJ_Desktop/issues');
                     }
                 }
             ]
