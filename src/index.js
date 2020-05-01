@@ -3,6 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const request = require('request');
+const Store = require('electron-store');
+const store = new Store();
 
 function sleep(ms) {
     return new Promise((resolve) => {
@@ -66,14 +68,43 @@ ipcMain.on('attemptLogin', (event, arg) => {
             console.log('DOMAIN SUCCESS:');
             console.log(body);
             if(body.product=="NOJ" && body.version >= "0.4.0") {
-                mainWindow.webContents.send('attempedtLogin', {
-                    code: 200,
-                    desc: "Domain Failure.",
-                    data: null
+                request.post({
+                    url:`${arg.domain}/api/auth`,
+                    form: {
+                        email: arg.email,
+                        password: arg.password
+                    }
+                }, async function optionalCallback(err, httpResponse, body) {
+                    await sleep(1000);
+                    if (err) {
+                        console.error('API FAILURE:', err);
+                        mainWindow.webContents.send('attempedtLogin', {
+                            code: 2001,
+                            desc: "Network Failure.",
+                            data: null
+                        });
+                    } else {
+                        console.log('API SUCCESS:');
+                        console.log(body);
+                        if(true) {
+                            store.set('user.token', body.data.token);
+                            mainWindow.webContents.send('attempedtLogin', {
+                                code: 200,
+                                desc: "Account Logined.",
+                                data: null
+                            });
+                        } else {
+                            mainWindow.webContents.send('attempedtLogin', {
+                                code: 3002,
+                                desc: "Account Login Failure.",
+                                data: null
+                            });
+                        }
+                    }
                 });
             } else {
                 mainWindow.webContents.send('attempedtLogin', {
-                    code: 2001,
+                    code: 3001,
                     desc: "Product Mismatch or NOJ Server Version Too Low.",
                     data: null
                 });
