@@ -72,7 +72,9 @@
         "bootstrap-material-design": "^4.1.2",
         "electron-squirrel-startup": "^1.0.0",
         "jquery": "^3.5.0",
-        "popper.js": "^1.15.0"
+        "popper.js": "^1.15.0",
+        "request": "^2.88.2",
+        "snackbarjs": "^1.1.0"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.51",
