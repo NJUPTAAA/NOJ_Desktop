@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>NOJ Desktop</title>
-    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="fonts/Roboto-Slab/roboto-slab.css">
     <link rel="stylesheet" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="css/wemd-color-scheme.css">
-    <link rel="stylesheet" href="css/main.css?version=0.3.2-48-gc106d2c">
     <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
@@ -46,11 +45,16 @@
             flex-shrink: 1;
             flex-grow: 1;
         }
+        .noj-login-div{
+            padding: 1rem;
+            box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+            border-radius: 4px;
+        }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="noj-login-div">
         <img src="resources/noj.png" class="noj-header-icon">
         <div>
             <div style="padding-bottom: 1rem;">
@@ -75,13 +79,13 @@
                         <input type="password" class="form-control" id="accountPassword">
                     </div>
                 </div>
-                <div class="noj-form-group-with-icon">
+                <!-- <div class="noj-form-group-with-icon">
                     <i class="MDI barcode"></i>
                     <div class="form-group">
                         <label for="contestPinCode" class="bmd-label-floating">Contest Pin Code</label>
                         <input type="text" class="form-control" id="contestPinCode">
                     </div>
-                </div>
+                </div> -->
             </div>
             <button type="button" class="btn btn-raised btn-primary noj-login-btn"><i class="MDI key-variant"></i> Login</button>
         </div>
