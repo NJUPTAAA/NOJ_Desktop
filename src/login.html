@@ -33,6 +33,7 @@
             border-radius: 100px;
             transition: .2s ease-out .0s;
             height: 2.5rem;
+            will-change: transform, opacity;
         }
         .noj-form-group-with-icon{
             display: flex;
@@ -82,32 +83,6 @@
         }
         button.noj-login-btn.noj-login-btn-processing:hover{
             box-shadow: none;
-        }
-        .cm-refreshing{
-            -webkit-transition-property: -webkit-transform;
-            -webkit-transition-duration: 1s;
-            -moz-transition-property: -moz-transform;
-            -moz-transition-duration: 1s;
-            -webkit-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            -moz-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            -o-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-            animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-        }
-        @-webkit-keyframes cm-rotate{
-            from{-webkit-transform: rotate(0deg)}
-            to{-webkit-transform: rotate(360deg)}
-        }
-        @-moz-keyframes cm-rotate{
-            from{-moz-transform: rotate(0deg)}
-            to{-moz-transform: rotate(359deg)}
-        }
-        @-o-keyframes cm-rotate{
-            from{-o-transform: rotate(0deg)}
-            to{-o-transform: rotate(359deg)}
-        }
-        @keyframes cm-rotate{
-            from{transform: rotate(0deg)}
-            to{transform: rotate(359deg)}
         }
     </style>
 </head>
