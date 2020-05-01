@@ -4,15 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>NOJ Desktop</title>
-    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="fonts/Roboto/roboto.css">
     <link rel="stylesheet" href="fonts/Montserrat/montserrat.css">
     <link rel="stylesheet" href="fonts/Roboto-Slab/roboto-slab.css">
     <link rel="stylesheet" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
     <link rel="stylesheet" href="css/wemd-color-scheme.css">
     <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
+    <link rel="stylesheet" href="../node_modules/snackbarjs/dist/snackbar.min.css">
+    <link rel="stylesheet" href="../node_modules/snackbarjs/themes-css/material.css">
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="index.css">
     <style>
         body{
             display: flex;
@@ -24,12 +26,13 @@
         }
         img.noj-header-icon{
             width: 15rem;
-            padding-bottom: 0.5rem;
+            padding-bottom: 1rem;
         }
         button.noj-login-btn{
             width: 100%;
             border-radius: 100px;
             transition: .2s ease-out .0s;
+            height: 2.5rem;
         }
         .noj-form-group-with-icon{
             display: flex;
@@ -48,9 +51,10 @@
             flex-grow: 1;
         }
         .noj-login-div{
-            padding: 1rem;
+            padding: 2rem;
             box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
-            border-radius: 4px;
+            border-radius: 8px;
+            background: white;
         }
         .noj-footer-copyright{
             position: fixed;
@@ -63,6 +67,48 @@
         button.noj-login-btn:disabled{
             cursor: default;
         }
+        button.noj-login-btn > i{
+            display: inline-block;
+        }
+        button.noj-login-btn.noj-login-btn-processing{
+            width: 3rem;
+            height: 3rem;
+            box-shadow: none;
+            cursor: default;
+            opacity: .65;
+        }
+        button.noj-login-btn.noj-login-btn-processing:focus{
+            box-shadow: none;
+        }
+        button.noj-login-btn.noj-login-btn-processing:hover{
+            box-shadow: none;
+        }
+        .cm-refreshing{
+            -webkit-transition-property: -webkit-transform;
+            -webkit-transition-duration: 1s;
+            -moz-transition-property: -moz-transform;
+            -moz-transition-duration: 1s;
+            -webkit-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            -moz-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            -o-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+        @-webkit-keyframes cm-rotate{
+            from{-webkit-transform: rotate(0deg)}
+            to{-webkit-transform: rotate(360deg)}
+        }
+        @-moz-keyframes cm-rotate{
+            from{-moz-transform: rotate(0deg)}
+            to{-moz-transform: rotate(359deg)}
+        }
+        @-o-keyframes cm-rotate{
+            from{-o-transform: rotate(0deg)}
+            to{-o-transform: rotate(359deg)}
+        }
+        @keyframes cm-rotate{
+            from{transform: rotate(0deg)}
+            to{transform: rotate(359deg)}
+        }
     </style>
 </head>
 
@@ -70,7 +116,7 @@
     <div class="noj-login-div">
         <img src="resources/noj.png" class="noj-header-icon">
         <div>
-            <div style="padding-bottom: 1rem;">
+            <div style="padding-bottom: 2rem;">
                 <div class="noj-form-group-with-icon">
                     <i class="MDI server-network"></i>
                     <div class="form-group">
@@ -100,17 +146,23 @@
                     </div>
                 </div> -->
             </div>
-            <button type="button" class="btn btn-raised btn-primary noj-login-btn" onclick="loginNOJ();" disabled><i class="MDI key-variant"></i> Login</button>
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-raised btn-primary noj-login-btn" disabled><i class="MDI key-variant"></i> Login</button>
+            </div>
         </div>
     </div>
     <p class="noj-footer-copyright">Copyright &copy; 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.</p>
 </body>
 <script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
 <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="../node_modules/snackbarjs/dist/snackbar.min.js"></script>
 <script src="../node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
 <script>
+    var ipcRenderer = require('electron').ipcRenderer;
+
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
+        $("body").append(`<div id="snackbar-container"></div>`);
     });
 
     var hasDomainConfig=false;
@@ -144,10 +196,41 @@
         }
     });
 
-    function loginNOJ(){
+    $(".noj-login-btn").on("click", function() {
         if($(".noj-login-btn").attr("disabled")) return;
+        if($(".noj-login-btn").hasClass("noj-login-btn-processing")) return;
         $(".noj-login-btn").addClass("noj-login-btn-processing");
-    }
+        $(".noj-login-btn").html(`<i class="MDI autorenew cm-refreshing"></i>`);
+        $("#domainConfig").attr("disabled", true);
+        $("#accountEmail").attr("disabled", true);
+        $("#accountPassword").attr("disabled", true);
+        console.log("Login");
+        ipcRenderer.send('attemptLogin', {
+            domain: $("#domainConfig").val(),
+            email: $("#accountEmail").val(),
+            password: $("#accountPassword").val()
+        });
+    });
+
+    ipcRenderer.on("attempedtLogin", (event, arg) => {
+        console.log(arg);
+        if(arg.code == 200){
+            // success
+        } else {
+            // failure
+            $.snackbar({
+                content: `<i class="MDI cm-remove"></i> ${arg.desc}`,
+                style: "wemd-red",
+                htmlAllowed: true,
+                timeout: 2000
+            });
+        }
+        $("#domainConfig").removeAttr("disabled");
+        $("#accountEmail").removeAttr("disabled");
+        $("#accountPassword").removeAttr("disabled");
+        $(".noj-login-btn").removeClass("noj-login-btn-processing");
+        $(".noj-login-btn").html(`<i class="MDI key-variant"></i> Login`);
+    });
 </script>
 
 </html>
