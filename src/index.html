@@ -29,6 +29,7 @@
         button.noj-login-btn{
             width: 100%;
             border-radius: 100px;
+            transition: .2s ease-out .0s;
         }
         .noj-form-group-with-icon{
             display: flex;
@@ -58,6 +59,9 @@
             left: 0;
             right: 0;
             color: rgba(0,0,0,.26);
+        }
+        button.noj-login-btn:disabled{
+            cursor: default;
         }
     </style>
 </head>
@@ -96,7 +100,7 @@
                     </div>
                 </div> -->
             </div>
-            <button type="button" class="btn btn-raised btn-primary noj-login-btn"><i class="MDI key-variant"></i> Login</button>
+            <button type="button" class="btn btn-raised btn-primary noj-login-btn" onclick="loginNOJ();" disabled><i class="MDI key-variant"></i> Login</button>
         </div>
     </div>
     <p class="noj-footer-copyright">Copyright &copy; 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.</p>
@@ -108,6 +112,42 @@
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
     });
+
+    var hasDomainConfig=false;
+    var hasAccountEmail=false;
+    var hasAccountPassword=false;
+
+    $("#domainConfig").on("change paste keyup", function() {
+        hasDomainConfig=$.trim($(this).val()).length>0;
+        if(hasDomainConfig&&hasAccountEmail&&hasAccountPassword) {
+            $(".noj-login-btn").removeAttr("disabled");
+        } else {
+            $(".noj-login-btn").attr("disabled", true);
+        }
+    });
+
+    $("#accountEmail").on("change paste keyup", function() {
+        hasAccountEmail=$.trim($(this).val()).length>0;
+        if(hasDomainConfig&&hasAccountEmail&&hasAccountPassword) {
+            $(".noj-login-btn").removeAttr("disabled");
+        } else {
+            $(".noj-login-btn").attr("disabled", true);
+        }
+    });
+
+    $("#accountPassword").on("change paste keyup", function() {
+        hasAccountPassword=$.trim($(this).val()).length>0;
+        if(hasDomainConfig&&hasAccountEmail&&hasAccountPassword) {
+            $(".noj-login-btn").removeAttr("disabled");
+        } else {
+            $(".noj-login-btn").attr("disabled", true);
+        }
+    });
+
+    function loginNOJ(){
+        if($(".noj-login-btn").attr("disabled")) return;
+        $(".noj-login-btn").addClass("noj-login-btn-processing");
+    }
 </script>
 
 </html>
