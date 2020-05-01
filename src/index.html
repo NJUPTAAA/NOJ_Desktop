@@ -20,6 +20,7 @@
             width: 100vw;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
         img.noj-header-icon{
             width: 15rem;
@@ -49,6 +50,14 @@
             padding: 1rem;
             box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
             border-radius: 4px;
+        }
+        .noj-footer-copyright{
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+            left: 0;
+            right: 0;
+            color: rgba(0,0,0,.26);
         }
     </style>
 </head>
@@ -90,6 +99,7 @@
             <button type="button" class="btn btn-raised btn-primary noj-login-btn"><i class="MDI key-variant"></i> Login</button>
         </div>
     </div>
+    <p class="noj-footer-copyright">Copyright &copy; 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.</p>
 </body>
 <script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
 <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
