@@ -10,7 +10,8 @@ body{
 .noj-drawer{
     width: 20rem;
     background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 30px;
+    /* box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 30px; */
+    box-shadow: rgba(25, 118, 210, 0.45) 0px 0px 30px;
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -25,6 +26,7 @@ body{
     box-shadow: var(--wemd-light-blue) 0px 0px 30px;
     flex-grow: 0;
     flex-shrink: 0;
+    z-index: 1;
 }
 .noj-section-user-main{
     position: absolute;
@@ -81,6 +83,17 @@ body{
     padding: 1rem;
     overflow-x: hidden;
     overflow-y: auto;
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+    position: relative;
+}
+.noj-menu-copyright{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 0.65rem;
 }
 .noj-section-menu .list-group{
     margin-top: 1rem;
