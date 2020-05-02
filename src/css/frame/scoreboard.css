@@ -1,0 +1,91 @@
+.noj-frame#frameScoreBoard {
+    padding:3rem;
+}
+
+.noj-frame#frameScoreBoard paper-card {
+    display: block;
+    box-shadow: none;
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 0rem;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+.noj-frame#frameScoreBoard a:hover{
+    text-decoration: none!important;
+}
+
+.noj-frame#frameScoreBoard .table thead th,
+.noj-frame#frameScoreBoard .table td,
+.noj-frame#frameScoreBoard .table tr{
+    vertical-align: middle;
+    text-align: center;
+    font-size:0.75rem;
+    color: rgba(0, 0, 0, 0.93);
+    transition: .2s ease-out .0s;
+}
+
+.noj-frame#frameScoreBoard .table tbody tr:hover{
+    background:rgba(0,0,0,0.05);
+}
+
+.noj-frame#frameScoreBoard .table thead th.cm-problem-header{
+    padding-top: 0.25rem;
+    padding-bottom: 0.05rem;
+    border:none;
+}
+
+.noj-frame#frameScoreBoard .table thead th.cm-problem-subheader{
+    font-size:0.75rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.05rem;
+}
+
+.noj-frame#frameScoreBoard th[scope^="row"]{
+    vertical-align: middle;
+    text-align: left;
+}
+
+.noj-frame#frameScoreBoard .cm-subtext{
+    color:rgba(0, 0, 0, 0.42);
+}
+
+.noj-frame#frameScoreBoard .table td.wemd-teal-text{
+    font-weight: bold;
+}
+
+.noj-frame#frameScoreBoard .table td.wemd-teal-text .cm-subtext{
+    font-weight: normal;
+}
+
+.noj-frame#frameScoreBoard th{
+    white-space: nowrap;
+}
+
+.noj-frame#frameScoreBoard .cm-ac{
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.noj-frame#frameScoreBoard .cm-fb{
+    background: rgba(0, 150, 136, 0.1);
+}
+
+.noj-frame#frameScoreBoard .cm-me{
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.noj-frame#frameScoreBoard .cm-remote{
+    opacity: .4;
+}
+
+.noj-frame#frameScoreBoard .alert.cm-notification{
+    margin:1rem
+}
+
+.noj-frame#frameScoreBoard tbody > tr{
+    height: calc(36px + 1.5rem);
+}
