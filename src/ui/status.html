@@ -1,0 +1,61 @@
+<div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" style="text-align: left;">SID</th>
+                    <th scope="col">
+                        <div class="form-group m-0 p-0 bmd-form-group">
+                            <input type="text" class="form-control text-center" id="accountFilter" placeholder="Account"
+                                 value="" autocomplete="off">
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-group m-0 p-0 bmd-form-group">
+                            <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem"
+                                 value="" autocomplete="off">
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div class="form-group m-0 p-0 bmd-form-group">
+                            <input type="text" class="form-control text-center" id="resultFilter" placeholder="Result"
+                                 value="" autocomplete="off">
+                        </div>
+                    </th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Memory</th>
+                    <th scope="col">Languages</th>
+                    <th scope="col">Submit Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="  " style="cursor:pointer">
+                    <th scope="row">60913</th>
+                    <td>admin </td>
+                    <td>A</td>
+                    <td class="wemd-orange-text">Compile Error</td>
+                    <td>0ms</td>
+                    <td>0k</td>
+                    <td>C++</td>
+                    <td data-toggle="tooltip" data-placement="top" title="" data-original-title="2019-12-01 14:01:36">5 months ago</td>
+                </tr>
+                <tr class="  " style="cursor:pointer">
+                    <th scope="row">60559</th>
+                    <td>admin </td>
+                    <td>A</td>
+                    <td class="wemd-orange-text">Compile Error</td>
+                    <td>0ms</td>
+                    <td>0k</td>
+                    <td>C++</td>
+                    <td data-toggle="tooltip" data-placement="top" title="" data-original-title="2019-12-01 13:48:37">5 months ago</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('body').bootstrapMaterialDesign();
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -1,0 +1,158 @@
+.noj-frame#frameStatus {
+    padding: 1rem;
+}
+
+.noj-frame#frameStatus paper-card {
+    display: block;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 1rem;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+.noj-frame#frameStatus paper-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+}
+
+.noj-frame#frameStatus a:hover{
+    text-decoration: none!important;
+}
+
+.noj-frame#frameStatus nav-div{
+    display: block;
+    margin-bottom: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.noj-frame#frameStatus nav-item{
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.42);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.noj-frame#frameStatus nav-item.active{
+    color: rgba(0, 0, 0, 0.93);
+    color: #03a9f4;
+    border-bottom: 2px solid #03a9f4;
+    margin-bottom: -2px;
+}
+
+.noj-frame#frameStatus h5{
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.noj-frame#frameStatus .table thead th,
+.noj-frame#frameStatus .table td,
+.noj-frame#frameStatus .table tr{
+    vertical-align: middle;
+    text-align: center;
+    font-size:0.75rem;
+    color: rgba(0, 0, 0, 0.93);
+    transition: .2s ease-out .0s;
+}
+
+.noj-frame#frameStatus .table tbody tr:hover{
+    background:rgba(0,0,0,0.05);
+}
+
+.noj-frame#frameStatus .table thead th.cm-problem-header{
+    padding-top: 0.25rem;
+    padding-bottom: 0.05rem;
+    border:none;
+}
+
+.noj-frame#frameStatus .table thead th.cm-problem-subheader{
+    font-size:0.75rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.05rem;
+}
+
+.noj-frame#frameStatus th[scope^="row"]{
+    vertical-align: middle;
+    text-align: left;
+}
+
+.noj-frame#frameStatus .cm-subtext{
+    color:rgba(0, 0, 0, 0.42);
+}
+
+.noj-frame#frameStatus .table td.wemd-teal-text{
+    font-weight: bold;
+}
+
+.noj-frame#frameStatus .table td.wemd-teal-text .cm-subtext{
+    font-weight: normal;
+}
+
+.noj-frame#frameStatus th{
+    white-space: nowrap;
+}
+.noj-frame#frameStatus .cm-me{
+    background: rgba(255, 193, 7, 0.1);
+}
+
+.cm-shared{
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.alert.cm-notification{
+    margin:1rem
+}
+
+empty-container{
+    display:block;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+empty-container i{
+    font-size:5rem;
+    color:rgba(0,0,0,0.42);
+}
+
+empty-container p{
+    font-size: 1rem;
+    color:rgba(0,0,0,0.54);
+}
+
+tr input.form-control {
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.93);
+    transition: .2s ease-out .0s;
+}
+
+tr input.form-control::-webkit-input-placeholder{
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.42);
+    transition: .2s ease-out .0s;
+}
+
+tr input.form-control::-moz-placeholder{
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.42);
+    transition: .2s ease-out .0s;
+}
+
+tr input.form-control:-ms-input-placeholder{
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.42);
+    transition: .2s ease-out .0s;
+}
+
+tr input.form-control:-moz-placeholder{
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.42);
+    transition: .2s ease-out .0s;
+}
