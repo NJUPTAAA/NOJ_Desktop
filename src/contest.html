@@ -35,7 +35,7 @@
         </div>
         <div class="noj-section-menu">
             <ul class="list-group">
-                <div class="list-group-item noj-menu noj-menu-active" data-frame="frameBasic"><i class="MDI trophy-variant"></i> Basic</div>
+                <div class="list-group-item noj-menu noj-menu-active" data-frame="frameBasic"><i class="MDI trophy-variant"></i> Remaining: 1:23:45</div>
                 <div class="list-group-item noj-menu" data-frame="frameChallenge"><i class="MDI book-multiple"></i> Challenge</div>
                 <div class="list-group-item noj-menu" data-frame="frameStatus"><i class="MDI checkbox-multiple-marked"></i> Status</div>
                 <div class="list-group-item noj-menu" data-frame="frameScoreBoard"><i class="MDI poll"></i> Score Board</div>
@@ -145,6 +145,7 @@
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $("body").append(`<div id="snackbar-container"></div>`);
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
     $(".noj-menu").on("click", function() {

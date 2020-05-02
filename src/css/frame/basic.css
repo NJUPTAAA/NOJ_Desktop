@@ -1,0 +1,211 @@
+.noj-frame#frameBasic {
+    padding:3rem;
+}
+
+.noj-frame#frameBasic paper-card {
+    display: block;
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 1rem;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+.noj-frame#frameBasic paper-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+}
+
+.noj-frame#frameBasic contest-card {
+    display: block;
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+    overflow:hidden;
+}
+
+.noj-frame#frameBasic contest-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+}
+
+.noj-frame#frameBasic contest-card > div:first-of-type {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 61.8%;
+}
+
+.noj-frame#frameBasic contest-card > div:first-of-type > shadow-div {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+}
+
+.noj-frame#frameBasic contest-card > div:first-of-type > shadow-div > img{
+    object-fit: cover;
+    width:100%;
+    height: 100%;
+    transition: .2s ease-out .0s;
+}
+
+.noj-frame#frameBasic contest-card > div:first-of-type > shadow-div > img:hover{
+    transform: scale(1.2);
+}
+
+.noj-frame#frameBasic contest-card > div:last-of-type{
+    padding:1rem;
+}
+
+.noj-frame#frameBasic contest-card h5{
+    word-wrap: break-word;
+    font-size: 1.25rem;
+    color: rgba(0,0,0,0.93);
+    font-weight: bold;
+}
+.noj-frame#frameBasic contest-card badge-div{
+    display: block;
+}
+.noj-frame#frameBasic contest-card badge-div span{
+    margin-bottom: 0;
+}
+.noj-frame#frameBasic .sm-contest-type{
+    color:#fff;
+    vertical-align:text-top!important;
+}
+
+.noj-frame#frameBasic detail-info{
+    display: block;
+}
+
+.noj-frame#frameBasic .bmd-list-group-col > :last-child{
+    margin-bottom: 0;
+}
+
+.noj-frame#frameBasic .list-group-item > i{
+    font-size:2rem;
+}
+
+.noj-frame#frameBasic .list-group-item :first-child {
+    margin-right: 1rem;
+}
+
+.noj-frame#frameBasic .list-group-item-heading {
+    margin-bottom: 0.5rem;
+    color: rgba(0,0,0,0.93);
+}
+
+.noj-frame#frameBasic .list-group-item{
+    padding-left:0;
+    padding-right: 0;
+}
+
+.noj-frame#frameBasic .list-group-item .list-group-item-text{
+    line-height: 1.2;
+}
+
+.noj-frame#frameBasic fresh-container {
+    display: block;
+    all: initial;
+    font-family: 'Roboto Slab';
+}
+
+.noj-frame#frameBasic fresh-container h1,
+.noj-frame#frameBasic fresh-container h2,
+.noj-frame#frameBasic fresh-container h3,
+.noj-frame#frameBasic fresh-container h4,
+.noj-frame#frameBasic fresh-container h5,
+.noj-frame#frameBasic fresh-container h6 {
+    line-height: 1.2;
+    margin-top: 1rem;
+    margin-bottom: 16px;
+    color: #000;
+}
+
+.noj-frame#frameBasic fresh-container h1 {
+    font-size: 2.25rem;
+    font-weight: 600;
+    padding-bottom: .3em
+}
+
+.noj-frame#frameBasic fresh-container h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    padding-bottom: .3em
+}
+
+.noj-frame#frameBasic fresh-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600
+}
+
+.noj-frame#frameBasic fresh-container h4 {
+    font-size: 1.25rem;
+    font-weight: 600
+}
+
+.noj-frame#frameBasic fresh-container h5 {
+    font-size: 1rem;
+    font-weight: 600
+}
+
+.noj-frame#frameBasic fresh-container h6 {
+    font-size: 1rem;
+    font-weight: 600
+}
+
+.noj-frame#frameBasic fresh-container p {
+    line-height: 1.6;
+    color: #333;
+}
+
+.noj-frame#frameBasic fresh-container>:first-child {
+    margin-top: 0;
+}
+
+.noj-frame#frameBasic fresh-container>:last-child {
+    margin-bottom: 0;
+}
+
+.noj-frame#frameBasic fresh-container pre {
+    background-color: rgb(245, 245, 245);
+    border: 1px solid #d6d6d6;
+    border-radius: 3px;
+    color: rgb(51, 51, 51);
+    display: block;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: .85rem;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.4;
+    tab-size: 8;
+    hyphens: none;
+    margin-bottom: 1rem;
+    padding: .8rem;
+    overflow: auto;
+}
+
+.noj-frame#frameBasic fresh-container li{
+    margin-bottom: 1rem;
+}
+
+.noj-frame#frameBasic fresh-container img{
+    max-width: 100%;
+}
+
+.noj-frame#frameBasic .list-group-item{
+    flex-flow: initial;
+}
