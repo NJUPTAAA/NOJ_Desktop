@@ -15,80 +15,11 @@
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
     <link rel="stylesheet" href="index.css">
-    <style>
-        body{
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        img.noj-header-icon{
-            width: 15rem;
-            padding-bottom: 1rem;
-        }
-        button.noj-login-btn{
-            width: 100%;
-            border-radius: 100px;
-            transition: .2s ease-out .0s;
-            height: 2.5rem;
-            will-change: transform, opacity;
-        }
-        .noj-form-group-with-icon{
-            display: flex;
-        }
-        .noj-form-group-with-icon > i{
-            padding-top: 2.1875rem;
-            font-size: 1rem;
-            padding-right: 1rem;
-            transform: scale(1.2);
-            color: rgba(0,0,0,.4);
-            flex-shrink: 0;
-            flex-grow: 0;
-        }
-        .noj-form-group-with-icon > div{
-            flex-shrink: 1;
-            flex-grow: 1;
-        }
-        .noj-login-div{
-            padding: 2rem;
-            box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
-            border-radius: 8px;
-            background: white;
-        }
-        .noj-footer-copyright{
-            position: fixed;
-            bottom: 0;
-            text-align: center;
-            left: 0;
-            right: 0;
-            color: rgba(0,0,0,.26);
-        }
-        button.noj-login-btn:disabled{
-            cursor: default;
-        }
-        button.noj-login-btn > i{
-            display: inline-block;
-        }
-        button.noj-login-btn.noj-login-btn-processing{
-            width: 3rem;
-            height: 3rem;
-            box-shadow: none;
-            cursor: default;
-            opacity: .65;
-        }
-        button.noj-login-btn.noj-login-btn-processing:focus{
-            box-shadow: none;
-        }
-        button.noj-login-btn.noj-login-btn-processing:hover{
-            box-shadow: none;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
-    <div class="noj-login-div">
+    <div class="noj-login-div animate bounceIn">
         <img src="resources/noj.png" class="noj-header-icon">
         <div>
             <div style="padding-bottom: 2rem;">
