@@ -1,11 +1,10 @@
-
 <div class="noj-challenge-layout">
     <div class="noj-challenge-problemset">
         <challenge-container>
 
-            <challenge-item class="btn">
+            <challenge-item class="btn noj-active">
                 <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
+                    <i class="MDI checkbox-blank-circle wemd-green-text"></i>
                 </div>
                 <div style="display: inline-block">
                     <p class="mb-0"><span>A.</span> Ancient Myth</p>
@@ -14,7 +13,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -26,10 +25,10 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
+                    <i class="MDI cisco-webex wemd-red-text"></i>
                 </div>
                 <div style="display: inline-block">
                     <p class="mb-0"><span>C.</span> Sdl and Network Flows</p>
@@ -38,7 +37,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -50,7 +49,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -62,7 +61,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -74,7 +73,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -86,7 +85,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -98,7 +97,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -110,7 +109,7 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
             <challenge-item class="btn">
                 <div>
                     <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
@@ -122,10 +121,84 @@
                 <div class="text-right tag-list" style="display: inline-block;">
                 </div>
             </challenge-item>
-        
+
         </challenge-container>
     </div>
-    <div  class="noj-challenge-problemdetail">
-        
+    <div class="noj-challenge-problemdetail">
+        <top-side>
+            <p>A. Ancient Myth</p>
+            <div>
+                <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> 44.57%</info-badge>
+                <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> 1000ms</info-badge>
+                <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> 65536K</info-badge>
+            </div>
+        </top-side>
+        <medium-side>
+            <div id="vscode_container" class="notranslate" style="width:100%;height:100%;background-color: #1e1e1e;">
+                <div id="vscode" style="width:100%;height:100%;"></div>
+            </div>
+        </medium-side>
+        <bottom-side>
+            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top"  style="color: #7a8e97" id="verdict_info" class="wemd-green-text"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">Accepted </span></a>
+            <div>
+                <!-- <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
+                <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button> -->
+                <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="devicon-c-plain colored"></i> C
+                    </button>
+                    <div class="dropdown-menu cm-scrollable-menu">
+                        <button class="dropdown-item lang-selector" data-coid="1" data-comp="c" data-lang="c" data-lcode="c"><i class="devicon-c-plain colored"></i> C</button>
+                        <button class="dropdown-item lang-selector" data-coid="2" data-comp="c" data-lang="cpp" data-lcode="cpp"><i class="devicon-cplusplus-plain colored"></i> C++</button>
+                        <button class="dropdown-item lang-selector" data-coid="3" data-comp="java" data-lang="java" data-lcode="java"><i class="devicon-java-plain colored"></i> Java</button>
+                        <button class="dropdown-item lang-selector" data-coid="32" data-comp="python" data-lang="python" data-lcode="py2"><i class="devicon-python-plain colored"></i> Python 2.7</button>
+                        <button class="dropdown-item lang-selector" data-coid="33" data-comp="python" data-lang="python" data-lcode="py3"><i class="devicon-python-plain colored"></i> Python 3.7</button>
+                        <button class="dropdown-item lang-selector" data-coid="121" data-comp="php" data-lang="php" data-lcode="php7"><i class="devicon-php-plain colored"></i> PHP 7.3</button>
+                        <button class="dropdown-item lang-selector" data-coid="122" data-comp="javascript" data-lang="javascript" data-lcode="jsc"><i class="devicon-javascript-plain colored"></i> Javascript</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
+            </div>
+        </bottom-side>
     </div>
 </div>
+<script>
+    (function() {
+        const path = require('path');
+        const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
+        const amdRequire = amdLoader.require;
+        const amdDefine = amdLoader.require.define;
+
+        function uriFromPath(_path) {
+            var pathName = path.resolve(_path).replace(/\\/g, '/');
+            if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+                pathName = '/' + pathName;
+            }
+            return encodeURI('file://' + pathName);
+        }
+
+        amdRequire.config({
+            baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
+        });
+
+        amdRequire(['vs/editor/editor.main'], function() {
+            var editor = monaco.editor.create(document.getElementById('vscode'), {
+                value: "#include<cstdio>",
+                    language: "cpp",
+                    theme: "vs-dark",
+                    fontSize: 16,
+                    formatOnPaste: true,
+                    formatOnType: true,
+                    automaticLayout: true
+            });
+        });
+        // workaround monaco-css not understanding the environment
+        self.module = undefined;
+    })();
+    
+    $(document).ready(function () {
+        $('body').bootstrapMaterialDesign();
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
