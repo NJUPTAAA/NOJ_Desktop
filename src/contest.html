@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="../node_modules/snackbarjs/themes-css/material.css">
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="contest.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/drawer.css">
+    <link rel="stylesheet" href="css/frames.css">
+    <link rel="stylesheet" href="css/frame/basic.css">
 </head>
 
 <body>
@@ -33,18 +35,103 @@
         </div>
         <div class="noj-section-menu">
             <ul class="list-group">
-                <div class="list-group-item noj-menu-active"><i class="MDI trophy-variant"></i> Basic</div>
-                <div class="list-group-item"><i class="MDI book-multiple"></i> Challenge</div>
-                <div class="list-group-item"><i class="MDI checkbox-multiple-marked"></i> Status</div>
-                <div class="list-group-item"><i class="MDI poll"></i> Score Board</div>
-                <div class="list-group-item"><i class="MDI bullhorn"></i> Clarification</div>
-                <div class="list-group-item"><i class="MDI printer"></i> Print</div>
-                <div class="list-group-item"><i class="MDI settings"></i> Settings</div>
+                <div class="list-group-item noj-menu noj-menu-active" data-frame="frameBasic"><i class="MDI trophy-variant"></i> Basic</div>
+                <div class="list-group-item noj-menu" data-frame="frameChallenge"><i class="MDI book-multiple"></i> Challenge</div>
+                <div class="list-group-item noj-menu" data-frame="frameStatus"><i class="MDI checkbox-multiple-marked"></i> Status</div>
+                <div class="list-group-item noj-menu" data-frame="frameScoreBoard"><i class="MDI poll"></i> Score Board</div>
+                <div class="list-group-item noj-menu" data-frame="frameClarification"><i class="MDI bullhorn"></i> Clarification</div>
+                <div class="list-group-item noj-menu" data-frame="framePrint"><i class="MDI printer"></i> Print</div>
+                <div class="list-group-item noj-menu" data-frame="frameSettings"><i class="MDI settings"></i> Settings</div>
             </ul>
         </div>
     </div>
-    <div class="noj-frames">
-        
+    <div class="noj-frames-container">
+        <frame-section class="noj-frame noj-frame-active" id="frameBasic">
+            <div class="container mundb-standard-container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <contest-card>
+                            <div>
+                                <shadow-div>
+                                    <img src="https://acm.njupt.edu.cn/static/img/contest/default.jpg">
+                                </shadow-div>
+                            </div>
+                            <div>
+                                <h5>校科协ACM组寒假线上冬令营个人争霸赛</h5>
+                                <badge-div>
+                                    <span class="badge badge-pill wemd-amber sm-contest-type"><i class="MDI trophy"></i> ICPC</span>
+                                                                                    <span><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="" data-original-title="This is a verified contest"></i></span>                                                                    </badge-div>
+                                
+            
+                                <detail-info>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <i class="MDI calendar-clock"></i>
+                                            <div class="bmd-list-group-col">
+                                                <p class="list-group-item-heading">2020-02-16 13:00:00</p>
+                                                <p class="list-group-item-text">Begin Time</p>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="MDI timelapse"></i>
+                                            <div class="bmd-list-group-col">
+                                                <p class="list-group-item-heading">5 Hours</p>
+                                                <p class="list-group-item-text">Length</p>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="MDI buffer"></i>
+                                            <div class="bmd-list-group-col">
+                                                <p class="list-group-item-heading">10</p>
+                                                <p class="list-group-item-text">Problems</p>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="MDI google-circles-extended"></i>
+                                            <div class="bmd-list-group-col">
+                                                <p class="list-group-item-heading">SAST.2019-ACM</p>
+                                                <p class="list-group-item-text">Organizer</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </detail-info>
+                            </div>
+                        </contest-card>
+                    </div>
+                    <div class="col-sm-12 col-md-8">
+                        <paper-card>
+                            <fresh-container>
+                                <h1>校科协ACM组寒假线上冬令营个人争霸赛</h1>
+                                <p><strong>比赛时间：</strong> 2020年2月16日 13：00~18：00</p>
+                                <p><strong>比赛赛制：</strong> 标准ICPC赛制，不封榜。</p>
+                                <p><strong>比赛报名：</strong> 无需报名，交题即视为参赛。</p>
+                                <p><strong>比赛题目：</strong> 中文题面，难度适中，知识点涵盖算法竞赛中部分基础知识，共有十题。</p>
+                                <p><strong>比赛题解：</strong> 本次比赛赛后将在校科协ACM组QQ群中发放题解与答疑，群号779242914，欢迎大家关注。</p>
+                                <p><strong>比赛奖励：</strong> 将由校科协ACM组讲师视参赛情况颁发奖励，奖品开学后发放。</p>
+                            </fresh-container>
+                        </paper-card>
+                    </div>
+                </div>
+            </div>
+        </frame-section>
+        <frame-section class="noj-frame" id="frameChallenge">
+            2
+        </frame-section>
+        <frame-section class="noj-frame" id="frameStatus">
+            3
+        </frame-section>
+        <frame-section class="noj-frame" id="frameScoreBoard">
+            4
+        </frame-section>
+        <frame-section class="noj-frame" id="frameClarification">
+            5
+        </frame-section>
+        <frame-section class="noj-frame" id="framePrint">
+            6
+        </frame-section>
+        <frame-section class="noj-frame" id="frameSettings">
+            7
+        </frame-section>
     </div>
 </body>
 <script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
@@ -53,10 +140,21 @@
 <script src="../node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
 <script>
     var ipcRenderer = require('electron').ipcRenderer;
+    var activeFrame = "frameBasic";
 
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $("body").append(`<div id="snackbar-container"></div>`);
+    });
+
+    $(".noj-menu").on("click", function() {
+        if(activeFrame !== $(this).data("frame")) {
+            activeFrame = $(this).data("frame");
+            $(".noj-frame").removeClass("noj-frame-active");
+            $(`#${activeFrame}`).addClass("noj-frame-active");
+            $(".noj-menu").removeClass("noj-menu-active");
+            $(this).addClass("noj-menu-active");
+        }
     });
 
 </script>

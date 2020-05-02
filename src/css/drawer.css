@@ -15,6 +15,7 @@ body{
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    z-index: 3;
 }
 .noj-section-user{
     height: 12rem;
@@ -111,9 +112,4 @@ body{
 }
 .noj-section-menu .list-group .list-group-item.noj-menu-active i{
     color: var(--wemd-blue-darken-2)!important;
-}
-.noj-frames{
-    flex-shrink: 1;
-    flex-grow: 1;
-    height: 100%;
 }
