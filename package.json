@@ -72,6 +72,7 @@
         "bootstrap-material-design": "^4.1.2",
         "electron-squirrel-startup": "^1.0.0",
         "electron-store": "^5.1.1",
+        "fileicon-svg": "^1.0.0",
         "jquery": "^3.5.0",
         "monaco-editor": "^0.20.0",
         "popper.js": "^1.15.0",
