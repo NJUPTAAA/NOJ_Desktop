@@ -143,7 +143,10 @@ const createWindow = () => {
     loginView.webContents.loadFile(path.join(__dirname, 'login.html'));
     loginView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true });
     loginView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
-    mainWindow.once('ready-to-show', () => {
+    // mainWindow.once('ready-to-show', () => {
+    //     mainWindow.show();
+    // });
+    loginView.webContents.once('did-finish-load', () => {
         mainWindow.show();
     });
 };
@@ -163,7 +166,9 @@ app.on('activate', () => {
     }
 });
 
-function showContestView() {
+async function showContestView() {
+    await sleep(1000);
+    mainWindow.hide();
     contestView = new BrowserView({
         center: true,
         webPreferences: {
@@ -175,8 +180,9 @@ function showContestView() {
     contestView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
     mainWindow.setBrowserView(contestView);
     // fixed view bugs
-    mainWindow.hide();
-    mainWindow.show();
+    contestView.webContents.once('did-finish-load', async () => {
+        mainWindow.show();
+    });
 }
 
 ipcMain.on('attemptLogin', (event, arg) => {
