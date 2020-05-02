@@ -1,0 +1,147 @@
+.noj-frame#frameChallenge {
+    padding: 0;
+}
+
+.noj-frame#frameChallenge paper-card {
+    display: block;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px;
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 1rem;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+.noj-frame#frameChallenge paper-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 40px;
+}
+
+.noj-frame#frameChallenge a:hover{
+    text-decoration: none!important;
+}
+
+.noj-frame#frameChallenge nav-div{
+    display: block;
+    margin-bottom: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+}
+
+.noj-frame#frameChallenge nav-item{
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.42);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.noj-frame#frameChallenge nav-item.active{
+    color: rgba(0, 0, 0, 0.93);
+    color: #03a9f4;
+    border-bottom: 2px solid #03a9f4;
+    margin-bottom: -2px;
+}
+
+.noj-frame#frameChallenge h5{
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.noj-frame#frameChallenge challenge-container{
+    display: block;
+}
+
+.noj-frame#frameChallenge challenge-item.btn{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
+    margin: 0;
+    cursor: pointer;
+    text-align: left;
+    border-radius:0;
+    text-transform: none;
+    font-size: 1rem;
+}
+
+.noj-frame#frameChallenge challenge-item:nth-of-type(even){
+    background: #f5f5f5;
+}
+
+.noj-frame#frameChallenge challenge-item > div:first-of-type{
+    padding-right: 1rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.noj-frame#frameChallenge challenge-item > div:last-of-type{
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.noj-frame#frameChallenge challenge-item small{
+    color: rgba(0, 0, 0, 0.42);
+}
+
+.noj-frame#frameChallenge challenge-item p{
+    color: rgba(0, 0, 0, 0.63);
+}
+
+.noj-frame#frameChallenge challenge-item span{
+    color: rgba(0, 0, 0, 0.63);
+    font-weight: bolder;
+}
+
+.noj-frame#frameChallenge .cisco-webex{
+    transform: scale(1.10);
+    display: inline-block;
+}
+
+.noj-frame#frameChallenge .cm-progressbar-container{
+    margin: 1rem 0;
+}
+
+.noj-frame#frameChallenge .cm-countdown{
+    font-family: 'Roboto Slab';
+    font-size: 3rem;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.42);
+}
+
+.noj-frame#frameChallenge .badge-tag{
+    color: #6c757d;
+    background-color: transparent;
+    max-width: 6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #6c757d;
+    cursor: pointer;
+}
+
+.noj-frame#frameChallenge .btn.active,
+.noj-frame#frameChallenge .btn.focus,
+.noj-frame#frameChallenge .btn:active,
+.noj-frame#frameChallenge .btn:focus,
+.noj-frame#frameChallenge .btn:hover {
+    color: rgba(0,0,0,.87);
+    background-color: hsla(0,0%,60%,.2);
+    border-color: hsla(0,0%,60%,.2);
+}
+
+.noj-frame#frameChallenge div.noj-challenge-layout {
+    display: flex;
+    width:100%;
+    height:100%;
+    overflow: hidden;
+    flex-direction: row;
+}
+.noj-frame#frameChallenge div.noj-challenge-problemset {
+    width: 30rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+.noj-frame#frameChallenge div.noj-challenge-problemdetail {
+    flex-shrink: 1;
+    flex-grow: 1;
+}
