@@ -37,7 +37,7 @@ body {
     width: auto;
 }
 
-.cm-refreshing{
+.cm-refreshing {
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 1s;
     -moz-transition-property: -moz-transform;
@@ -47,23 +47,113 @@ body {
     -o-animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     animation: cm-rotate 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
 }
-@-webkit-keyframes cm-rotate{
-    from{-webkit-transform: rotate(0deg)}
-    to{-webkit-transform: rotate(360deg)}
-}
-@-moz-keyframes cm-rotate{
-    from{-moz-transform: rotate(0deg)}
-    to{-moz-transform: rotate(359deg)}
-}
-@-o-keyframes cm-rotate{
-    from{-o-transform: rotate(0deg)}
-    to{-o-transform: rotate(359deg)}
-}
-@keyframes cm-rotate{
-    from{transform: rotate(0deg)}
-    to{transform: rotate(359deg)}
+
+@-webkit-keyframes cm-rotate {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+    to {
+        -webkit-transform: rotate(360deg)
+    }
 }
 
-.noj-avatar{
+@-moz-keyframes cm-rotate {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+    to {
+        -moz-transform: rotate(359deg)
+    }
+}
+
+@-o-keyframes cm-rotate {
+    from {
+        -o-transform: rotate(0deg)
+    }
+    to {
+        -o-transform: rotate(359deg)
+    }
+}
+
+@keyframes cm-rotate {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(359deg)
+    }
+}
+
+.noj-avatar {
     border-radius: 2000px;
+}
+
+.noj-alert-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noj-alert {
+    color: rgba(0, 0, 0, 0.54);
+    text-align: center;
+    width:100%;
+}
+
+.noj-alert i {
+    font-size: 5rem;
+}
+
+.btn-rounded {
+    border-radius: 200rem;
+}
+
+.mundb-text-truncate-1{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.mundb-text-truncate-2{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal !important;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+/* Image Override */
+
+fresh-container img{
+    max-width: 100%;
+}
+
+
+/* Reply-Quote */
+
+fresh-container reply-quote{
+    border-left: .25em solid #dfe2e5;
+    display:block;
+    margin: 20px 0!important;
+    background-color: #f5f8fc;
+    padding: 1rem;
+    color: #8796a8;
+}
+
+fresh-container reply-quote p {
+    color: #8796a8;
+}
+
+fresh-container reply-quote p:last-child {
+    margin-bottom: 0;
 }
