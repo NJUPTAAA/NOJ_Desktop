@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
     <link rel="stylesheet" href="../node_modules/snackbarjs/dist/snackbar.min.css">
     <link rel="stylesheet" href="../node_modules/snackbarjs/themes-css/material.css">
+    <link rel="stylesheet" href="../node_modules/highlightjs/styles/atom-one-light.css">
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
     <link rel="stylesheet" href="css/index.css">
@@ -79,6 +80,19 @@
 <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
 <script src="../node_modules/snackbarjs/dist/snackbar.min.js"></script>
 <script src="../node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+<script type="text/javascript" src="../node_modules/marked/marked.min.js"></script>
+<script type="text/javascript" src="../node_modules/dompurify/dist/purify.min.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$$$','$$$'], ["\\(","\\)"] ],
+            processEscapes: true
+        },
+        showMathMenu: false
+    });
+</script>
+<script type="text/javascript" src="../node_modules/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script>
     var ipcRenderer = require('electron').ipcRenderer;
     var activeFrame = "frameBasic";
