@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="css/frame/challenge.css">
 </head>
 
-<body>
+<body style="opacity:0;">
     <div class="noj-drawer">
         <div class="noj-section-user">
             <div class="noj-section-background">
@@ -114,6 +114,11 @@
             $(".noj-menu").removeClass("noj-menu-active");
             $(this).addClass("noj-menu-active");
         }
+    });
+
+    ipcRenderer.on("initVisible", (event, arg) => {
+        $("body").css("opacity",1);
+        $(".noj-drawer").addClass("animated fadeInLeft");
     });
 
 </script>

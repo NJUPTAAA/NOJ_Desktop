@@ -243,6 +243,7 @@
 .noj-frame#frameChallenge .noj-challenge-problemdetail top-side info-badge{
     display: inline-block;
     margin-left: 1rem;
+    cursor: help;
 }
 
 .noj-frame#frameChallenge .noj-challenge-problemdetail medium-side{

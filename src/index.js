@@ -17,7 +17,7 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
-var mainWindow, loginView, contestView;
+var mainWindow, loginWindow, contestWindow;
 
 const createMenu = () => {
     const isMac = process.platform === 'darwin';
@@ -52,13 +52,7 @@ const createMenu = () => {
             submenu: [
                 { role: 'reload' },
                 { role: 'forcereload' },
-                {
-                    label: 'Toggle Developer Tools',
-                    accelerator: 'Ctrl+Shift+I',
-                    click() {
-                        mainWindow.getBrowserView().webContents.openDevTools();
-                    }
-                },
+                { role: 'toggleDevTools' },
                 { type: 'separator' },
                 { role: 'resetzoom' },
                 { role: 'zoomin' },
@@ -89,6 +83,7 @@ const createMenu = () => {
                 {
                     label: 'About NOJ Desktop',
                     click() {
+                        // app.showAboutPanel();
                         dialog.showMessageBoxSync(mainWindow, {
                             type: "info",
                             title: "About",
@@ -120,37 +115,41 @@ const createMenu = () => {
 };
 
 const createWindow = () => {
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize
-    mainWindow = new BrowserWindow({
-        minWidth: width - 100,
-        minHeight: height - 100,
-        title: "NOJ Desktop [Stable]",
+    loginWindow = new BrowserWindow({
+        width:336,
+        height:592,
+        useContentSize: true,
+        resizable: false,
+        frame: false,
+        transparent: true,
+        defaultFontSize: 16,
         center: true,
         webPreferences: {
             nodeIntegration: true
         },
         show: false
     });
-    mainWindow.maximize();
 
-    loginView = new BrowserView({
-        center: true,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    });
-    mainWindow.setBrowserView(loginView);
-    loginView.webContents.loadFile(path.join(__dirname, 'login.html'));
-    loginView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true });
-    loginView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
+    loginWindow.webContents.loadFile(path.join(__dirname, 'login.html'));
     // mainWindow.once('ready-to-show', () => {
     //     mainWindow.show();
     // });
-    loginView.webContents.once('did-finish-load', () => {
-        mainWindow.show();
+    loginWindow.webContents.once('did-finish-load', () => {
+        mainWindow=loginWindow;
+        loginWindow.show();
+        loginWindow.webContents.send('initVisible');
+        // loginWindow.webContents.openDevTools();
     });
 };
 
+app.setAboutPanelOptions({
+    "applicationName":"NOJ Desktop",
+    "applicationVersion": app.getVersion(),
+    "copyright":"Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.",
+    "authors":"John Zhang and various",
+    "website":"https://acm.njut.edu.cn",
+    "iconPath":"../resources/icon.png"
+});
 app.on('ready', createMenu);
 app.on('ready', createWindow);
 
@@ -166,28 +165,38 @@ app.on('activate', () => {
     }
 });
 
-async function showContestView() {
+async function showContestWindow() {
     await sleep(1000);
-    mainWindow.hide();
-    contestView = new BrowserView({
+    const {width, height} = screen.getPrimaryDisplay().workAreaSize;
+    contestWindow = new BrowserWindow({
+        minWidth: width - 100,
+        minHeight: height - 100,
+        width: width - 100,
+        height: height - 100,
+        backgroundColor: "#fafafa",
+        defaultFontSize: 16,
         center: true,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        show: false
     });
-    contestView.webContents.loadFile(path.join(__dirname, 'contest.html'));
-    contestView.setAutoResize({ width: true, height: true, horizontal: true, vertical: true });
-    contestView.setBounds({ width: mainWindow.getContentSize()[0], height: mainWindow.getContentSize()[1], x: 0, y: 0 });
-    mainWindow.setBrowserView(contestView);
-    // fixed view bugs
-    contestView.webContents.once('did-finish-load', async () => {
-        mainWindow.show();
+    loginWindow.close();
+    contestWindow.maximize();
+    contestWindow.webContents.loadFile(path.join(__dirname, 'contest.html'));
+    contestWindow.webContents.once('did-finish-load', () => {
+        mainWindow=contestWindow;
+        contestWindow.show();
+        contestWindow.webContents.send('initVisible');
     });
 }
 
+ipcMain.on('closeLogin', (event, arg) => {
+    loginWindow.close();
+});
 ipcMain.on('attemptLogin', (event, arg) => {
     if (isDebug) {
-        return showContestView();
+        return showContestWindow();
     }
     request.post({
         url: `${arg.domain}/api/system`
@@ -195,7 +204,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
         await sleep(1000);
         if (err) {
             console.error('DOMAIN FAILURE:', err);
-            loginView.webContents.send('attempedtLogin', {
+            loginWindow.webContents.send('attempedtLogin', {
                 code: 2000,
                 desc: "Domain Failure.",
                 data: null
@@ -214,7 +223,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
                     await sleep(1000);
                     if (err) {
                         console.error('API FAILURE:', err);
-                        loginView.webContents.send('attempedtLogin', {
+                        loginWindow.webContents.send('attempedtLogin', {
                             code: 2001,
                             desc: "Network Failure.",
                             data: null
@@ -224,9 +233,9 @@ ipcMain.on('attemptLogin', (event, arg) => {
                         console.log(body);
                         if (!body.data.err) {
                             store.set('user.token', body.data.token);
-                            showContestView();
+                            showContestWindow();
                         } else {
-                            loginView.webContents.send('attempedtLogin', {
+                            loginWindow.webContents.send('attempedtLogin', {
                                 code: 3002,
                                 desc: "Account Login Failure.",
                                 data: null
@@ -235,7 +244,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
                     }
                 });
             } else {
-                loginView.webContents.send('attempedtLogin', {
+                loginWindow.webContents.send('attempedtLogin', {
                     code: 3001,
                     desc: "Product Mismatch or NOJ Server Version Too Low.",
                     data: null
