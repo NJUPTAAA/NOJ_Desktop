@@ -6,12 +6,26 @@ const request = require('request');
 const Store = require('electron-store');
 const store = new Store();
 const isDebug = app.isPackaged === false;
+const url = require("url");
+var compareVersions = require('compare-versions');
 
 function sleep(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
     });
 }
+
+function tryParseJSON(jsonString){
+    try {
+        var o = JSON.parse(jsonString);
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+
+    return false;
+};
 
 if (require('electron-squirrel-startup')) {
     app.quit();
@@ -195,61 +209,98 @@ ipcMain.on('closeLogin', (event, arg) => {
     loginWindow.close();
 });
 ipcMain.on('attemptLogin', (event, arg) => {
-    if (isDebug) {
-        return showContestWindow();
+    let parseRet = url.parse(arg.domain);
+    // console.log(parseRet);
+    if(!['https:','http:'].includes(parseRet.protocol) || parseRet.hostname === null){
+        return loginWindow.webContents.send('attempedtLogin', {
+            code: 2001,
+            desc: "Domain Portocol Error.",
+            data: null
+        });
     }
+    var realDomain = `${parseRet.protocol}//${parseRet.hostname}`;
+    console.log(realDomain);
     request.post({
-        url: `${arg.domain}/api/system`
+        url: `${realDomain}/api/system/info`
     }, async function optionalCallback(err, httpResponse, body) {
         await sleep(1000);
         if (err) {
-            console.error('DOMAIN FAILURE:', err);
-            loginWindow.webContents.send('attempedtLogin', {
+            console.error('REQUEST FAILURE:', err);
+            return loginWindow.webContents.send('attempedtLogin', {
                 code: 2000,
                 desc: "Domain Failure.",
                 data: null
             });
-        } else {
-            console.log('DOMAIN SUCCESS:');
-            console.log(body);
-            if (typeof body.product !== 'undefined' && body.product == "NOJ" && typeof body.version !== 'undefined' && body.version >= "0.4.0") {
-                request.post({
-                    url: `${arg.domain}/api/auth`,
-                    form: {
-                        email: arg.email,
-                        password: arg.password
-                    }
-                }, async function optionalCallback(err, httpResponse, body) {
-                    await sleep(1000);
-                    if (err) {
-                        console.error('API FAILURE:', err);
-                        loginWindow.webContents.send('attempedtLogin', {
-                            code: 2001,
-                            desc: "Network Failure.",
-                            data: null
-                        });
-                    } else {
-                        console.log('API SUCCESS:');
-                        console.log(body);
-                        if (!body.data.err) {
-                            store.set('user.token', body.data.token);
-                            showContestWindow();
-                        } else {
-                            loginWindow.webContents.send('attempedtLogin', {
-                                code: 3002,
-                                desc: "Account Login Failure.",
-                                data: null
-                            });
-                        }
-                    }
-                });
-            } else {
-                loginWindow.webContents.send('attempedtLogin', {
-                    code: 3001,
-                    desc: "Product Mismatch or NOJ Server Version Too Low.",
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${realDomain}/api/system/info`);
+        var domainRet = tryParseJSON(body);
+        if(domainRet === false) {
+            return loginWindow.webContents.send('attempedtLogin', {
+                code: 3001,
+                desc: "Product Mismatch or NOJ Version Too Low.",
+                data: null
+            });
+        }
+        console.log(domainRet);
+        if (!(typeof domainRet.ret !== 'undefined' && typeof domainRet.ret.product !== 'undefined' && ["NOJ", "NOJ Slim"].includes(domainRet.ret.product) && typeof domainRet.ret.version !== 'undefined' && compareVersions(domainRet.ret.version.split('-')[0], "0.4.0")>=0 )) {
+            return loginWindow.webContents.send('attempedtLogin', {
+                code: 3001,
+                desc: "Product Mismatch or NOJ Version Too Low.",
+                data: null
+            });
+        }
+        // return loginWindow.webContents.send('attempedtLogin', {
+        //     code: 1000,
+        //     desc: "Debugging Failure.",
+        //     data: null
+        // });
+        request.post({
+            url: `${arg.domain}/api/account/login`,
+            form: {
+                email: arg.email,
+                password: arg.password
+            }
+        }, async function optionalCallback(err, httpResponse, body) {
+            await sleep(1000);
+            if (err) {
+                console.error('API FAILURE:', err);
+                return loginWindow.webContents.send('attempedtLogin', {
+                    code: 2001,
+                    desc: "Network Failure.",
                     data: null
                 });
             }
-        }
+            console.log('API SUCCESS:');
+            var loginRet = tryParseJSON(body);
+            if(loginRet === false) {
+                return loginWindow.webContents.send('attempedtLogin', {
+                    code: 1001,
+                    desc: "API Format Error.",
+                    data: null
+                });
+            }
+            console.log(loginRet);
+            try{
+                if (loginRet.success === false) {
+                    return loginWindow.webContents.send('attempedtLogin', {
+                        code: 3002,
+                        desc: loginRet.message,
+                        data: null
+                    });
+                }
+                store.set('general.domain', realDomain);
+                store.set('user.token', loginRet.ret.token);
+                store.set('user.info', loginRet.ret.user);
+                showContestWindow();
+            }
+            catch (e) {
+                loginWindow.webContents.send('attempedtLogin', {
+                    code: 1000,
+                    desc: "Unknown Error.",
+                    data: null
+                });
+            }
+        });
     });
 });
