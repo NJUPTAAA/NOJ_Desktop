@@ -71,13 +71,18 @@
         "animate.css": "^3.7.2",
         "bootstrap-material-design": "^4.1.2",
         "compare-versions": "^3.6.0",
+        "dompurify": "^2.0.10",
         "electron-squirrel-startup": "^1.0.0",
         "electron-store": "^5.1.1",
         "fileicon-svg": "^1.0.0",
+        "highlightjs": "^9.16.2",
         "jquery": "^3.5.0",
+        "marked": "^1.0.0",
+        "mathjax": "^2.7.8",
         "monaco-editor": "^0.20.0",
         "popper.js": "^1.15.0",
         "request": "^2.88.2",
+        "simplemde": "^1.11.2",
         "snackbarjs": "^1.1.0"
     },
     "devDependencies": {
