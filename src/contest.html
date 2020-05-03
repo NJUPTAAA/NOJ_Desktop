@@ -36,18 +36,18 @@
             <div class="noj-section-user-main">
                 <img src="resources/default.png" class="noj-avatar">
                 <p class="noj-account">test001@icpc.njupt.edu.cn</p>
-                <p class="noj-contestname">第一届不知道什么杯程序设计大赛</p>
+                <p class="noj-contestname" id="contestDrawerName"></p>
             </div>
         </div>
         <div class="noj-section-menu">
             <ul class="list-group">
-                <div class="list-group-item noj-menu noj-menu-active" data-frame="frameBasic"><i class="MDI trophy-variant"></i> Remaining: 1:23:45</div>
-                <div class="list-group-item noj-menu" data-frame="frameChallenge"><i class="MDI book-multiple"></i> Challenge</div>
-                <div class="list-group-item noj-menu" data-frame="frameStatus"><i class="MDI checkbox-multiple-marked"></i> Status</div>
-                <div class="list-group-item noj-menu" data-frame="frameScoreBoard"><i class="MDI poll"></i> Score Board</div>
-                <div class="list-group-item noj-menu" data-frame="frameClarification"><i class="MDI bullhorn"></i>Clarification</div>
-                <div class="list-group-item noj-menu" data-frame="framePrint"><i class="MDI printer"></i> Print</div>
-                <div class="list-group-item noj-menu" data-frame="frameSettings"><i class="MDI settings"></i> Settings</div>
+                <div class="list-group-item noj-menu noj-menu-active" data-frame="frameBasic"><i class="MDI trophy-variant"></i> <span>Fetching Info...</span></div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="frameChallenge"><i class="MDI book-multiple"></i> Challenge</div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="frameStatus"><i class="MDI checkbox-multiple-marked"></i> Status</div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="frameScoreBoard"><i class="MDI poll"></i> Score Board</div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="frameClarification"><i class="MDI bullhorn"></i>Clarification</div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="framePrint"><i class="MDI printer"></i> Print</div>
+                <div class="list-group-item noj-menu noj-menu-disabled" data-frame="frameSettings"><i class="MDI settings"></i> Settings</div>
             </ul>
             <p class="noj-menu-copyright">Fangtang Zhixing Network Technology Co,Ltd.</p>
         </div>
@@ -102,6 +102,7 @@
     });
 
     $(".noj-menu").on("click", function () {
+        if($(this).hasClass("noj-menu-disabled")) return;
         if (activeFrame !== $(this).data("frame")) {
             activeFrame = $(this).data("frame");
             $(".noj-frame").removeClass("noj-frame-active");

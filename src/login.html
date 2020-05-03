@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="css/login.css">
 </head>
 
-<body>
+<body style="opacity: 0;">
     <div class="noj-login-div">
         <i class="MDI cm-remove noj-close-button"></i>
         <img src="resources/noj.png" class="noj-header-icon">
@@ -144,6 +144,7 @@
     });
 
     ipcRenderer.on("initVisible", (event, arg) => {
+        $("body").css("opacity",1);
         $(".noj-login-div").addClass("animated zoomIn");
     });
 </script>

@@ -2,6 +2,10 @@
     padding:3rem;
 }
 
+.noj-frame#frameBasic .container-fluid {
+    transition: .2s ease-out .0s;
+}
+
 .noj-frame#frameBasic paper-card {
     display: block;
     /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 30px; */
@@ -208,4 +212,12 @@
 
 .noj-frame#frameBasic .list-group-item{
     flex-flow: initial;
+}
+
+.noj-frame#frameBasic .noj-alert-container{
+    position: absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
 }

@@ -8,6 +8,12 @@ const store = new Store();
 const isDebug = app.isPackaged === false;
 const url = require("url");
 var compareVersions = require('compare-versions');
+var generalDomain = false;
+var userToken;
+var userInfo;
+var cid;
+var tillBegin;
+var preCounter,contestCounter;
 
 function sleep(ms) {
     return new Promise((resolve) => {
@@ -208,6 +214,7 @@ async function showContestWindow() {
 ipcMain.on('closeLogin', (event, arg) => {
     loginWindow.close();
 });
+
 ipcMain.on('attemptLogin', (event, arg) => {
     let parseRet = url.parse(arg.domain);
     // console.log(parseRet);
@@ -289,9 +296,12 @@ ipcMain.on('attemptLogin', (event, arg) => {
                         data: null
                     });
                 }
-                store.set('general.domain', realDomain);
-                store.set('user.token', loginRet.ret.token);
-                store.set('user.info', loginRet.ret.user);
+                // store.set('general.domain', realDomain);
+                // store.set('user.token', loginRet.ret.token);
+                // store.set('user.info', loginRet.ret.user);
+                generalDomain = realDomain;
+                userToken = loginRet.ret.token;
+                userInfo = loginRet.ret.user;
                 showContestWindow();
             }
             catch (e) {
@@ -304,3 +314,114 @@ ipcMain.on('attemptLogin', (event, arg) => {
         });
     });
 });
+
+ipcMain.on('updateContestBasic', (event, arg) => {
+    request.post({
+        url: `${generalDomain}/api/contest/info`
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('updatedContestBasic', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/info`);
+        let contestInfoRet = tryParseJSON(body);
+        if(contestInfoRet === false){
+            return contestWindow.webContents.send('updatedContestBasic', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            cid = contestInfoRet.cid;
+            tillBegin = parseInt((new Date(contestInfoRet.ret.begin_time) - new Date())/1000);
+            tillEnd = parseInt((new Date(contestInfoRet.ret.end_time) - new Date())/1000);
+            clearInterval(preCounter);
+            clearInterval(contestCounter);
+            if(tillBegin > 0) {
+                // not begin, reset tillEnd
+                tillEnd = parseInt((new Date(contestInfoRet.ret.end_time)-new Date(contestInfoRet.ret.begin_time))/1000);
+                preCounting();
+            } else {
+                // begin
+                if(tillEnd < 0) {
+                    // ended
+                    contestWindow.webContents.send('updatedContestTimer', {
+                        stage: "after",
+                        timer: 0
+                    });
+                } else {
+                    // on-going
+                    contestCounting();
+                }
+            }
+            return contestWindow.webContents.send('updatedContestBasic', {
+                code: 200,
+                desc: "Success.",
+                data: {
+                    name: contestInfoRet.ret.name,
+                    img: contestInfoRet.ret.img,
+                    begin_time: contestInfoRet.ret.begin_time,
+                    end_time: contestInfoRet.ret.end_time,
+                    length: parseInt((new Date(contestInfoRet.ret.end_time)-new Date(contestInfoRet.ret.begin_time))/1000),
+                    problems: contestInfoRet.ret.problems,
+                    organizer: contestInfoRet.ret.organizer,
+                    description_parsed: contestInfoRet.ret.description
+                }
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('updatedContestBasic', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
+
+function preCounting(){
+    contestWindow.webContents.send('updatedContestTimer', {
+        stage: "pre",
+        timer: tillBegin
+    });
+    preCounter = setInterval(() => {
+        contestWindow.webContents.send('updatedContestTimer', {
+            stage: "pre",
+            timer: tillBegin
+        });
+        tillBegin--;
+        console.log(`Starting at ${tillBegin}`);
+        if(tillBegin<=0){
+            contestCounting();
+            clearInterval(preCounter);
+        }
+    }, 1000);
+}
+
+function contestCounting(){
+    contestWindow.webContents.send('updatedContestTimer', {
+        stage: "ongoing",
+        timer: tillEnd
+    });
+    contestCounter = setInterval(() => {
+        contestWindow.webContents.send('updatedContestTimer', {
+            stage: "ongoing",
+            timer: tillEnd
+        });
+        tillEnd--;
+        console.log(`Ending at ${tillEnd}`);
+        if(tillEnd<=0){
+            contestWindow.webContents.send('updatedContestTimer', {
+                stage: "after",
+                timer: 0
+            });
+            clearInterval(contestCounter);
+        }
+    }, 1000);
+}

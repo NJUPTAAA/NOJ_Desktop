@@ -126,3 +126,13 @@ body{
 .noj-section-menu .list-group .list-group-item.noj-menu-active i{
     color: var(--wemd-blue-darken-2)!important;
 }
+
+.noj-section-menu .list-group .list-group-item.noj-menu-disabled{
+    color: rgba(0, 0, 0, 0.5)!important;
+    cursor: auto;
+    pointer-events: none;
+}
+
+.noj-section-menu .list-group .list-group-item.noj-menu-disabled i{
+    color:rgba(0, 0, 0, 0.27)!important;
+}
