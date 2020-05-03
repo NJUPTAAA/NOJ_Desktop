@@ -19,7 +19,8 @@
 </head>
 
 <body>
-    <div class="noj-login-div animate bounceIn">
+    <div class="noj-login-div">
+        <i class="MDI cm-remove noj-close-button"></i>
         <img src="resources/noj.png" class="noj-header-icon">
         <div>
             <div style="padding-bottom: 2rem;">
@@ -55,9 +56,9 @@
             <div style="text-align: center;">
                 <button type="button" class="btn btn-raised btn-primary noj-login-btn" disabled><i class="MDI key-variant"></i> Login</button>
             </div>
+            <p class="noj-footer-copyright">Copyright &copy; 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.</p>
         </div>
     </div>
-    <p class="noj-footer-copyright">Copyright &copy; 2020 Fangtang Zhixing Network Technology(Nanjing) Co,Ltd.</p>
 </body>
 <script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
 <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
@@ -118,6 +119,10 @@
         });
     });
 
+    $(".noj-close-button").on("click", function() {
+        ipcRenderer.send('closeLogin');
+    });
+
     ipcRenderer.on("attempedtLogin", (event, arg) => {
         console.log(arg);
         if(arg.code == 200){
@@ -136,6 +141,10 @@
         $("#accountPassword").removeAttr("disabled");
         $(".noj-login-btn").removeClass("noj-login-btn-processing");
         $(".noj-login-btn").html(`<i class="MDI key-variant"></i> Login`);
+    });
+
+    ipcRenderer.on("initVisible", (event, arg) => {
+        $(".noj-login-div").addClass("animated zoomIn");
     });
 </script>
 

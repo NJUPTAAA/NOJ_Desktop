@@ -1,10 +1,13 @@
-body{
+/* body{
     display: flex;
     height: 100vh;
     width: 100vw;
     align-items: center;
     justify-content: center;
     position: relative;
+} */
+body,html{
+    background: transparent!important;
 }
 img.noj-header-icon{
     width: 15rem;
@@ -34,18 +37,29 @@ button.noj-login-btn{
     flex-grow: 1;
 }
 .noj-login-div{
-    padding: 2rem;
     box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
     border-radius: 8px;
     background: white;
+    padding: 4rem 2rem;
+    position: relative;
+    width: 19rem;
+    height: 35rem;
+    margin: 1rem;
+    -webkit-app-region: drag;
+}
+button {
+    -webkit-app-region: no-drag;
 }
 .noj-footer-copyright{
-    position: fixed;
+    margin: 0;
+    position: absolute;
     bottom: 0;
+    font-size: 0.65rem;
     text-align: center;
     left: 0;
     right: 0;
-    color: rgba(0,0,0,.26);
+    padding: 1rem 0.5rem;
+    color: rgba(0,0,0,0.54);
 }
 button.noj-login-btn:disabled{
     cursor: default;
@@ -65,4 +79,26 @@ button.noj-login-btn.noj-login-btn-processing:focus{
 }
 button.noj-login-btn.noj-login-btn-processing:hover{
     box-shadow: none;
+}
+i.noj-close-button{
+    display:inline-block;
+    position: absolute;
+    top:1.3rem;
+    right:1.3rem;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: .2s ease-out .0s;
+    color: rgba(0,0,0,0.54);
+}
+i.noj-close-button:hover{
+    transform: scale(1.2);
+    color: rgba(0,0,0,0.93);
+}
+
+#snackbar-container {
+    right: 0;
+    left: 0;
+    bottom: 5px;
+    width: 100%;
 }
