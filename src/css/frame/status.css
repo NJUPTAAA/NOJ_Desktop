@@ -1,5 +1,21 @@
 .noj-frame#frameStatus {
-    padding: 1rem;
+    overflow-y: hidden;
+}
+
+.noj-frame#frameStatus .container-fluid {
+    opacity: 1;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.noj-frame#frameStatus .container-fluid .table-responsive {
+    overflow-y: hidden;
 }
 
 .noj-frame#frameStatus paper-card {
@@ -58,6 +74,10 @@
     transition: .2s ease-out .0s;
 }
 
+.noj-frame#frameStatus .table tbody tr{
+    cursor: pointer;
+}
+
 .noj-frame#frameStatus .table tbody tr:hover{
     background:rgba(0,0,0,0.05);
 }
@@ -98,61 +118,69 @@
     background: rgba(255, 193, 7, 0.1);
 }
 
-.cm-shared{
+.noj-frame#frameStatus .cm-shared{
     background: rgba(76, 175, 80, 0.1);
 }
 
-.alert.cm-notification{
+.noj-frame#frameStatus .alert.cm-notification{
     margin:1rem
 }
 
-empty-container{
+.noj-frame#frameStatus empty-container{
     display:block;
     text-align: center;
     margin-bottom: 2rem;
 }
 
-empty-container i{
+.noj-frame#frameStatus empty-container i{
     font-size:5rem;
     color:rgba(0,0,0,0.42);
 }
 
-empty-container p{
+.noj-frame#frameStatus empty-container p{
     font-size: 1rem;
     color:rgba(0,0,0,0.54);
 }
 
-tr input.form-control {
+.noj-frame#frameStatus tr input.form-control {
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.93);
     transition: .2s ease-out .0s;
 }
 
-tr input.form-control::-webkit-input-placeholder{
+.noj-frame#frameStatus tr input.form-control::-webkit-input-placeholder{
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.42);
     transition: .2s ease-out .0s;
 }
 
-tr input.form-control::-moz-placeholder{
+.noj-frame#frameStatus tr input.form-control::-moz-placeholder{
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.42);
     transition: .2s ease-out .0s;
 }
 
-tr input.form-control:-ms-input-placeholder{
+.noj-frame#frameStatus tr input.form-control:-ms-input-placeholder{
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.42);
     transition: .2s ease-out .0s;
 }
 
-tr input.form-control:-moz-placeholder{
+.noj-frame#frameStatus tr input.form-control:-moz-placeholder{
     font-weight: 500;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.42);
     transition: .2s ease-out .0s;
+}
+
+.noj-frame#frameStatus .noj-alert-container{
+    position: absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
 }

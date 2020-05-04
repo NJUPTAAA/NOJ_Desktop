@@ -1,4 +1,14 @@
-<div>
+<div class="noj-loading">
+    <svg class="noj-loading-spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="noj-loading-circle" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg>
+</div>
+<div class="noj-alert-container">
+    <div class="noj-alert">
+        <p><i class="MDI cm-alert"></i></p>
+        <p>Fetch Contest Status Failed</p>
+        <button class="btn btn-raised btn-info mt-3" id="contestStatusRetry">Retry</button>
+    </div>
+</div>
+<div class="container-fluid" style="opacity: 0;">
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -6,20 +16,17 @@
                     <th scope="col" style="text-align: left;">SID</th>
                     <th scope="col">
                         <div class="form-group m-0 p-0 bmd-form-group">
-                            <input type="text" class="form-control text-center" id="accountFilter" placeholder="Account"
-                                 value="" autocomplete="off">
+                            <input type="text" class="form-control text-center" id="contestStatusAccountFilter" placeholder="Account" value="" autocomplete="off">
                         </div>
                     </th>
                     <th scope="col">
                         <div class="form-group m-0 p-0 bmd-form-group">
-                            <input type="text" class="form-control text-center" id="problemFilter" placeholder="Problem"
-                                 value="" autocomplete="off">
+                            <input type="text" class="form-control text-center" id="contestStatusProblemFilter" placeholder="Problem" value="" autocomplete="off">
                         </div>
                     </th>
                     <th scope="col">
                         <div class="form-group m-0 p-0 bmd-form-group">
-                            <input type="text" class="form-control text-center" id="resultFilter" placeholder="Result"
-                                 value="" autocomplete="off">
+                            <input type="text" class="form-control text-center" id="contestStatusResultFilter" placeholder="Result" value="" autocomplete="off">
                         </div>
                     </th>
                     <th scope="col">Time</th>
@@ -29,33 +36,192 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="  " style="cursor:pointer">
-                    <th scope="row">60913</th>
-                    <td>admin </td>
-                    <td>A</td>
-                    <td class="wemd-orange-text">Compile Error</td>
-                    <td>0ms</td>
-                    <td>0k</td>
-                    <td>C++</td>
-                    <td data-toggle="tooltip" data-placement="top" title="" data-original-title="2019-12-01 14:01:36">5 months ago</td>
-                </tr>
-                <tr class="  " style="cursor:pointer">
-                    <th scope="row">60559</th>
-                    <td>admin </td>
-                    <td>A</td>
-                    <td class="wemd-orange-text">Compile Error</td>
-                    <td>0ms</td>
-                    <td>0k</td>
-                    <td>C++</td>
-                    <td data-toggle="tooltip" data-placement="top" title="" data-original-title="2019-12-01 13:48:37">5 months ago</td>
-                </tr>
+
             </tbody>
         </table>
     </div>
+    <div class="noj-pagination">
+        <button class="btn btn-noj-pagination btn-raised noj-previous" disabled data-page="1"><i class="MDI chevron-left"></i></button>
+        <button class="btn btn-noj-pagination btn-raised btn-info noj-page">2</button class="btn">
+        <button class="btn btn-noj-pagination btn-raised noj-next" disabled data-page="3"><i class="MDI chevron-right"></i></button class="btn">
+    </div>
+</div>
+<div class="noj-refreshing-button noj-hidden" id="contestStatusRefreshButton">
+    <button class="btn btn-raised btn-primary bmd-btn-fab"><i class="MDI sync"></i></button>
 </div>
 <script>
+    var statusInitialized = false;
+    var statusUpdating = false;
+
+    var statusAccountFilter = "";
+    var statusProblemFilter = "";
+    var statusResultFilter = "";
+
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    function updateFilter(){
+        statusAccountFilter = $("#contestStatusAccountFilter").val().trim();
+        statusProblemFilter = $("#contestStatusProblemFilter").val().trim();
+        statusResultFilter = $("#contestStatusResultFilter").val().trim();
+    }
+
+    
+    function updateContestStatus(page = 1) {
+        if(statusUpdating === true) return;
+        statusUpdating = true;
+        updateContestStatusStart();
+        ipcRenderer.send('updateContestStatus',{
+            filter: {
+                account: statusAccountFilter,
+                problem: statusProblemFilter,
+                result: statusResultFilter
+            },
+            page: page
+        });
+    }
+
+    function updateContestStatusStart(){
+        if(statusInitialized === false) {
+            $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
+            $(".noj-frame#frameStatus .noj-alert-container").addClass("noj-hidden");
+            $(".noj-frame#frameStatus .container-fluid").css("opacity",0);
+        }
+        $(".tooltip").remove();
+    }
+
+    function updateContestStatusEnd(err=false){
+        statusUpdating = false;
+        $(".noj-frame#frameStatus .noj-loading").addClass("noj-hidden");
+        $(".noj-frame#frameStatus .noj-loading").css("background","rgba(255, 255, 255, 0.5)");
+        if(statusInitialized === false) {
+            if(err){
+                $(".noj-frame#frameStatus .noj-alert-container").removeClass("noj-hidden");
+                $(".noj-frame#frameStatus .container-fluid").css("opacity",0);
+            } else {
+                $(".noj-frame#frameStatus .container-fluid").css("opacity",1);
+                $(".noj-frame#frameStatus .noj-refreshing-button").removeClass("noj-hidden");
+            }
+        } else {
+            $(".noj-frame#frameStatus .noj-refreshing-button i").removeClass("cm-refreshing");
+        }
+        $(".tooltip").remove();
+        $('.noj-frame#frameStatus [data-toggle="tooltip"]').tooltip();
+    }
+
+    $("#contestStatusRetry").on("click", function () {
+        updateContestStatus();
+    });
+
+    $("#contestStatusRefreshButton").on("click", function () {
+        $(".noj-frame#frameStatus .noj-refreshing-button i").addClass("cm-refreshing");
+        updateContestStatus();
+    });
+
+    $(".noj-frame#frameStatus .noj-pagination .noj-previous").on("click", function () {
+        $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
+        updateContestStatus($(this).data("page"));
+    });
+
+    $(".noj-frame#frameStatus .noj-pagination .noj-next").on("click", function () {
+        $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
+        updateContestStatus($(this).data("page"));
+    });
+
+    $("#contestStatusAccountFilter").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            updateFilter();
+            updateContestStatus();
+        }
+    });
+
+    $("#contestStatusProblemFilter").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            updateFilter();
+            updateContestStatus();
+        }
+    });
+
+    $("#contestStatusResultFilter").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            updateFilter();
+            updateContestStatus();
+        }
+    });
+
+    ipcRenderer.on('updatedContestStatus', (event, arg) => {
+        console.log(arg);
+        if(arg.code == 200) {
+            try{
+                $(".noj-frame#frameStatus tbody").html("");
+                arg.data.data.forEach(data => {
+                    $(".noj-frame#frameStatus tbody").append(`
+                        <tr class="animated fadeInUp" onclick="submissionDetails(${data.sid});">
+                            <th scope="row">${data.sid}</th>
+                            <td>${data.name}</td>
+                            <td>${data.ncode}</td>
+                            <td class="${data.color}">${data.verdict}</td>
+                            <td>${data.time}ms</td>
+                            <td>${data.memory}k</td>
+                            <td>${data.language}</td>
+                            <td data-toggle="tooltip" data-placement="top" title="${data.submission_date}">${data.submission_date_parsed}</td>
+                        </tr>
+                    `);
+                });
+                $(".noj-frame#frameStatus .noj-pagination .noj-previous").attr("disabled", true);
+                $(".noj-frame#frameStatus .noj-pagination .noj-next").attr("disabled", true);
+                if(arg.data.pagination.has_previous_page){
+                    $(".noj-frame#frameStatus .noj-pagination .noj-previous").removeAttr("disabled");
+                    $(".noj-frame#frameStatus .noj-pagination .noj-previous").data("page",arg.data.pagination.previous_page);
+                }
+                if(arg.data.pagination.has_next_page){
+                    $(".noj-frame#frameStatus .noj-pagination .noj-next").removeAttr("disabled");
+                    $(".noj-frame#frameStatus .noj-pagination .noj-next").data("page",arg.data.pagination.next_page);
+                }
+                $(".noj-frame#frameStatus .noj-pagination .noj-page").text(arg.data.pagination.current_page);
+                updateContestStatusEnd();
+                if(statusInitialized !== false){
+                    $.snackbar({
+                        content: `<i class="MDI checkbox-marked-circle-outline"></i> Status Updated.`,
+                        style: "wemd-green",
+                        htmlAllowed: true,
+                        timeout: 2000
+                    });
+                }
+                statusInitialized = true;
+                // after this all errors would not block view
+            }
+            catch(e){
+                updateContestStatusEnd(true);
+                $.snackbar({
+                    content: `<i class="MDI cm-remove"></i> Unknown Error`,
+                    style: "wemd-red",
+                    htmlAllowed: true,
+                    timeout: 2000
+                });
+            }
+        } else {
+            updateContestStatusEnd(true);
+            $.snackbar({
+                content: `<i class="MDI cm-remove"></i> ${arg.desc}`,
+                style: "wemd-red",
+                htmlAllowed: true,
+                timeout: 2000
+            });
+        }
+    });
+
+    // updateContestStatus();
+
+    function parseContestTime(timeStamp){
+        let hour = Math.trunc(timeStamp/3600);
+        let minute = Math.trunc(timeStamp%3600/60);
+        let second = Math.trunc(timeStamp%3600%60);
+        return [hour, minute, second];
+    }
 </script>

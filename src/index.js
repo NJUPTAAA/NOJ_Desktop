@@ -371,7 +371,8 @@ ipcMain.on('updateContestBasic', (event, arg) => {
                     length: parseInt((new Date(contestInfoRet.ret.end_time)-new Date(contestInfoRet.ret.begin_time))/1000),
                     problems: contestInfoRet.ret.problems,
                     organizer: contestInfoRet.ret.organizer,
-                    description_parsed: contestInfoRet.ret.description
+                    description_parsed: contestInfoRet.ret.description,
+                    badges: contestInfoRet.ret.badges
                 }
             });
         }
@@ -425,3 +426,51 @@ function contestCounting(){
         }
     }, 1000);
 }
+
+ipcMain.on('updateContestStatus', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/status`,
+        form: {
+            filter: {
+                account: arg.filter.account,
+                problem: arg.filter.problem,
+                result: arg.filter.result
+            },
+            page: arg.page
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('updatedContestStatus', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/status`);
+        let contestStatusRet = tryParseJSON(body);
+        if(contestStatusRet === false){
+            return contestWindow.webContents.send('updatedContestStatus', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            return contestWindow.webContents.send('updatedContestStatus', {
+                code: 200,
+                desc: "Success.",
+                data: contestStatusRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('updatedContestStatus', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});

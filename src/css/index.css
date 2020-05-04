@@ -1,6 +1,7 @@
 body {
     tab-size: 4;
     transition: .2s ease-out .0s;
+    overflow: hidden;
 }
 
 *, *::after, *::before {
@@ -179,7 +180,6 @@ fresh-container reply-quote p:last-child {
     align-items: center;
     opacity: 1;
     transition: .2s ease-out .0s;
-    /* pointer-events: none; */
 }
 
 .noj-hidden{
@@ -258,7 +258,7 @@ fresh-container reply-quote p:last-child {
 }
 
 .noj-refreshing-button{
-    position: absolute;
+    position: fixed;
     bottom: 5rem;
     right:2.25rem;
     z-index:899;
@@ -267,4 +267,25 @@ fresh-container reply-quote p:last-child {
 
 .noj-refreshing-button i{
     display: inline-block;
+}
+
+.noj-pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.noj-pagination .btn-noj-pagination{
+    padding: .5rem .75rem;
+    margin: 0 0.5rem;
+    line-height: 1.25;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2000px;
+    box-shadow: none!important;
+}
+
+.noj-pagination .btn-noj-pagination[disabled]{
+    cursor: auto;
+    pointer-events: none;
 }
