@@ -296,6 +296,14 @@ ipcMain.on('attemptLogin', (event, arg) => {
                         data: null
                     });
                 }
+                if (loginRet.success === true && !loginRet.ret.user.contest_account) {
+                    return loginWindow.webContents.send('attempedtLogin', {
+                        code: 3003,
+                        desc: "Please use a contest account.",
+                        data: null
+                    });
+                }
+                cid = loginRet.ret.user.contest_account;
                 // store.set('general.domain', realDomain);
                 // store.set('user.token', loginRet.ret.token);
                 // store.set('user.info', loginRet.ret.user);
@@ -317,7 +325,10 @@ ipcMain.on('attemptLogin', (event, arg) => {
 
 ipcMain.on('updateContestBasic', (event, arg) => {
     request.post({
-        url: `${generalDomain}/api/contest/info`
+        url: `${generalDomain}/api/contest/info`,
+        form: {
+            cid: cid
+        }
     }, function optionalCallback(err, httpResponse, body) {
         if (err) {
             console.error('REQUEST FAILURE:', err);
@@ -338,7 +349,6 @@ ipcMain.on('updateContestBasic', (event, arg) => {
             });
         }
         try{
-            cid = contestInfoRet.cid;
             tillBegin = parseInt((new Date(contestInfoRet.ret.begin_time) - new Date())/1000);
             tillEnd = parseInt((new Date(contestInfoRet.ret.end_time) - new Date())/1000);
             clearInterval(preCounter);
@@ -432,6 +442,7 @@ ipcMain.on('updateContestStatus', (event, arg) => {
     request.post({
         url: `${generalDomain}/api/contest/status`,
         form: {
+            cid: cid,
             filter: {
                 account: arg.filter.account,
                 problem: arg.filter.problem,
