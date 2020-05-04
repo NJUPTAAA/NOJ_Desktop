@@ -83,7 +83,8 @@
         "popper.js": "^1.15.0",
         "request": "^2.88.2",
         "simplemde": "^1.11.2",
-        "snackbarjs": "^1.1.0"
+        "snackbarjs": "^1.1.0",
+        "underscore": "^1.10.2"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.51",
