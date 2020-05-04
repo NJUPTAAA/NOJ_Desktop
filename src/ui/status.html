@@ -84,8 +84,8 @@
     }
 
     function updateContestStatusStart(){
+        $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
         if(statusInitialized === false) {
-            $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
             $(".noj-frame#frameStatus .noj-alert-container").addClass("noj-hidden");
             $(".noj-frame#frameStatus .container-fluid").css("opacity",0);
         }
@@ -125,12 +125,10 @@
     });
 
     $(".noj-frame#frameStatus .noj-pagination .noj-previous").on("click", function () {
-        $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
         updateContestStatus($(this).data("page"));
     });
 
     $(".noj-frame#frameStatus .noj-pagination .noj-next").on("click", function () {
-        $(".noj-frame#frameStatus .noj-loading").removeClass("noj-hidden");
         updateContestStatus($(this).data("page"));
     });
 
@@ -167,12 +165,12 @@
                     $(".noj-frame#frameStatus tbody").append(`
                         <tr class="animated fadeInUp" onclick="submissionDetails(${data.sid});">
                             <th scope="row">${data.sid}</th>
-                            <td>${data.name}</td>
+                            <td>${_.escape(data.name)}</td>
                             <td>${data.ncode}</td>
                             <td class="${data.color}">${data.verdict}</td>
                             <td>${data.time}ms</td>
                             <td>${data.memory}k</td>
-                            <td>${data.language}</td>
+                            <td>${_.escape(data.language)}</td>
                             <td data-toggle="tooltip" data-placement="top" title="${data.submission_date}">${data.submission_date_parsed}</td>
                         </tr>
                     `);
