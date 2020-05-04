@@ -193,8 +193,8 @@
     }
 
     function updateContestScoreBoardStart(){
+        $(".noj-frame#frameScoreBoard .noj-loading").removeClass("noj-hidden");
         if(scoreboardInitialized === false) {
-            $(".noj-frame#frameScoreBoard .noj-loading").removeClass("noj-hidden");
             $(".noj-frame#frameScoreBoard .noj-alert-container").addClass("noj-hidden");
             $(".noj-frame#frameScoreBoard .container-fluid").css("opacity",0);
         }
@@ -254,7 +254,7 @@
                 }else{
                     header+=`<th scope="col" style="text-align: left;">${arg.data.header.rank}</th>`;
                     arg.data.header.normal.forEach(ele => {
-                        header+=`<th scope="col">${ele}</th>`;
+                        header+=`<th scope="col">${_.escape(ele)}</th>`;
                     });
                     arg.data.header.problems.forEach(ele => {
                         header+=`<th scope="col" class="cm-problem-header">${ele}</th>`;
