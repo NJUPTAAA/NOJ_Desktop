@@ -129,7 +129,7 @@
 
 .noj-frame#frameBasic fresh-container {
     display: block;
-    all: initial;
+    /* all: initial; */
     font-family: 'Roboto Slab';
 }
 
