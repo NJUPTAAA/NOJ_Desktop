@@ -93,11 +93,11 @@
     }
 
     function updateContestBasicStart(){
+        $(".noj-frame#frameBasic .noj-loading").removeClass("noj-hidden");
         if(basicInitialized === false) {
             $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("cm-alert");
             $(`.noj-menu[data-frame="frameBasic"] i`).addClass("trophy-variant");
             $(`.noj-menu[data-frame="frameBasic"] span`).text("Fetching Info...");
-            $(".noj-frame#frameBasic .noj-loading").removeClass("noj-hidden");
             $(".noj-frame#frameBasic .noj-alert-container").addClass("noj-hidden");
             $(".noj-frame#frameBasic .container-fluid").css("opacity",0);
         }
@@ -109,6 +109,7 @@
         basicUpdating = false;
         $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("cm-refreshing");
         $(".noj-frame#frameBasic .noj-loading").addClass("noj-hidden");
+        $(".noj-frame#frameBasic .noj-loading").css("background","rgba(255, 255, 255, 0.5)");
         // $(".noj-frame#frameBasic .noj-refreshing-button button").addClass("btn-info");
         // $(".noj-frame#frameBasic .noj-refreshing-button button").removeClass("btn-warning");
         if(basicInitialized === false) {
@@ -241,6 +242,7 @@
             if(ongoingFirstTime === false) {
                 updateContestStatus();
                 updateContestScoreBoard();
+                updateContestClarification();
                 ongoingFirstTime = true;
             }
         }
