@@ -204,6 +204,8 @@
         scoreboardUpdating = false;
         $(".noj-frame#frameScoreBoard .noj-loading").addClass("noj-hidden");
         $(".noj-frame#frameScoreBoard .noj-loading").css("background","rgba(255, 255, 255, 0.5)");
+        $(".noj-frame#frameScoreBoard .noj-refreshing-button button").addClass("btn-info");
+        $(".noj-frame#frameScoreBoard .noj-refreshing-button button").removeClass("btn-warning");
         if(scoreboardInitialized === false) {
             if(err){
                 $(".noj-frame#frameScoreBoard .noj-alert-container").removeClass("noj-hidden");
@@ -223,6 +225,8 @@
 
     $("#contestScoreBoardRefreshButton").on("click", function () {
         $(".noj-frame#frameScoreBoard .noj-refreshing-button i").addClass("cm-refreshing");
+        $(".noj-frame#frameScoreBoard .noj-refreshing-button button").removeClass("btn-info");
+        $(".noj-frame#frameScoreBoard .noj-refreshing-button button").addClass("btn-warning");
         updateContestScoreBoard();
     });
 

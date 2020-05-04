@@ -289,3 +289,11 @@ fresh-container reply-quote p:last-child {
     cursor: auto;
     pointer-events: none;
 }
+
+#snackbar-container{
+    pointer-events: none;
+}
+
+#snackbar-container > div {
+    pointer-events: auto;
+}
