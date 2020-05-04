@@ -174,7 +174,7 @@
         </div>
     </paper-card>
 </div>
-<div class="noj-refreshing-button noj-hidden" id="contestStatusRefreshButton">
+<div class="noj-refreshing-button noj-hidden" id="contestScoreBoardRefreshButton">
     <button class="btn btn-raised btn-info bmd-btn-fab"><i class="MDI sync"></i></button>
 </div>
 <script>
@@ -217,11 +217,11 @@
         }
     }
 
-    $("#contestStatusRetry").on("click", function () {
+    $("#contestScoreBoardRetry").on("click", function () {
         updateContestScoreBoard();
     });
 
-    $("#contestStatusRefreshButton").on("click", function () {
+    $("#contestScoreBoardRefreshButton").on("click", function () {
         $(".noj-frame#frameScoreBoard .noj-refreshing-button i").addClass("cm-refreshing");
         updateContestScoreBoard();
     });
@@ -233,6 +233,66 @@
             try{
                 $(".noj-frame#frameScoreBoard thead").html("");
                 $(".noj-frame#frameScoreBoard tbody").html("");
+                let header="<tr>";
+                if(arg.data.header.subHeader){
+                    header+=`<th scope="col" rowspan="2" style="text-align: left;">${arg.data.header.rank}</th>`;
+                    arg.data.header.normal.forEach(ele => {
+                        header+=`<th scope="col" rowspan="2">${ele}</th>`;
+                    });
+                    arg.data.header.problems.forEach(ele => {
+                        header+=`<th scope="col" class="cm-problem-header">${ele}</th>`;
+                    });
+                    header+=`</tr><tr>`;
+                    arg.data.header.problemsSubHeader.forEach(ele => {
+                        header+=`<th scope="col" class="cm-problem-subheader">${ele}</th>`;
+                    });
+                    header+=`</tr>`;
+                }else{
+                    header+=`<th scope="col" style="text-align: left;">${arg.data.header.rank}</th>`;
+                    arg.data.header.normal.forEach(ele => {
+                        header+=`<th scope="col">${ele}</th>`;
+                    });
+                    arg.data.header.problems.forEach(ele => {
+                        header+=`<th scope="col" class="cm-problem-header">${ele}</th>`;
+                    });
+                    header+=`</tr>`;
+                }
+                $(".noj-frame#frameScoreBoard thead").html(header);
+                $(".noj-frame#frameScoreBoard tbody").html("");
+                arg.data.body.forEach(ele => {
+                    let record=`<tr class=" animated flipInX `;
+                    if(ele.extra.owner===true){
+                        record+=` cm-me `;
+                    }
+                    if(ele.extra.remote===true){
+                        record+=` cm-remote `;
+                    }
+                    record+=` ">`;
+                    record+=`<th scope="row">${ele.rank}</th>`;
+                    ele.normal.forEach(ele => {
+                        record+=`<td>${ele}</td>`;
+                    });
+                    ele.problems.forEach(ele => {
+                        if(ele.mainColor){
+                            record+=`<td class="${ele.mainColor}">`;
+                        }else{
+                            record+=`<td class="">`;
+                        }
+                        if(ele.mainScore){
+                            record+=`${ele.mainScore}<br>`;
+                        }
+                        if(ele.subScore){
+                            if(ele.subColor){
+                                record+=`<span class="cm-subtext ${ele.subColor}">(${ele.subScore})</span>`;
+                            }else{
+                                record+=`<span class="cm-subtext">(${ele.subScore})</span>`;
+                            }
+                        }
+                        record+=`</td>`;
+                    });
+                    record+=`</tr>`;
+                    $(".noj-frame#frameScoreBoard tbody").append(record);
+                });
                 updateContestScoreBoardEnd();
                 if(scoreboardInitialized !== false){
                     $.snackbar({

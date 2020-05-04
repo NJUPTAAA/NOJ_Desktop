@@ -485,3 +485,46 @@ ipcMain.on('updateContestStatus', (event, arg) => {
         }
     });
 });
+
+ipcMain.on('updateContestScoreBoard', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/scoreboard`,
+        form: {
+            cid: cid
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('updatedContestScoreBoard', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/scoreboard`);
+        let contestScoreBoardRet = tryParseJSON(body);
+        if(contestScoreBoardRet === false){
+            return contestWindow.webContents.send('updatedContestScoreBoard', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            return contestWindow.webContents.send('updatedContestScoreBoard', {
+                code: 200,
+                desc: "Success.",
+                data: contestScoreBoardRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('updatedContestScoreBoard', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
