@@ -47,7 +47,7 @@
     </div>
 </div>
 <div class="noj-refreshing-button noj-hidden" id="contestStatusRefreshButton">
-    <button class="btn btn-raised btn-primary bmd-btn-fab"><i class="MDI sync"></i></button>
+    <button class="btn btn-raised btn-info bmd-btn-fab"><i class="MDI sync"></i></button>
 </div>
 <script>
     var statusInitialized = false;
@@ -217,11 +217,4 @@
     });
 
     // updateContestStatus();
-
-    function parseContestTime(timeStamp){
-        let hour = Math.trunc(timeStamp/3600);
-        let minute = Math.trunc(timeStamp%3600/60);
-        let second = Math.trunc(timeStamp%3600%60);
-        return [hour, minute, second];
-    }
 </script>
