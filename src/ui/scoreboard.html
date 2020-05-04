@@ -227,7 +227,7 @@
     });
 
 
-    ipcRenderer.on('updatedContestStatus', (event, arg) => {
+    ipcRenderer.on('updatedContestScoreBoard', (event, arg) => {
         console.log(arg);
         if(arg.code == 200) {
             try{
