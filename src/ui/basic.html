@@ -1,7 +1,7 @@
 <div class="noj-loading">
     <svg class="noj-loading-spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="noj-loading-circle" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg>
 </div>
-<div class="noj-alert-container" style="transform: translateX(0);">
+<div class="noj-alert-container">
     <div class="noj-alert">
         <p><i class="MDI cm-alert"></i></p>
         <p>Fetch Contest Info Failed</p>
@@ -20,13 +20,13 @@
                 <div>
                     <h5 id="contestBasicName">Unknown Contest</h5>
                     <badge-div id="contestBasicBadge">
-                        <span class="badge badge-pill wemd-amber sm-contest-type d-none"><i class="MDI trophy"></i> ICPC</span>
-                        <span><i class="MDI lan-connect wemd-pink-text d-none" data-toggle="tooltip" data-placement="top" title="NOJ Desktop"></i></span>
-                        <span><i class="MDI gavel wemd-brown-text d-none" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>
-                        <span><i class="MDI incognito wemd-red-text d-none" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>
-                        <span><i class="MDI marker-check wemd-light-blue-text d-none" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>
-                        <span><i class="MDI seal wemd-purple-text d-none" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>
-                        <span><i class="MDI do-not-disturb-off wemd-teal-text d-none" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>
+                        <span id="contestBasicBadgeRule" class="badge badge-pill wemd-amber sm-contest-type d-none"><i class="MDI trophy"></i> ICPC</span>
+                        <span id="contestBasicBadgeDesktop" class="d-none"><i class="MDI lan-connect wemd-pink-text" data-toggle="tooltip" data-placement="top" title="NOJ Desktop"></i></span>
+                        <span id="contestBasicBadgeAuditing" class="d-none"><i class="MDI gavel wemd-brown-text" data-toggle="tooltip" data-placement="top" title="This contest is under review"></i></span>
+                        <span id="contestBasicBadgePrivate" class="d-none"><i class="MDI incognito wemd-red-text" data-toggle="tooltip" data-placement="top" title="This is a private contest"></i></span>
+                        <span id="contestBasicBadgeVerified" class="d-none"><i class="MDI marker-check wemd-light-blue-text" data-toggle="tooltip" data-placement="top" title="This is a verified contest"></i></span>
+                        <span id="contestBasicBadgeRated" class="d-none"><i class="MDI seal wemd-purple-text" data-toggle="tooltip" data-placement="top" title="This is a rated contest"></i></span>
+                        <span id="contestBasicBadgeAnticheat" class="d-none"><i class="MDI do-not-disturb-off wemd-teal-text" data-toggle="tooltip" data-placement="top" title="Anti-cheat enabled"></i></span>
                     </badge-div>
                     <detail-info>
                         <ul class="list-group">
@@ -74,23 +74,26 @@
 <div class="noj-refreshing-button noj-hidden" id="contestBasicRefreshButton">
     <button class="btn btn-raised btn-primary bmd-btn-fab"><i class="MDI sync"></i></button>
 </div>
+<div id="contestBasicMarkdownProcessing" class="d-none"></div>
 <script>
-    var contestInitialized = false;
-    var contestUpdating = false;
+    var basicInitialized = false;
+    var basicUpdating = false;
+    var ongoingFirstTime = false;
+
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $('[data-toggle="tooltip"]').tooltip();
     });
 
     function updateContestBasic() {
-        if(contestUpdating === true) return;
-        contestUpdating = true;
-        updateContestStart();
+        if(basicUpdating === true) return;
+        basicUpdating = true;
+        updateContestBasicStart();
         ipcRenderer.send('updateContestBasic');
     }
 
-    function updateContestStart(){
-        if(contestInitialized === false) {
+    function updateContestBasicStart(){
+        if(basicInitialized === false) {
             $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("cm-alert");
             $(`.noj-menu[data-frame="frameBasic"] i`).addClass("trophy-variant");
             $(`.noj-menu[data-frame="frameBasic"] span`).text("Fetching Info...");
@@ -99,13 +102,14 @@
             $(".noj-frame#frameBasic .container-fluid").css("opacity",0);
         }
         $(`.noj-menu[data-frame="frameBasic"] i`).addClass("cm-refreshing");
+        $(".tooltip").remove();
     }
 
-    function updateContestEnd(err=false){
-        contestUpdating = false;
+    function updateContestBasicEnd(err=false){
+        basicUpdating = false;
         $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("cm-refreshing");
         $(".noj-frame#frameBasic .noj-loading").addClass("noj-hidden");
-        if(contestInitialized === false) {
+        if(basicInitialized === false) {
             if(err){
                 $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("trophy-variant");
                 $(`.noj-menu[data-frame="frameBasic"] i`).addClass("cm-alert");
@@ -114,10 +118,10 @@
                 $(".noj-frame#frameBasic .container-fluid").css("opacity",0);
             } else {
                 $(".noj-frame#frameBasic .container-fluid").css("opacity",1);
-                $(".noj-refreshing-button").removeClass("noj-hidden");
+                $(".noj-frame#frameBasic .noj-refreshing-button").removeClass("noj-hidden");
             }
         } else {
-            $(".noj-refreshing-button i").removeClass("cm-refreshing");
+            $(".noj-frame#frameBasic .noj-refreshing-button i").removeClass("cm-refreshing");
         }
     }
 
@@ -133,7 +137,7 @@
     ipcRenderer.on('updatedContestBasic', (event, arg) => {
         console.log(arg);
         if(arg.code == 200) {
-            try{
+            // try{
                 $("#contestBasicFocusImg").attr("src", arg.data.img);
                 $("#contestBasicName").text(arg.data.name);
                 $("#contestBasicBeginTime").text(arg.data.begin_time);
@@ -145,33 +149,67 @@
                 $("#contestBasicLength").text(readableTime);
                 $("#contestBasicProblems").text(arg.data.problems);
                 $("#contestBasicOrganizer").text(arg.data.organizer);
-                $("fresh-container").text(arg.data.description_parsed);
+                document.getElementById("contestBasicMarkdownProcessing").innerHTML = marked(arg.data.description_parsed, {
+                    sanitize: true,
+                    sanitizer: DOMPurify.sanitize,
+                    highlight: function (code, lang) {
+                        try {
+                            return hljs.highlight(lang,code).value;
+                        } catch (error) {
+                            return hljs.highlightAuto(code).value;
+                        }
+                    }
+                });
+                $("#contestBasicBadge > span").addClass("d-none");
+                $("#contestBasicBadgeRule").removeClass("d-none");
+                $("#contestBasicBadgeRule").html(`<i class="MDI trophy"></i> ${arg.data.badges.rule_parsed}`);
+                if(arg.data.badges.desktop !== 0){
+                    $("#contestBasicBadgeDesktop").removeClass("d-none");
+                }
+                if(arg.data.badges.audit_status === 0){
+                    $("#contestBasicBadgeAuditing").removeClass("d-none");
+                }
+                if(arg.data.badges.public !== 0){
+                    $("#contestBasicBadgePrivate").removeClass("d-none");
+                }
+                if(arg.data.badges.verified === 0){
+                    $("#contestBasicBadgeVerified").removeClass("d-none");
+                }
+                if(arg.data.badges.rated !== 0){
+                    $("#contestBasicBadgeRated").removeClass("d-none");
+                }
+                if(arg.data.badges.anticheated !== 0){
+                    $("#contestBasicBadgeAnticheat").removeClass("d-none");
+                }
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub,"contestBasicMarkdownProcessing"]);
+                let description_parsed = document.getElementById("contestBasicMarkdownProcessing").innerHTML;
+                $("fresh-container").html(description_parsed);
                 /* Main Contest View */
                 $("#contestDrawerName").text(arg.data.name);
                 // $(`.noj-menu[data-frame="frameBasic"] span`).text("Reamining: 1:23:45");
-                updateContestEnd();
-                if(contestInitialized !== false){
+                updateContestBasicEnd();
+                if(basicInitialized !== false){
                     $.snackbar({
-                    content: `<i class="MDI checkbox-marked-circle-outline"></i> Contest Updated.`,
-                    style: "wemd-green",
-                    htmlAllowed: true,
-                    timeout: 2000
-                });
+                        content: `<i class="MDI checkbox-marked-circle-outline"></i> Contest Updated.`,
+                        style: "wemd-green",
+                        htmlAllowed: true,
+                        timeout: 2000
+                    });
                 }
-                contestInitialized = true;
+                basicInitialized = true;
                 // after this all errors would not block view
-            }
-            catch(e){
-                updateContestEnd(true);
-                $.snackbar({
-                    content: `<i class="MDI cm-remove"></i> Unknown Error`,
-                    style: "wemd-red",
-                    htmlAllowed: true,
-                    timeout: 2000
-                });
-            }
+            // }
+            // catch(e){
+            //     updateContestBasicEnd(true);
+            //     $.snackbar({
+            //         content: `<i class="MDI cm-remove"></i> Unknown Error`,
+            //         style: "wemd-red",
+            //         htmlAllowed: true,
+            //         timeout: 2000
+            //     });
+            // }
         } else {
-            updateContestEnd(true);
+            updateContestBasicEnd(true);
             $.snackbar({
                 content: `<i class="MDI cm-remove"></i> ${arg.desc}`,
                 style: "wemd-red",
@@ -188,12 +226,18 @@
         if(second<10) second=`0${second}`;
         if(arg.stage=="pre") {
             $(`.noj-menu[data-frame="frameBasic"] span`).text(`Begining ${hour}:${minute}:${second}`);
-        } else if(arg.stage=="ongoing") {
-            $(".noj-menu").removeClass("noj-menu-disabled");
-            $(`.noj-menu[data-frame="frameBasic"] span`).text(`Reamining ${hour}:${minute}:${second}`);
         } else {
-            $(".noj-menu").removeClass("noj-menu-disabled");
-            $(`.noj-menu[data-frame="frameBasic"] span`).text("Contest Ended");
+            if(arg.stage=="ongoing") {
+                $(".noj-menu").removeClass("noj-menu-disabled");
+                $(`.noj-menu[data-frame="frameBasic"] span`).text(`Reamining ${hour}:${minute}:${second}`);
+            } else {
+                $(".noj-menu").removeClass("noj-menu-disabled");
+                $(`.noj-menu[data-frame="frameBasic"] span`).text("Contest Ended");
+            }
+            if(ongoingFirstTime === false) {
+                updateContestStatus();
+                ongoingFirstTime = true;
+            }
         }
     });
 
