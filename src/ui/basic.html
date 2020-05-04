@@ -72,7 +72,7 @@
     </div>
 </div>
 <div class="noj-refreshing-button noj-hidden" id="contestBasicRefreshButton">
-    <button class="btn btn-raised btn-primary bmd-btn-fab"><i class="MDI sync"></i></button>
+    <button class="btn btn-raised btn-info bmd-btn-fab"><i class="MDI sync"></i></button>
 </div>
 <div id="contestBasicMarkdownProcessing" class="d-none"></div>
 <script>
@@ -236,6 +236,7 @@
             }
             if(ongoingFirstTime === false) {
                 updateContestStatus();
+                updateContestScoreBoard();
                 ongoingFirstTime = true;
             }
         }
