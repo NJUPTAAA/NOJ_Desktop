@@ -528,3 +528,91 @@ ipcMain.on('updateContestScoreBoard', (event, arg) => {
         }
     });
 });
+
+ipcMain.on('updateContestClarification', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/clarification`,
+        form: {
+            cid: cid
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('updatedContestClarification', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/clarification`);
+        let contestClarificationRet = tryParseJSON(body);
+        if(contestClarificationRet === false){
+            return contestWindow.webContents.send('updatedContestClarification', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            return contestWindow.webContents.send('updatedContestClarification', {
+                code: 200,
+                desc: "Success.",
+                data: contestClarificationRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('updatedContestClarification', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
+
+ipcMain.on('requestContestClarification', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/requestClarification`,
+        form: {
+            cid: cid,
+            title: arg.title,
+            content: arg.content,
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('requestedContestClarification', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/requestClarification`);
+        let contestClarificationRet = tryParseJSON(body);
+        if(contestClarificationRet === false){
+            return contestWindow.webContents.send('requestedContestClarification', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            return contestWindow.webContents.send('requestedContestClarification', {
+                code: 200,
+                desc: "Success.",
+                data: contestClarificationRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('requestedContestClarification', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
