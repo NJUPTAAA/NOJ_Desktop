@@ -96,8 +96,8 @@
         statusUpdating = false;
         $(".noj-frame#frameStatus .noj-loading").addClass("noj-hidden");
         $(".noj-frame#frameStatus .noj-loading").css("background","rgba(255, 255, 255, 0.5)");
-        $(".noj-frame#frameStatus .noj-refreshing-button button").addClass("btn-info");
-        $(".noj-frame#frameStatus .noj-refreshing-button button").removeClass("btn-warning");
+        // $(".noj-frame#frameStatus .noj-refreshing-button button").addClass("btn-info");
+        // $(".noj-frame#frameStatus .noj-refreshing-button button").removeClass("btn-warning");
         if(statusInitialized === false) {
             if(err){
                 $(".noj-frame#frameStatus .noj-alert-container").removeClass("noj-hidden");
@@ -119,8 +119,8 @@
 
     $("#contestStatusRefreshButton").on("click", function () {
         $(".noj-frame#frameStatus .noj-refreshing-button i").addClass("cm-refreshing");
-        $(".noj-frame#frameStatus .noj-refreshing-button button").removeClass("btn-info");
-        $(".noj-frame#frameStatus .noj-refreshing-button button").addClass("btn-warning");
+        // $(".noj-frame#frameStatus .noj-refreshing-button button").removeClass("btn-info");
+        // $(".noj-frame#frameStatus .noj-refreshing-button button").addClass("btn-warning");
         updateContestStatus();
     });
 

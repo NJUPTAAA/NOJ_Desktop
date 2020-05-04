@@ -109,8 +109,8 @@
         basicUpdating = false;
         $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("cm-refreshing");
         $(".noj-frame#frameBasic .noj-loading").addClass("noj-hidden");
-        $(".noj-frame#frameBasic .noj-refreshing-button button").addClass("btn-info");
-        $(".noj-frame#frameBasic .noj-refreshing-button button").removeClass("btn-warning");
+        // $(".noj-frame#frameBasic .noj-refreshing-button button").addClass("btn-info");
+        // $(".noj-frame#frameBasic .noj-refreshing-button button").removeClass("btn-warning");
         if(basicInitialized === false) {
             if(err){
                 $(`.noj-menu[data-frame="frameBasic"] i`).removeClass("trophy-variant");
@@ -133,8 +133,8 @@
 
     $("#contestBasicRefreshButton").on("click", function () {
         $(".noj-frame#frameBasic .noj-refreshing-button i").addClass("cm-refreshing");
-        $(".noj-frame#frameBasic .noj-refreshing-button button").removeClass("btn-info");
-        $(".noj-frame#frameBasic .noj-refreshing-button button").addClass("btn-warning");
+        // $(".noj-frame#frameBasic .noj-refreshing-button button").removeClass("btn-info");
+        // $(".noj-frame#frameBasic .noj-refreshing-button button").addClass("btn-warning");
         updateContestBasic();
     });
 
