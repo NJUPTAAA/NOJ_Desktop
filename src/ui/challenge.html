@@ -28,10 +28,10 @@
     </div>
     <div class="noj-challenge-problemdetail">
         <top-side>
-            <p id="contestChallengeProblemTitle">A. Ancient Myth</p>
+            <p id="contestChallengeProblemTitle"></p>
             <div>
                 <info-badge id="contestChallengeTotalScoreContainer" class="d-none" data-toggle="tooltip" data-placement="top" title="Total Score"><i class="MDI checkbox-multiple-marked-circle"></i> <span id="contestChallengeTotalScore">100</span></info-badge>
-                <info-badge id="contestChallengeACRateContainer" class="d-none" data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> <span id="contestChallengeACRate">44.57%</span></info-badge>
+                <info-badge id="contestChallengeACRateContainer" class="d-none" data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> <span id="contestChallengeACRate">0%</span></info-badge>
                 <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> <span id="contestChallengeTimeLimit">1000ms</span></info-badge>
                 <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> <span id="contestChallengeMemoryLimit">65536kb</span></info-badge>
             </div>
@@ -174,7 +174,7 @@
     });
     
     $("#verdict_info").on("click", function () {
-        if(challengeConfig[currentPID].status.last_submission.compile_info !== null){
+        if(typeof challengeConfig[currentPID].status.last_submission !=="undefined" && challengeConfig[currentPID].status.last_submission.compile_info !== null){
             dialog.showMessageBoxSync(remote.getCurrentWindow(), {
                 type: "warning",
                 title: "Compile Info",
@@ -204,13 +204,15 @@
         $("#contestChallengeProblemTimeLimit").text(`${config.limitations.time_limit}ms`);
         $("#contestChallengeProblemMemoryLimit").text(`${config.limitations.memory_limit}kb`);
 
+        let verdict_icon = "checkbox-blank-circle-outline";
         let verdict_color = "";
         let verdict_text = "NOT SUBMIT";
         if(config.status.verdict !== null) {
             verdict_color = config.status.color;
             verdict_text = config.status.verdict;
+            verdict_icon = (config.status.verdict == "Accepted" || config.status.color== "wemd-black-text" || config.status.color== "wemd-blue-text") ? "checkbox-blank-circle" : "cisco-webex";
         }
-
+        $("#verdict_circle").html(`<i class="MDI ${verdict_icon}"></i>`);
         $("#verdict_info").removeClass();
         $("#verdict_info").addClass(verdict_color);
         $("#verdict_text").text(verdict_text);
@@ -273,6 +275,7 @@
         $("#submitBtn").html(`<i class="MDI sync cm-refreshing d-inline-block"></i> <span>Submitting</span>`);
         $("#submitBtn").attr("disabled",true);
         // making Submitting.
+        $("#verdict_circle").html(`<i class="MDI checkbox-blank-circle"></i>`);
         $("#verdict_info").removeClass();
         $("#verdict_info").addClass("wemd-blue-text");
         $("#verdict_text").text("Submitting");
@@ -286,6 +289,7 @@
         $("#submitBtn").removeAttr("disabled");
         if(err){
             // Submission Error
+            $("#verdict_circle").html(`<i class="MDI checkbox-blank-circle"></i>`);
             $("#verdict_info").removeClass();
             $("#verdict_info").addClass("wemd-black-text");
             $("#verdict_text").text(err_text);
@@ -332,20 +336,22 @@
         }
         if((challengeConfig[submissionEntry.pid].status.last_submission.sid == submissionEntry.sid) || (challengeConfig[submissionEntry.pid].status.last_submission.submission_date < submissionEntry.submission_date) || (currentSubmissionDate == submissionEntry.submission_date && challengeConfig[submissionEntry.pid].status.last_submission.sid < submissionEntry.sid)) {
             challengeConfig[submissionEntry.pid].status.last_submission = submissionEntry; // update to latest submission
-            if(submissionEntry.color !== "wemd-blue-text") {
-                // finalized
-                if(challengeConfig[submissionEntry.pid].status.verdict !== "Accepted") {
-                    challengeConfig[submissionEntry.pid].status.verdict = submissionEntry.verdict;
-                    challengeConfig[submissionEntry.pid].status.color = submissionEntry.color;
 
-                    let icon = submissionEntry.verdict === "Accepted" ? "checkbox-blank-circle" : "cisco-webex";
-                    let color = submissionEntry.color;
+            // finalized
+            if(challengeConfig[submissionEntry.pid].status.verdict !== "Accepted") {
+                challengeConfig[submissionEntry.pid].status.verdict = submissionEntry.verdict;
+                challengeConfig[submissionEntry.pid].status.color = submissionEntry.color;
 
-                    $(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`).html(`<i class="MDI ${icon} ${color}"></i>`);
-                    console.log(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`);
-                }
+                let icon = submissionEntry.verdict === "Accepted" ? "checkbox-blank-circle" : "cisco-webex";
+                let color = submissionEntry.color;
+
+                $(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`).html(`<i class="MDI ${icon} ${color}"></i>`);
+                console.log(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`);
             }
+
             if(submissionEntry.pid === currentPID) {
+                let verdict_icon = (submissionEntry.verdict == "Accepted" || submissionEntry.color== "wemd-black-text" || submissionEntry.color== "wemd-blue-text") ? "checkbox-blank-circle" : "cisco-webex";
+                $("#verdict_circle").html(`<i class="MDI ${verdict_icon}"></i>`);
                 $("#verdict_info").removeClass();
                 $("#verdict_info").addClass(submissionEntry.color);
                 $("#verdict_text").text(submissionEntry.verdict);
@@ -395,12 +401,11 @@
                     let color = "wemd-grey-text";
 
                     if(ele.status.verdict !== null) {
-                        if(ele.status.verdict == "Accepted") {
+                        color = ele.status.color;
+                        if(ele.status.verdict == "Accepted" || ele.status.color== "wemd-black-text" || ele.status.color== "wemd-blue-text") {
                             icon = "checkbox-blank-circle";
-                            color = ele.status.color;
                         } else {
                             icon = "cisco-webex";
-                            color = ele.status.color;
                         }
                     }
 

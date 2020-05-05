@@ -121,7 +121,7 @@
     font-weight: bolder;
 }
 
-.noj-frame#frameChallenge .noj-challenge-problemset .cisco-webex{
+.noj-frame#frameChallenge .cisco-webex{
     transform: scale(1.10);
     display: inline-block;
 }
