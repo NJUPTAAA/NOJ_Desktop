@@ -24,42 +24,6 @@
         </file-card>
         <challenge-container>
 
-            <challenge-item class="btn noj-active">
-                <div>
-                    <i class="MDI checkbox-blank-circle wemd-green-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>A.</span> Ancient Myth</p>
-                    <small>1 / 114</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>B.</span> Sdl and Interview Questions</p>
-                    <small>0 / 0</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI cisco-webex wemd-red-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>C.</span> Sdl and Network Flows</p>
-                    <small>8 / 159</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
         </challenge-container>
     </div>
     <div class="noj-challenge-problemdetail">
@@ -78,7 +42,7 @@
             </div>
         </medium-side>
         <bottom-side>
-            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" style="color: #7a8e97" id="verdict_info" class="wemd-green-text"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">Accepted </span></a>
+            <a tabindex="-1" style="color: #7a8e97" id="verdict_info"><span id="verdict_circle"><i class="MDI checkbox-blank-circle-outline"></i></span> <span id="verdict_text">NOT SUBMIT </span></a>
             <div>
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
@@ -208,6 +172,17 @@
             result: null
         });
     });
+    
+    $("#verdict_info").on("click", function () {
+        if(challengeConfig[currentPID].last_submission.compile_info !== null){
+            dialog.showMessageBoxSync(remote.getCurrentWindow(), {
+                type: "warning",
+                title: "Compile Info",
+                message: "Compile Info",
+                detail: challengeConfig[currentPID].last_submission.compile_info
+            });
+        }
+    });
 
     function switchProblem(pid){
         $(".tooltip").remove();
@@ -239,6 +214,10 @@
         $("#verdict_info").removeClass();
         $("#verdict_info").addClass(verdict_color);
         $("#verdict_text").text(verdict_text);
+        $("#verdict_text").removeClass("cm-popover-decoration");
+        if(verdict_text=="Compile Error"){
+            $("#verdict_text").addClass("cm-popover-decoration");
+        }
 
         vscodeEditor.setValue(config.currentCode);
 
@@ -263,10 +242,119 @@
         });
     }
 
+    function submitContestChallengeSolution(){
+        if(challengeUpdating === true) return; // avoid new status
+        challengeUpdating = true;
+        let sourceCode=vscodeEditor.getValue();
+        if(sourceCode.trim() === ""){
+            $.snackbar({
+                content: `<i class="MDI cm-remove"></i> Source code should not be empty.`,
+                style: "wemd-red",
+                htmlAllowed: true,
+                timeout: 2000
+            });
+            return;
+        }
+        submitContestChallengeSolutionStart();
+        challengeConfig[ele.pid].currentCode = editor.getValue();
+        ipcRenderer.send('submitContestChallengeSolution',{
+            pid: currentPID,
+            coid: challengeConfig[ele.pid].currentCOID,
+            solution: challengeConfig[ele.pid].currentCode
+        });
+    }
+
+    function submitContestChallengeSolutionStart(){
+        $(".noj-frame#frameChallenge .noj-loading").removeClass("noj-hidden");
+        $("#submitBtn").html(`<i class="MDI sync cm-refreshing d-inline-block"></i> <span>Submitting</span>`);
+        $("#submitBtn").attr("disabled",true);
+        // making Submitting.
+        $("#verdict_info").removeClass();
+        $("#verdict_info").addClass("wemd-blue-text");
+        $("#verdict_text").text("Submitting");
+        $(".tooltip").remove();
+    }
+
+    function submitContestChallengeSolutionEnd(err=false, err_text="Submission Error"){
+        $(".noj-frame#frameChallenge .noj-loading").addClass("noj-hidden");
+        $("#submitBtn").html(`<i class="MDI send"></i> <span>Submit Code</span>`);
+        $("#submitBtn").removeAttr("disabled");
+        if(err){
+            // Submission Error
+            $("#verdict_info").removeClass();
+            $("#verdict_info").addClass("wemd-black-text");
+            $("#verdict_text").text(err_text);
+        }
+        $(".tooltip").remove();
+    }
+
+    ipcRenderer.on('submittedContestChallengeSolution', (event, arg) => {
+        console.log(arg);
+        if(arg.code == 200) {
+            try{
+                submitContestChallengeSolutionEnd();
+                $.snackbar({
+                    content: `<i class="MDI pencil"></i> Your solution has been submitted.`,
+                    style: "wemd-green",
+                    htmlAllowed: true,
+                    timeout: 2000
+                });
+            }
+            catch(e){
+                submitContestChallengeSolutionEnd(true);
+                $.snackbar({
+                    content: `<i class="MDI cm-remove"></i> Unknown Error`,
+                    style: "wemd-red",
+                    htmlAllowed: true,
+                    timeout: 2000
+                });
+            }
+        } else {
+            submitContestChallengeSolutionEnd(true, arg.desc);
+            $.snackbar({
+                content: `<i class="MDI cm-remove"></i> ${arg.error.msg}`,
+                style: "wemd-red",
+                htmlAllowed: true,
+                timeout: 2000
+            });
+        }
+    });
+
+    ipcRenderer.on('fetchedVerdict', (event, arg) => {
+        let submissionEntry = arg.data;
+        if(typeof challengeConfig[submissionEntry.pid] === "undefined") {
+            return;
+        }
+        if((challengeConfig[submissionEntry.pid].status.last_submission.sid == submissionEntry.sid) || (challengeConfig[submissionEntry.pid].status.last_submission.submission_date < submissionEntry.submission_date) || (currentSubmissionDate == submissionEntry.submission_date && challengeConfig[submissionEntry.pid].status.last_submission.sid < submissionEntry.sid)) {
+            challengeConfig[submissionEntry.pid].status.last_submission = submissionEntry; // update to latest submission
+            if(submissionEntry.color !== "wemd-blue-text") {
+                // finalized
+                if(challengeConfig[submissionEntry.pid].status.verdict !== "Accepted") {
+                    challengeConfig[submissionEntry.pid].status.verdict = submissionEntry.verdict;
+                    challengeConfig[submissionEntry.pid].status.color = submissionEntry.color;
+
+                    let icon = submissionEntry.verdict === "Accepted" ? "checkbox-blank-circle" : "cisco-webex";
+                    let color = submissionEntry.color;
+
+                    $(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`).html(`<i class="MDI ${icon} ${color}"></i>`);
+                }
+            }
+            if(submissionEntry.pid === currentPID) {
+                $("#verdict_info").removeClass();
+                $("#verdict_info").addClass(submissionEntry.color);
+                $("#verdict_text").text(submissionEntry.verdict);
+                $("#verdict_text").removeClass("cm-popover-decoration");
+                if(submissionEntry.verdict == "Compile Error"){
+                    $("#verdict_text").addClass("cm-popover-decoration");
+                }
+            }
+        }
+    });
+
     ipcRenderer.on('updatedContestChallenge', (event, arg) => {
         console.log(arg);
         if(arg.code == 200) {
-            // try{
+            try{
                 $("file-card").addClass("d-none");
                 if(arg.data.file.enable) {
                     $("file-card img").attr("src", `../node_modules/fileicon-svg/svg/${arg.data.file.extension}.svg`);
@@ -287,9 +375,9 @@
                     if(challengeInitialized===false || typeof challengeConfig[ele.pid].currentCode === "undefined") {
                         challengeConfig[ele.pid].currentCode = "";
                         challengeConfig[ele.pid].currentCOID = ele.compilers[0].coid;
-                        if(ele.status.verdict !== null) {
-                            challengeConfig[ele.pid].currentCode = ele.status.last_submitted_code;
-                            challengeConfig[ele.pid].currentCOID = ele.status.last_submitted_language_coid;
+                        if(ele.status.verdict !== null && Object.keys(ele.status.last_submission).length !== 0) {
+                            challengeConfig[ele.pid].currentCode = ele.status.last_submission.solution;
+                            challengeConfig[ele.pid].currentCOID = ele.status.last_submission.coid;
                         }
                     }
 
@@ -346,16 +434,16 @@
                     });
                 }
                 challengeInitialized = true;
-            // }
-            // catch(e){
-            //     updateContestChallengeEnd(true);
-            //     $.snackbar({
-            //         content: `<i class="MDI cm-remove"></i> Unknown Error`,
-            //         style: "wemd-red",
-            //         htmlAllowed: true,
-            //         timeout: 2000
-            //     });
-            // }
+            }
+            catch(e){
+                updateContestChallengeEnd(true);
+                $.snackbar({
+                    content: `<i class="MDI cm-remove"></i> Unknown Error`,
+                    style: "wemd-red",
+                    htmlAllowed: true,
+                    timeout: 2000
+                });
+            }
         } else {
             updateContestChallengeEnd(true);
             $.snackbar({

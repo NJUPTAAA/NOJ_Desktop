@@ -662,3 +662,111 @@ ipcMain.on('updateContestChallenge', (event, arg) => {
         }
     });
 });
+
+ipcMain.on('submitContestChallengeSolution', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/submitSolution`,
+        form: {
+            cid: cid,
+            pid: arg.pid,
+            coid: arg.coid,
+            solution: arg.solution,
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('submittedContestChallengeSolution', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/submitSolution`);
+        let contestChallengeSubmitSolutionRet = tryParseJSON(body);
+        if(contestChallengeSubmitSolutionRet === false){
+            return contestWindow.webContents.send('submittedContestChallengeSolution', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            if(contestChallengeSubmitSolutionRet.success === false){
+                return contestWindow.webContents.send('submittedContestChallengeSolution', {
+                    code: 4000,
+                    desc: contestChallengeSubmitSolutionRet.message,
+                    data: contestChallengeSubmitSolutionRet.err
+                });
+            }
+            fetchVerdictTimeout(contestChallengeSubmitSolutionRet.ret.sid, true);
+            return contestWindow.webContents.send('submittedContestChallengeSolution', {
+                code: 200,
+                desc: "Success.",
+                data: contestChallengeSubmitSolutionRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('submittedContestChallengeSolution', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
+
+var verdictTimer = {};
+
+function fetchVerdictTimeout(sid, init = false){
+    if(init){
+        fetchVerdict(sid);
+    }else{
+        setTimeout(() => {
+            fetchVerdict(sid);
+        }, 5000);
+    }
+}
+
+function fetchVerdict(sid){
+    request.post({
+        url: `${generalDomain}/api/problem/fetchVerdict`,
+        form: {
+            sid: sid
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            fetchVerdictTimeout(sid);
+            return;
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/fetchVerdict`);
+        let contestChallengeSubmitSolutionRet = tryParseJSON(body);
+        if(contestChallengeSubmitSolutionRet === false){
+            fetchVerdictTimeout(sid);
+            return;
+        }
+        try{
+            if(contestChallengeSubmitSolutionRet.success === false){
+                fetchVerdictTimeout(sid);
+                return;
+            }
+            if(contestChallengeSubmitSolutionRet.ret.color !== "wemd-blue-text") {
+                // notify
+            } else {
+                fetchVerdictTimeout(sid);
+            }
+            return contestWindow.webContents.send('fetchedVerdict', {
+                code: 200,
+                desc: "Success.",
+                data: contestChallengeSubmitSolutionRet.ret
+            });
+        }
+        catch (e) {
+            fetchVerdictTimeout(sid);
+            return;
+        }
+    });
+}
