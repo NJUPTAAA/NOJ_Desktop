@@ -35,9 +35,9 @@
                 <img src="resources/drawer.jpg">
             </div>
             <div class="noj-section-user-main">
-                <img src="resources/default.png" class="noj-avatar">
-                <p class="noj-account">test001@icpc.njupt.edu.cn</p>
-                <p class="noj-contestname" id="contestDrawerName"></p>
+                <img src="resources/default.png" class="noj-avatar" id="contestDrawerAvatar">
+                <p class="noj-account" id="contestDrawerAccount"></p>
+                <p class="noj-contestname" id="contestDrawerContestName"></p>
             </div>
         </div>
         <div class="noj-section-menu">
@@ -97,6 +97,7 @@
 <script>
     var ipcRenderer = require('electron').ipcRenderer;
     var activeFrame = "frameBasic";
+    var userInfo; // display only
     const shell = require('electron').shell;
 
     $(document).on('click', 'a[href^="http"]', function (event) {
@@ -118,18 +119,25 @@
 
     $(".noj-menu").on("click", function () {
         if($(this).hasClass("noj-menu-disabled")) return;
-        if (activeFrame !== $(this).data("frame")) {
-            activeFrame = $(this).data("frame");
+        switchFrame($(this).data("frame"));
+    });
+
+    function switchFrame(frameName){
+        if (activeFrame !== frameName) {
+            activeFrame = frameName;
             $(".noj-frame").removeClass("noj-frame-active");
             $(`#${activeFrame}`).addClass("noj-frame-active");
             $(".noj-menu").removeClass("noj-menu-active");
-            $(this).addClass("noj-menu-active");
+            $(`.noj-menu[data-frame="${frameName}"]`).addClass("noj-menu-active");
         }
-    });
+    }
 
     ipcRenderer.on("initVisible", (event, arg) => {
         $("body").css("opacity",1);
         $(".noj-drawer").addClass("animated fadeInLeft");
+        userInfo = arg;
+        $("#contestDrawerAvatar").text(arg.avatar);
+        $("#contestDrawerAccount").text(arg.email);
     });
 
     function clearCache(){
