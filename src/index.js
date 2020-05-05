@@ -204,21 +204,29 @@ async function showContestWindow() {
         },
         show: false
     });
-    submissionModel = new BrowserWindow({
-        width: height*0.7*0.6,
-        height: height*0.7,
-        resizable: false,
-        backgroundColor: "#fafafa",
-        defaultFontSize: 16,
-        center: true,
-        webPreferences: {
-            nodeIntegration: true
-        },
-        show: false,
-        parent: contestWindow,
-        modal: true
-    });
-    submissionModel.webContents.loadFile(path.join(__dirname, 'submissionDetail.html'));
+    // submissionModel = new BrowserWindow({
+    //     width: parseInt(width*0.7),
+    //     height: parseInt(height*0.7),
+    //     resizable: false,
+    //     defaultFontSize: 16,
+    //     center: true,
+    //     webPreferences: {
+    //         nodeIntegration: true
+    //     },
+    //     show: false,
+    //     parent: contestWindow,
+    //     modal: true,
+    //     useContentSize: true,
+    //     // frame: false,
+    //     // transparent: true,
+    //     // hasShadow: true,
+    // });
+    // submissionModel.webContents.loadFile(path.join(__dirname, 'submissionDetail.html'));
+    // submissionModel.on('close', (event) => {
+    //     event.preventDefault();
+    //     console.log("close");
+    //     submissionModel.hide();
+    // });
     loginWindow.close();
     contestWindow.maximize();
     contestWindow.webContents.loadFile(path.join(__dirname, 'contest.html'));
@@ -231,6 +239,10 @@ async function showContestWindow() {
 
 ipcMain.on('closeLogin', (event, arg) => {
     loginWindow.close();
+});
+
+ipcMain.on('closeSubmission', (event, arg) => {
+    submissionModel.close();
 });
 
 ipcMain.on('attemptLogin', (event, arg) => {
@@ -757,6 +769,76 @@ ipcMain.on('submitContestChallengeSolution', (event, arg) => {
                 data: null
             });
         }
+    });
+});
+
+ipcMain.on('showSubmissionDetails', (event, arg) => {
+    let sid = arg.sid;
+    const {width, height} = screen.getPrimaryDisplay().workAreaSize;
+    submissionModel = new BrowserWindow({
+        width: parseInt(width*0.7),
+        height: parseInt(height*0.7),
+        resizable: false,
+        defaultFontSize: 16,
+        center: true,
+        webPreferences: {
+            nodeIntegration: true
+        },
+        show: false,
+        parent: contestWindow,
+        modal: true,
+        useContentSize: true,
+        frame: false,
+        transparent: true,
+    }).on('closed', (event) => {
+        contestWindow.setAlwaysOnTop(false);
+        contestWindow.webContents.send('closeSubmissionDetails', {
+            code: 200,
+            desc: "OK",
+            data: null
+        });
+    }).on('focus', () => {
+        contestWindow.setAlwaysOnTop(true);
+    }).on('blur', () => {
+        contestWindow.setAlwaysOnTop(false);
+    });
+    submissionModel.webContents.loadFile(path.join(__dirname, 'submissionDetail.html')).then(()=>{
+        request.post({
+            url: `${generalDomain}/api/submission/info`,
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${userToken}`,
+            },
+            form: {
+                sid: sid
+            }
+        }, function optionalCallback(err, httpResponse, body) {
+            if (err) {
+                console.error('REQUEST FAILURE:', err);
+                submissionModel.hide();
+                return contestWindow.webContents.send('closeSubmissionDetails', {
+                    code: 2003,
+                    desc: "Network Error.",
+                    data: null
+                });
+            }
+            console.log('REQUEST SUCCESS:');
+            console.log(`${generalDomain}/api/contest/info`);
+            let submissionRet = tryParseJSON(body);
+            if(submissionRet === false){
+                return contestWindow.webContents.send('closeSubmissionDetails', {
+                    code: 3100,
+                    desc: "API Response Error, Please Contact Site Admin.",
+                    data: null
+                });
+            }
+            return submissionModel.webContents.send('updatedSubmissionDetail', {
+                code: 200,
+                desc: "Success.",
+                data: submissionRet.ret
+            });
+        });
+        submissionModel.show();
     });
 });
 
