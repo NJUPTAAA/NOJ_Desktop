@@ -174,12 +174,12 @@
     });
     
     $("#verdict_info").on("click", function () {
-        if(challengeConfig[currentPID].last_submission.compile_info !== null){
+        if(challengeConfig[currentPID].status.last_submission.compile_info !== null){
             dialog.showMessageBoxSync(remote.getCurrentWindow(), {
                 type: "warning",
                 title: "Compile Info",
                 message: "Compile Info",
-                detail: challengeConfig[currentPID].last_submission.compile_info
+                detail: challengeConfig[currentPID].status.last_submission.compile_info
             });
         }
     });
@@ -242,6 +242,10 @@
         });
     }
 
+    $("#submitBtn").on("click",function (){
+        submitContestChallengeSolution();
+    });
+
     function submitContestChallengeSolution(){
         if(challengeUpdating === true) return; // avoid new status
         challengeUpdating = true;
@@ -256,11 +260,11 @@
             return;
         }
         submitContestChallengeSolutionStart();
-        challengeConfig[ele.pid].currentCode = editor.getValue();
+        challengeConfig[currentPID].currentCode = sourceCode;
         ipcRenderer.send('submitContestChallengeSolution',{
             pid: currentPID,
-            coid: challengeConfig[ele.pid].currentCOID,
-            solution: challengeConfig[ele.pid].currentCode
+            coid: challengeConfig[currentPID].currentCOID,
+            solution: challengeConfig[currentPID].currentCode
         });
     }
 
@@ -276,6 +280,7 @@
     }
 
     function submitContestChallengeSolutionEnd(err=false, err_text="Submission Error"){
+        challengeUpdating = false;
         $(".noj-frame#frameChallenge .noj-loading").addClass("noj-hidden");
         $("#submitBtn").html(`<i class="MDI send"></i> <span>Submit Code</span>`);
         $("#submitBtn").removeAttr("disabled");
@@ -312,7 +317,7 @@
         } else {
             submitContestChallengeSolutionEnd(true, arg.desc);
             $.snackbar({
-                content: `<i class="MDI cm-remove"></i> ${arg.error.msg}`,
+                content: `<i class="MDI cm-remove"></i> ${arg.data.msg}`,
                 style: "wemd-red",
                 htmlAllowed: true,
                 timeout: 2000
@@ -337,6 +342,7 @@
                     let color = submissionEntry.color;
 
                     $(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`).html(`<i class="MDI ${icon} ${color}"></i>`);
+                    console.log(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`);
                 }
             }
             if(submissionEntry.pid === currentPID) {

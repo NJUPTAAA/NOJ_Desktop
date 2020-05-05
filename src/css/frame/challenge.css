@@ -373,6 +373,7 @@
     border-bottom: dashed 1px currentColor;
     position: relative;
     top: -1px;
+    cursor: pointer;
 }
 
 .noj-frame#frameChallenge .noj-alert-container{
