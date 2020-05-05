@@ -1,4 +1,4 @@
-const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu, dialog, shell } = require('electron');
+const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu, dialog, shell, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -102,6 +102,7 @@ const createMenu = () => {
             submenu: [
                 {
                     label: 'About NOJ Desktop',
+                    icon: nativeImage.createFromPath(__dirname + '/resources/icons/noj-blue.png').resize({width:16}),
                     click() {
                         // app.showAboutPanel();
                         dialog.showMessageBoxSync(mainWindow, {
@@ -117,12 +118,14 @@ const createMenu = () => {
                 },
                 {
                     label: 'Open-Source',
+                    icon: nativeImage.createFromPath(__dirname + '/resources/icons/github.png').resize({width:16}),
                     click: async () => {
                         await shell.openExternal('https://github.com/NJUPTAAA/NOJ_Desktop');
                     }
                 },
                 {
                     label: 'Report Issues',
+                    icon: nativeImage.createFromPath(__dirname + '/resources/icons/bugs.png').resize({width:16}),
                     click: async () => {
                         await shell.openExternal('https://github.com/NJUPTAAA/NOJ_Desktop/issues');
                     }
@@ -207,7 +210,7 @@ async function showContestWindow() {
     contestWindow.webContents.once('did-finish-load', () => {
         mainWindow=contestWindow;
         contestWindow.show();
-        contestWindow.webContents.send('initVisible');
+        contestWindow.webContents.send('initVisible',userInfo);
     });
 }
 
@@ -609,6 +612,49 @@ ipcMain.on('requestContestClarification', (event, arg) => {
         }
         catch (e) {
             return contestWindow.webContents.send('requestedContestClarification', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+    });
+});
+
+ipcMain.on('updateContestChallenge', (event, arg) => {
+    console.log(arg);
+    request.post({
+        url: `${generalDomain}/api/contest/problems`,
+        form: {
+            cid: cid,
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            return contestWindow.webContents.send('updatedContestChallenge', {
+                code: 2003,
+                desc: "Network Error.",
+                data: null
+            });
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/problems`);
+        let contestChallengeRet = tryParseJSON(body);
+        if(contestChallengeRet === false){
+            return contestWindow.webContents.send('updatedContestChallenge', {
+                code: 3100,
+                desc: "API Response Error, Please Contact Site Admin.",
+                data: null
+            });
+        }
+        try{
+            return contestWindow.webContents.send('updatedContestChallenge', {
+                code: 200,
+                desc: "Success.",
+                data: contestChallengeRet.ret
+            });
+        }
+        catch (e) {
+            return contestWindow.webContents.send('updatedContestChallenge', {
                 code: 3100,
                 desc: "API Response Error, Please Contact Site Admin.",
                 data: null
