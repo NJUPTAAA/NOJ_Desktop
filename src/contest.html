@@ -131,6 +131,11 @@
             $(`#${activeFrame}`).addClass("noj-frame-active");
             $(".noj-menu").removeClass("noj-menu-active");
             $(`.noj-menu[data-frame="${frameName}"]`).addClass("noj-menu-active");
+            if(frameName=="frameClarification"){
+                $(".noj-frame#frameClarification .noj-msg-list").addClass("fadeInLeft");
+            } else {
+                $(".noj-frame#frameClarification .noj-msg-list").removeClass("fadeInLeft");
+            }
         }
     }
 

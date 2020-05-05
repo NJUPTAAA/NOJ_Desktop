@@ -196,6 +196,7 @@
     left: 0;
     right: 0;
     padding: 0;
+    background: #fff;
 }
 
 .noj-frame#frameClarification .noj-clarification-layout > div:last-of-type{
