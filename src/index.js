@@ -37,7 +37,7 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
-var mainWindow, loginWindow, contestWindow;
+var mainWindow, loginWindow, contestWindow, submissionModel;
 
 const createMenu = () => {
     const isMac = process.platform === 'darwin';
@@ -204,6 +204,21 @@ async function showContestWindow() {
         },
         show: false
     });
+    submissionModel = new BrowserWindow({
+        width: height*0.7*0.6,
+        height: height*0.7,
+        resizable: false,
+        backgroundColor: "#fafafa",
+        defaultFontSize: 16,
+        center: true,
+        webPreferences: {
+            nodeIntegration: true
+        },
+        show: false,
+        parent: contestWindow,
+        modal: true
+    });
+    submissionModel.webContents.loadFile(path.join(__dirname, 'submissionDetail.html'));
     loginWindow.close();
     contestWindow.maximize();
     contestWindow.webContents.loadFile(path.join(__dirname, 'contest.html'));
@@ -329,6 +344,10 @@ ipcMain.on('attemptLogin', (event, arg) => {
 ipcMain.on('updateContestBasic', (event, arg) => {
     request.post({
         url: `${generalDomain}/api/contest/info`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid
         }
@@ -444,6 +463,10 @@ ipcMain.on('updateContestStatus', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/status`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid,
             filter: {
@@ -493,6 +516,10 @@ ipcMain.on('updateContestScoreBoard', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/scoreboard`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid
         }
@@ -536,6 +563,10 @@ ipcMain.on('updateContestClarification', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/clarification`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid
         }
@@ -579,6 +610,10 @@ ipcMain.on('requestContestClarification', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/requestClarification`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid,
             title: arg.title,
@@ -624,6 +659,10 @@ ipcMain.on('updateContestChallenge', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/problems`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid,
         }
@@ -667,6 +706,10 @@ ipcMain.on('submitContestChallengeSolution', (event, arg) => {
     console.log(arg);
     request.post({
         url: `${generalDomain}/api/contest/submitSolution`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             cid: cid,
             pid: arg.pid,
@@ -732,6 +775,10 @@ function fetchVerdictTimeout(sid, init = false){
 function fetchVerdict(sid){
     request.post({
         url: `${generalDomain}/api/problem/fetchVerdict`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
         form: {
             sid: sid
         }

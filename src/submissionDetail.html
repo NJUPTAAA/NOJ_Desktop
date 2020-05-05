@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>NOJ Desktop</title>
+    <link rel="stylesheet" href="fonts/Roboto/roboto.css">
+    <link rel="stylesheet" href="fonts/Montserrat/montserrat.css">
+    <link rel="stylesheet" href="fonts/Roboto-Slab/roboto-slab.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" href="css/wemd-color-scheme.css">
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
+    <link rel="stylesheet" href="../node_modules/snackbarjs/dist/snackbar.min.css">
+    <link rel="stylesheet" href="../node_modules/snackbarjs/themes-css/material.css">
+    <link rel="stylesheet" href="../node_modules/highlightjs/styles/atom-one-light.css">
+    <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
+    <link rel="stylesheet" href="fonts/Devicon/devicon.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/drawer.css">
+    <link rel="stylesheet" href="css/frames.css">
+    <link rel="stylesheet" href="css/frame/basic.css">
+    <link rel="stylesheet" href="css/frame/print.css">
+    <link rel="stylesheet" href="css/frame/settings.css">
+    <link rel="stylesheet" href="css/frame/scoreboard.css">
+    <link rel="stylesheet" href="css/frame/status.css">
+    <link rel="stylesheet" href="css/frame/clarification.css">
+    <link rel="stylesheet" href="css/frame/challenge.css">
+</head>
+
+<body>
+    1
+</body>
+<script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
+<script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+<script src="../node_modules/snackbarjs/dist/snackbar.min.js"></script>
+<script src="../node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"></script>
+<script src="../node_modules/highlightjs/highlight.pack.min.js"></script>
+<script type="text/javascript" src="../node_modules/marked/marked.min.js"></script>
+<script type="text/javascript" src="../node_modules/dompurify/dist/purify.min.js"></script>
+<script type="text/javascript" src="../node_modules/underscore/underscore-min.js"></script>
+<script>
+    var ipcRenderer = require('electron').ipcRenderer;
+    const shell = require('electron').shell;
+    const remote = require('electron').remote;
+    const { dialog } = require('electron').remote;
+
+    $(document).on('click', 'a[href^="http"]', function (event) {
+        event.preventDefault();
+        shell.openExternal(this.href);
+    });
+
+    $(document).ready(function () {
+        $('body').bootstrapMaterialDesign();
+        $("body").append(`<div id="snackbar-container"></div>`);
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
+
+</html>
