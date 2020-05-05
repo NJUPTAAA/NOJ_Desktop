@@ -99,7 +99,7 @@
         $("#status").addClass(arg.data.color);
         $("#time").text(`${arg.data.time}ms`);
         $("#memory").text(`${arg.data.memory}kb`);
-        $("#lang").text(`${arg.data.language}kb`);
+        $("#lang").text(arg.data.language);
         $("#submittedTime").text(new Date(arg.data.submission_date * 1000).toLocaleString());
         $("pre").remove();
         $(".noj-pre-container").append(`<pre class="${arg.data.lang}"></pre>`);
