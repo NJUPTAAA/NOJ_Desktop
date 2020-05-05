@@ -12,23 +12,51 @@
     <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css">
     <link rel="stylesheet" href="../node_modules/snackbarjs/dist/snackbar.min.css">
     <link rel="stylesheet" href="../node_modules/snackbarjs/themes-css/material.css">
-    <link rel="stylesheet" href="../node_modules/highlightjs/styles/atom-one-light.css">
+    <link rel="stylesheet" href="../node_modules/highlightjs/styles/atom-one-dark.css">
     <link rel="stylesheet" href="fonts/MDI-WXSS/MDI.css">
     <link rel="stylesheet" href="fonts/Devicon/devicon.css">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/drawer.css">
-    <link rel="stylesheet" href="css/frames.css">
-    <link rel="stylesheet" href="css/frame/basic.css">
-    <link rel="stylesheet" href="css/frame/print.css">
-    <link rel="stylesheet" href="css/frame/settings.css">
-    <link rel="stylesheet" href="css/frame/scoreboard.css">
-    <link rel="stylesheet" href="css/frame/status.css">
-    <link rel="stylesheet" href="css/frame/clarification.css">
-    <link rel="stylesheet" href="css/frame/challenge.css">
+    <link rel="stylesheet" href="css/submissionDetail.css">
 </head>
 
 <body>
-    1
+    <div class="noj-dialog-container">
+        <div class="noj-loading">
+            <svg class="noj-loading-spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="noj-loading-circle" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg>
+        </div>
+        <i class="MDI cm-remove noj-close-button"></i>
+        <div class="noj-dialog-header">
+            <h5 class="noj-dialog-title"><i class="MDI script"></i> Submission Detail</h5>
+        </div>
+        <div class="noj-dialog-body">
+            <table class="table table-reflow">
+                <thead>
+                    <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Memory</th>
+                        <th scope="col">Lang</th>
+                        <th scope="col">Submitted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="status"></td>
+                        <td id="time"></td>
+                        <td id="memory"></td>
+                        <td id="lang"></td>
+                        <td id="submittedTime"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="noj-pre-container"></div>
+        </div>
+        <div class="noj-dialog-footer">
+            <button type="button" class="btn btn-secondary noj-close-btn">Close</button>
+            <button type="button" class="btn btn-info noj-download-btn"><i class="MDI download"></i> SAVE AS</button>
+            <button type="button" class="btn btn-primary noj-default-btn">OK</button>
+        </div>
+    </div>
 </body>
 <script>window.$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');</script>
 <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
@@ -53,6 +81,49 @@
         $('body').bootstrapMaterialDesign();
         $("body").append(`<div id="snackbar-container"></div>`);
         $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function startLoading(){
+        $(".noj-loading").removeClass("noj-hidden");
+    }
+
+    function endLoading(){
+        $(".noj-loading").addClass("noj-hidden");
+    }
+
+    ipcRenderer.on('updatedSubmissionDetail', (event, arg) => {
+        endLoading();
+        console.log(arg);
+        $("#status").text(arg.data.verdict);
+        $("#status").removeClass();
+        $("#status").addClass(arg.data.color);
+        $("#time").text(`${arg.data.time}ms`);
+        $("#memory").text(`${arg.data.memory}kb`);
+        $("#lang").text(`${arg.data.language}kb`);
+        $("#submittedTime").text(new Date(arg.data.submission_date * 1000).toLocaleString());
+        $("pre").remove();
+        $(".noj-pre-container").append(`<pre class="${arg.data.lang}"></pre>`);
+        $(".noj-download-btn").addClass("d-none");
+        $(".noj-default-btn").addClass("d-none");
+        if(arg.data.solution !== null) {
+            $("pre").text(arg.data.solution);
+            hljs.highlightBlock($("pre")[0]);
+            $(".noj-download-btn").removeClass("d-none");
+        }else{
+            $("pre").remove();
+            $(".noj-default-btn").removeClass("d-none");
+        }
+    });
+
+    $(".noj-close-button").on("click", function() {
+        ipcRenderer.send('closeSubmission');
+    });
+
+    $(".noj-close-btn").on("click", function() {
+        ipcRenderer.send('closeSubmission');
+    });
+    $(".noj-default-btn").on("click", function() {
+        ipcRenderer.send('closeSubmission');
     });
 
 </script>

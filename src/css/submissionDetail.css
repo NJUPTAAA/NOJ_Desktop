@@ -1,0 +1,152 @@
+body, html{
+    background: transparent;
+}
+
+body{
+    padding:1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+button {
+    -webkit-app-region: no-drag;
+}
+
+.noj-dialog-container{
+    display: flex;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    border-radius: 4px;
+    transition: .2s ease-out .0s;
+    color: #7a8e97;
+    background: #fff;
+    padding: 1rem;
+    position: relative;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-app-region: drag!important;
+}
+
+i.noj-close-button{
+    display:inline-block;
+    position: absolute;
+    top:1.3rem;
+    right:1.3rem;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: .2s ease-out .0s;
+    color: rgba(0,0,0,0.54);
+}
+i.noj-close-button:hover{
+    transform: scale(1.2);
+    color: rgba(0,0,0,0.93);
+}
+
+.noj-dialog-header{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.noj-dialog-title{
+    font-size: 1.25rem;
+    font-weight: bold;
+    font-family: "roboto";
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #7a8e97;
+}
+
+.noj-dialog-body{
+    word-break: break-word;
+    padding: 20px 24px 24px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.noj-dialog-body > table{
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.noj-dialog-body > .noj-pre-container{
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0;
+    margin-top: 1rem;
+}
+
+pre{
+    position: absolute;
+    top:0;
+    left: 0;
+    right:0;
+    bottom:0;
+    z-index: 1;
+    padding: 1rem!important;
+    margin: 0;
+    user-select: text;
+}
+
+.noj-dialog-footer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px 8px 8px 24px;
+    border-top: 0;
+    border-bottom-right-radius: .3rem;
+    border-bottom-left-radius: .3rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.table thead th,
+.table td,
+.table tr{
+    vertical-align: middle;
+    text-align: center;
+    font-size:0.75rem;
+    color: rgba(0, 0, 0, 0.93);
+    transition: .2s ease-out .0s;
+}
+
+.table tbody tr:hover{
+    background:transparent;
+}
+
+.table thead th.cm-problem-header{
+    padding-top: 0.25rem;
+    padding-bottom: 0.05rem;
+    border:none;
+}
+
+.table thead th.cm-problem-subheader{
+    font-size:0.75rem;
+    padding-bottom: 0.25rem;
+    padding-top: 0.05rem;
+}
+
+th[scope^="row"]{
+    vertical-align: middle;
+    text-align: left;
+}
