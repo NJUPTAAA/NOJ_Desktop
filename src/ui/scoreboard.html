@@ -9,166 +9,15 @@
     </div>
 </div>
 <div class="container-fluid" style="opacity: 0;">
+    <div class="alert alert-info cm-notification d-none" role="alert">
+        <i class="MDI information-outline"></i> The scoreboard is now frozen as we enter the last <strong id="contestScoreBoardFrozenTime"></strong> of the competition.
+    </div>
     <paper-card>
         <div class="table-responsive">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th scope="col" style="text-align: left;">Rank</th>
-                        <th scope="col">Account</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Solved</th>
-                        <th scope="col" class="cm-problem-header">A</th>
-                        <th scope="col" class="cm-problem-header">B</th>
-                        <th scope="col" class="cm-problem-header">C</th>
-                        <th scope="col" class="cm-problem-header">D</th>
-                        <th scope="col" class="cm-problem-header">E</th>
-                        <th scope="col" class="cm-problem-header">F</th>
-                        <th scope="col" class="cm-problem-header">G</th>
-                        <th scope="col" class="cm-problem-header">H</th>
-                    </tr>
                 </thead>
                 <tbody>
-                    <tr class=" ">
-                        <th scope="row">1</th>
-                        <td>SHAN04276 </td>
-                        <td>660</td>
-                        <td>6</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">60<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                    </tr>
-                    <tr class="cm-me">
-                        <th scope="row">2</th>
-                        <td>SHAN04112 </td>
-                        <td>620</td>
-                        <td>6</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">20<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">3</th>
-                        <td>SHAN04159 </td>
-                        <td>590</td>
-                        <td>5</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">70<br></td>
-                        <td class="wemd-green-text">20<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class=""></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">4</th>
-                        <td>SHAN04127 </td>
-                        <td>510</td>
-                        <td>4</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">90<br></td>
-                        <td class="wemd-green-text">20<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                        <td class=""></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">5</th>
-                        <td>SHAN04296 </td>
-                        <td>510</td>
-                        <td>4</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">60<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                        <td class="wemd-green-text">40<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">10<br></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">6</th>
-                        <td>SHAN04076 </td>
-                        <td>510</td>
-                        <td>3</td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">80<br></td>
-                        <td class="wemd-green-text">60<br></td>
-                        <td class="wemd-green-text">40<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">30<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">7</th>
-                        <td>SHAN04308 </td>
-                        <td>500</td>
-                        <td>3</td>
-                        <td class="wemd-green-text">90<br></td>
-                        <td class="wemd-green-text">90<br></td>
-                        <td class="wemd-green-text">20<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                        <td class=""></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">8</th>
-                        <td>SHAN04285 </td>
-                        <td>440</td>
-                        <td>3</td>
-                        <td class="wemd-green-text">10<br></td>
-                        <td class="wemd-green-text">80<br></td>
-                        <td class="wemd-green-text">10<br></td>
-                        <td class="wemd-green-text">40<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">9</th>
-                        <td>SHAN04011 </td>
-                        <td>430</td>
-                        <td>3</td>
-                        <td class="wemd-green-text">10<br></td>
-                        <td class="wemd-green-text">80<br></td>
-                        <td class=""></td>
-                        <td class="wemd-green-text">40<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class=""></td>
-                    </tr>
-                    <tr class=" ">
-                        <th scope="row">10</th>
-                        <td>SHAN04009 </td>
-                        <td>430</td>
-                        <td>2</td>
-                        <td class="wemd-green-text">30<br></td>
-                        <td class="wemd-green-text">80<br></td>
-                        <td class="wemd-green-text">50<br></td>
-                        <td class="wemd-green-text">40<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-teal-text">100<br></td>
-                        <td class="wemd-green-text">30<br></td>
-                        <td class="wemd-green-text">0<br></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -237,6 +86,16 @@
             try{
                 $(".noj-frame#frameScoreBoard thead").html("");
                 $(".noj-frame#frameScoreBoard tbody").html("");
+                $(".cm-notification").addClass("d-none");
+                if(arg.data.frozen.enable){
+                    $(".cm-notification").removeClass("d-none");
+                    let [hour, minute, second] = parseContestTime(arg.data.frozen.frozen_length);
+                    let readableTime = "";
+                    if(hour>0) readableTime += `${hour} hours `;
+                    if(minute>0) readableTime += `${minute} minutes `;
+                    if(second>0) readableTime += `${second} seconds`;
+                    $("#contestScoreBoardFrozenTime").text(readableTime);
+                }
                 let header="<tr>";
                 if(arg.data.header.subHeader){
                     header+=`<th scope="col" rowspan="2" style="text-align: left;">${arg.data.header.rank}</th>`;

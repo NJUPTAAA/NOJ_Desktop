@@ -95,7 +95,8 @@
 }
 
 .noj-frame#frameScoreBoard .alert.cm-notification{
-    margin:1rem
+    margin: 0 0 3rem;
+    border-radius: 4px;
 }
 
 .noj-frame#frameScoreBoard tbody > tr{
