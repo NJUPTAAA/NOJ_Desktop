@@ -190,7 +190,7 @@
                 let description_parsed = document.getElementById("contestBasicMarkdownProcessing").innerHTML;
                 $(".noj-frame#frameBasic fresh-container").html(description_parsed);
                 /* Main Contest View */
-                $("#contestDrawerName").text(arg.data.name);
+                $("#contestDrawerContestName").text(arg.data.name);
                 // $(`.noj-menu[data-frame="frameBasic"] span`).text("Reamining: 1:23:45");
                 updateContestBasicEnd();
                 if(basicInitialized !== false){
@@ -243,6 +243,7 @@
                 updateContestStatus();
                 updateContestScoreBoard();
                 updateContestClarification();
+                updateContestChallenge();
                 ongoingFirstTime = true;
             }
         }

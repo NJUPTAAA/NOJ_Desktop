@@ -1,4 +1,14 @@
-<div class="noj-challenge-layout">
+<div class="noj-loading">
+    <svg class="noj-loading-spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg"><circle class="noj-loading-circle" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg>
+</div>
+<div class="noj-alert-container">
+    <div class="noj-alert">
+        <p><i class="MDI cm-alert"></i></p>
+        <p>Fetch Contest Challenge Failed</p>
+        <button class="btn btn-raised btn-info mt-3" id="contestChallengeRetry">Retry</button>
+    </div>
+</div>
+<div class="noj-challenge-layout" style="opacity: 0;">
     <div class="noj-challenge-problemset">
         <file-card class="mt-4 mb-3">
             <div>
@@ -50,99 +60,16 @@
                 </div>
             </challenge-item>
 
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>D.</span> Suggest to Transfer to Africa 2</p>
-                    <small>2 / 6</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>E.</span> SDL's Number</p>
-                    <small>115 / 324</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>F.</span> Game</p>
-                    <small>1 / 7</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>G.</span> SDL and Popcorn Chicken</p>
-                    <small>0 / 2</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>H.</span> Sdl all Kill Problems</p>
-                    <small>46 / 223</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>I.</span> Sdl and Math Problem</p>
-                    <small>102 / 335</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
-            <challenge-item class="btn">
-                <div>
-                    <i class="MDI checkbox-blank-circle-outline wemd-grey-text"></i>
-                </div>
-                <div style="display: inline-block">
-                    <p class="mb-0"><span>J.</span> Sdl and McDonald's</p>
-                    <small>19 / 140</small>
-                </div>
-                <div class="text-right tag-list" style="display: inline-block;">
-                </div>
-            </challenge-item>
-
         </challenge-container>
     </div>
     <div class="noj-challenge-problemdetail">
         <top-side>
-            <p>A. Ancient Myth</p>
+            <p id="contestChallengeProblemTitle">A. Ancient Myth</p>
             <div>
-                <info-badge data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> 44.57%</info-badge>
-                <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> 1000ms</info-badge>
-                <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> 65536K</info-badge>
+                <info-badge id="contestChallengeTotalScoreContainer" class="d-none" data-toggle="tooltip" data-placement="top" title="Total Score"><i class="MDI checkbox-multiple-marked-circle"></i> <span id="contestChallengeTotalScore">100</span></info-badge>
+                <info-badge id="contestChallengeACRateContainer" class="d-none" data-toggle="tooltip" data-placement="top" title="AC Rate"><i class="MDI checkbox-multiple-marked-circle"></i> <span id="contestChallengeACRate">44.57%</span></info-badge>
+                <info-badge data-toggle="tooltip" data-placement="top" title="Time Limit"><i class="MDI timer"></i> <span id="contestChallengeTimeLimit">1000ms</span></info-badge>
+                <info-badge data-toggle="tooltip" data-placement="top" title="Memory Limit"><i class="MDI memory"></i> <span id="contestChallengeMemoryLimit">65536kb</span></info-badge>
             </div>
         </top-side>
         <medium-side>
@@ -151,23 +78,12 @@
             </div>
         </medium-side>
         <bottom-side>
-            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top"  style="color: #7a8e97" id="verdict_info" class="wemd-green-text"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">Accepted </span></a>
+            <a tabindex="0" data-toggle="popover" data-trigger="focus" data-placement="top" style="color: #7a8e97" id="verdict_info" class="wemd-green-text"><span id="verdict_circle"><i class="MDI checkbox-blank-circle"></i></span> <span id="verdict_text">Accepted </span></a>
             <div>
-                <!-- <button type="button" class="btn btn-secondary cm-active" id="problemBtn"> <i class="MDI book"></i></button>
-                <button type="button" class="btn btn-secondary cm-active" id="editorBtn"> <i class="MDI pencil"></i></button> -->
                 <button type="button" class="btn btn-secondary" id="historyBtn"> <i class="MDI history"></i> History</button>
                 <div class="btn-group dropup">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="devicon-c-plain colored"></i> C
-                    </button>
-                    <div class="dropdown-menu cm-scrollable-menu">
-                        <button class="dropdown-item lang-selector" data-coid="1" data-comp="c" data-lang="c" data-lcode="c"><i class="devicon-c-plain colored"></i> C</button>
-                        <button class="dropdown-item lang-selector" data-coid="2" data-comp="c" data-lang="cpp" data-lcode="cpp"><i class="devicon-cplusplus-plain colored"></i> C++</button>
-                        <button class="dropdown-item lang-selector" data-coid="3" data-comp="java" data-lang="java" data-lcode="java"><i class="devicon-java-plain colored"></i> Java</button>
-                        <button class="dropdown-item lang-selector" data-coid="32" data-comp="python" data-lang="python" data-lcode="py2"><i class="devicon-python-plain colored"></i> Python 2.7</button>
-                        <button class="dropdown-item lang-selector" data-coid="33" data-comp="python" data-lang="python" data-lcode="py3"><i class="devicon-python-plain colored"></i> Python 3.7</button>
-                        <button class="dropdown-item lang-selector" data-coid="121" data-comp="php" data-lang="php" data-lcode="php7"><i class="devicon-php-plain colored"></i> PHP 7.3</button>
-                        <button class="dropdown-item lang-selector" data-coid="122" data-comp="javascript" data-lang="javascript" data-lcode="jsc"><i class="devicon-javascript-plain colored"></i> Javascript</button>
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="cur_lang_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="devicon-visualstudio-plain colored"></i> Plaintext</button>
+                    <div class="dropdown-menu cm-scrollable-menu" id="contestChallengeLangSelectorContainer">
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" id="submitBtn"> <i class="MDI send"></i> <span>Submit Code</span></button>
@@ -175,42 +91,281 @@
         </bottom-side>
     </div>
 </div>
+<div class="noj-refreshing-button noj-hidden" id="contestChallengeRefreshButton">
+    <button class="btn btn-raised btn-info bmd-btn-fab"><i class="MDI sync"></i></button>
+</div>
 <script>
-    (function() {
-        const path = require('path');
-        const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
-        const amdRequire = amdLoader.require;
-        const amdDefine = amdLoader.require.define;
+    var vscodeEditor;
+    var currentPID;
 
-        function uriFromPath(_path) {
-            var pathName = path.resolve(_path).replace(/\\/g, '/');
-            if (pathName.length > 0 && pathName.charAt(0) !== '/') {
-                pathName = '/' + pathName;
-            }
-            return encodeURI('file://' + pathName);
+    const path = require('path');
+    const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
+    const amdRequire = amdLoader.require;
+    const amdDefine = amdLoader.require.define;
+
+    function uriFromPath(_path) {
+        var pathName = path.resolve(_path).replace(/\\/g, '/');
+        if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+            pathName = '/' + pathName;
         }
+        return encodeURI('file://' + pathName);
+    }
 
-        amdRequire.config({
-            baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
-        });
-
-        amdRequire(['vs/editor/editor.main'], function() {
-            var editor = monaco.editor.create(document.getElementById('vscode'), {
-                value: "#include<cstdio>",
-                    language: "cpp",
-                    theme: "vs-dark",
-                    fontSize: 16,
-                    formatOnPaste: true,
-                    formatOnType: true,
-                    automaticLayout: true
-            });
-        });
-        // workaround monaco-css not understanding the environment
-        self.module = undefined;
-    })();
+    amdRequire.config({
+        baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
+    });
     
+    var challengeInitialized = false;
+    var challengeUpdating = false;
+    var challengeConfig = {};
+    var compilerConfig = {};
+    var vscodeInitialized = false;
+
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $('[data-toggle="tooltip"]').tooltip();
     });
+
+    function initVSCode(){
+        vscodeEditor.onKeyDown(()=>{
+            if(currentPID){
+                challengeConfig[currentPID].currentCode = vscodeEditor.getValue();
+            }
+        });
+        vscodeInitialized = true;
+        setInterval(()=>{
+            vscodeEditor.layout();
+        },100);
+    }
+    
+    function updateContestChallenge() {
+        if(challengeUpdating === true) return;
+        challengeUpdating = true;
+        if(vscodeInitialized){
+            updateContestChallengeStart();
+            ipcRenderer.send('updateContestChallenge');
+        } else {
+            amdRequire(['vs/editor/editor.main'], function() {
+                vscodeEditor = monaco.editor.create(document.getElementById('vscode'), {
+                    value: "",
+                    language: "plaintext",
+                    theme: "vs-dark",
+                    fontSize: 16,
+                    formatOnPaste: true,
+                    formatOnType: true,
+                    automaticLayout: false
+                });
+                initVSCode();
+                updateContestChallengeStart();
+                ipcRenderer.send('updateContestChallenge');
+            });
+        }
+    }
+
+    function updateContestChallengeStart(){
+        $(".noj-frame#frameChallenge .noj-loading").removeClass("noj-hidden");
+        if(challengeInitialized === false) {
+            $(".noj-frame#frameChallenge .noj-alert-container").addClass("noj-hidden");
+            $(".noj-frame#frameChallenge .noj-challenge-layout").css("opacity",0);
+        }
+        $(".tooltip").remove();
+    }
+
+    function updateContestChallengeEnd(err=false){
+        challengeUpdating = false;
+        $(".noj-frame#frameChallenge .noj-loading").addClass("noj-hidden");
+        $(".noj-frame#frameChallenge .noj-loading").css("background","rgba(255, 255, 255, 0.5)");
+        if(challengeInitialized === false) {
+            if(err){
+                $(".noj-frame#frameChallenge .noj-alert-container").removeClass("noj-hidden");
+                $(".noj-frame#frameChallenge .noj-challenge-layout").css("opacity",0);
+            } else {
+                $(".noj-frame#frameChallenge .noj-challenge-layout").css("opacity",1);
+                $(".noj-frame#frameChallenge .noj-refreshing-button").removeClass("noj-hidden");
+            }
+        } else {
+            $(".noj-frame#frameChallenge .noj-refreshing-button i").removeClass("cm-refreshing");
+        }
+        $(".tooltip").remove();
+        $('.noj-frame#frameChallenge [data-toggle="tooltip"]').tooltip();
+    }
+
+    $("#contestChallengeRetry").on("click", function () {
+        updateContestChallenge();
+    });
+
+    $("#contestChallengeRefreshButton").on("click", function () {
+        $(".noj-frame#frameChallenge .noj-refreshing-button i").addClass("cm-refreshing");
+        updateContestChallenge();
+    });
+
+
+    $("#historyBtn").on("click", function () {
+        switchFrame("frameStatus");
+        contestStatusForceSearch({
+            account: userInfo.name,
+            problem: challengeConfig[currentPID].ncode,
+            result: null
+        });
+    });
+
+    function switchProblem(pid){
+        $(".tooltip").remove();
+        currentPID = pid;
+        let config = challengeConfig[pid];
+        $("#contestChallengeTotalScoreContainer").addClass("d-none");
+        $("#contestChallengeACRateContainer").addClass("d-none");
+        if(config.statistics.score === null){
+            let acrate = Number( config.statistics.accepted ? (config.statistics.accepted / config.statistics.attempted * 100).toFixed(2) : 0 );
+            $("#contestChallengeACRate").text(`${acrate}%`);
+            $("#contestChallengeACRateContainer").removeClass("d-none");
+        } else {
+            $("#contestChallengeTotalScore").text(`${config.statistics.score} Points`);
+            $("#contestChallengeTotalScoreContainer").removeClass("d-none");
+        }
+        $(`challenge-item`).removeClass("noj-active");
+        $(`challenge-item[data-pid="${pid}"]`).addClass("noj-active");
+        $("#contestChallengeProblemTitle").text(`${config.ncode}. ${config.title}`);
+        $("#contestChallengeProblemTimeLimit").text(`${config.limitations.time_limit}ms`);
+        $("#contestChallengeProblemMemoryLimit").text(`${config.limitations.memory_limit}kb`);
+
+        let verdict_color = "";
+        let verdict_text = "NOT SUBMIT";
+        if(config.status.verdict !== null) {
+            verdict_color = config.status.color;
+            verdict_text = config.status.verdict;
+        }
+
+        $("#verdict_info").removeClass();
+        $("#verdict_info").addClass(verdict_color);
+        $("#verdict_text").text(verdict_text);
+
+        vscodeEditor.setValue(config.currentCode);
+
+        $("#contestChallengeLangSelectorContainer > .lang-selector").remove();
+        
+        config.compilers.forEach( compiler => {
+            if(config.currentCOID == compiler.coid) {
+                $("#cur_lang_selector").html(`<i class="${compiler.icon} colored"></i> ${compiler.display_name}`);
+                monaco.editor.setModelLanguage(vscodeEditor.getModel(), compiler.lang);
+                challengeConfig[currentPID].currentCOID = compiler.coid;
+            }
+            $("#contestChallengeLangSelectorContainer").append(`
+                <button class="dropdown-item lang-selector" data-coid="${compiler.coid}" data-comp="${compiler.comp}" data-lang="${compiler.lang}" data-lcode="${compiler.lcode}"><i class="${compiler.icon} colored"></i> ${compiler.display_name}</button>
+            `);
+        });
+
+        $(".lang-selector").click(function() {
+            let model = vscodeEditor.getModel();
+            monaco.editor.setModelLanguage(model, $(this).data("lang"));
+            $("#cur_lang_selector").html($(this).html());
+            challengeConfig[currentPID].currentCOID = $(this).data("coid");
+        });
+    }
+
+    ipcRenderer.on('updatedContestChallenge', (event, arg) => {
+        console.log(arg);
+        if(arg.code == 200) {
+            // try{
+                $("file-card").addClass("d-none");
+                if(arg.data.file.enable) {
+                    $("file-card img").attr("src", `../node_modules/fileicon-svg/svg/${arg.data.file.extension}.svg`);
+                    $("file-card h5").text(arg.data.file.name);
+                    $("file-card a").attr("href", arg.data.file.url);
+                    $("file-card").removeClass("d-none");
+                }
+                $("challenge-item").remove();
+                arg.data.problems.forEach(ele => {
+                    if(typeof challengeConfig[ele.pid] === "undefined") {
+                        challengeConfig[ele.pid] = JSON.parse(JSON.stringify(ele));
+                    }
+                    else {
+                        console.warn(challengeConfig[ele.pid]);
+                        console.warn(ele);
+                        Object.assign(challengeConfig[ele.pid], ele);
+                    }
+                    if(challengeInitialized===false || typeof challengeConfig[ele.pid].currentCode === "undefined") {
+                        challengeConfig[ele.pid].currentCode = "";
+                        challengeConfig[ele.pid].currentCOID = ele.compilers[0].coid;
+                        if(ele.status.verdict !== null) {
+                            challengeConfig[ele.pid].currentCode = ele.status.last_submitted_code;
+                            challengeConfig[ele.pid].currentCOID = ele.status.last_submitted_language_coid;
+                        }
+                    }
+
+                    // ele.compilers.forEach(ele => {
+                    //     compilerConfig[ele.coid] = ele;
+                    // });
+
+                    let icon = "checkbox-blank-circle-outline";
+                    let color = "wemd-grey-text";
+
+                    if(ele.status.verdict !== null) {
+                        if(ele.status.verdict == "Accepted") {
+                            icon = "checkbox-blank-circle";
+                            color = ele.status.color;
+                        } else {
+                            icon = "cisco-webex";
+                            color = ele.status.color;
+                        }
+                    }
+
+                    let challengeItem = `
+                        <challenge-item class="btn" data-pid="${ele.pid}">
+                            <div>
+                                <i class="MDI ${icon} ${color}"></i>
+                            </div>
+                            <div style="display: inline-block">
+                                <p class="mb-0"><span>${_.escape(ele.ncode)}.</span> ${_.escape(ele.title)}</p>
+                    `;
+                    
+                    if(ele.statistics.score===null) {
+                        challengeItem += `<small>${ele.statistics.accepted} / ${ele.statistics.attempted}</small>`;
+                    } else {
+                        challengeItem += `<small>${ele.statistics.score} Points</small>`;
+                    }
+                    
+                    challengeItem += `
+                            </div>
+                        </challenge-item>
+                    `;
+                    
+                    $("challenge-container").append(challengeItem);
+                    $("challenge-item").on("click", function () {
+                        switchProblem($(this).data("pid"));
+                    });
+                });
+                switchProblem(arg.data.problems[0].pid);
+                updateContestChallengeEnd();
+                if(challengeInitialized !== false){
+                    $.snackbar({
+                        content: `<i class="MDI checkbox-marked-circle-outline"></i> Challenge Updated.`,
+                        style: "wemd-green",
+                        htmlAllowed: true,
+                        timeout: 2000
+                    });
+                }
+                challengeInitialized = true;
+            // }
+            // catch(e){
+            //     updateContestChallengeEnd(true);
+            //     $.snackbar({
+            //         content: `<i class="MDI cm-remove"></i> Unknown Error`,
+            //         style: "wemd-red",
+            //         htmlAllowed: true,
+            //         timeout: 2000
+            //     });
+            // }
+        } else {
+            updateContestChallengeEnd(true);
+            $.snackbar({
+                content: `<i class="MDI cm-remove"></i> ${arg.desc}`,
+                style: "wemd-red",
+                htmlAllowed: true,
+                timeout: 2000
+            });
+        }
+    });
+
+    // updateContestChallenge();
 </script>
