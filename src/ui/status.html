@@ -68,6 +68,14 @@
         statusResultFilter = $("#contestStatusResultFilter").val().trim();
     }
 
+    function contestStatusForceSearch(filter) {
+        if(statusUpdating === true) return;
+        $("#contestStatusAccountFilter").val(filter.account);
+        $("#contestStatusProblemFilter").val(filter.problem);
+        $("#contestStatusResultFilter").val(filter.result);
+        updateFilter();
+        updateContestStatus();
+    }
     
     function updateContestStatus(page = 1) {
         if(statusUpdating === true) return;
