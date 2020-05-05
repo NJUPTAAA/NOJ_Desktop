@@ -99,6 +99,8 @@
     var activeFrame = "frameBasic";
     var userInfo; // display only
     const shell = require('electron').shell;
+    const remote = require('electron').remote;
+    const { dialog } = require('electron').remote;
 
     $(document).on('click', 'a[href^="http"]', function (event) {
         event.preventDefault();
