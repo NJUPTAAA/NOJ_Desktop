@@ -1,4 +1,4 @@
-const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu, dialog, shell, nativeImage } = require('electron');
+const { app, BrowserView, BrowserWindow, screen, ipcMain, Menu, dialog, shell, nativeImage, Notification } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -753,15 +753,26 @@ function fetchVerdict(sid){
                 fetchVerdictTimeout(sid);
                 return;
             }
-            if(contestChallengeSubmitSolutionRet.ret.color !== "wemd-blue-text") {
+            if(contestChallengeSubmitSolutionRet.ret.submission.color !== "wemd-blue-text") {
                 // notify
+                if(Notification.isSupported()){
+                    new Notification({
+                        title: contestChallengeSubmitSolutionRet.ret.submission.verdict,
+                        subtitle: contestChallengeSubmitSolutionRet.ret.ncode,
+                        body: `Your submission to problem ${contestChallengeSubmitSolutionRet.ret.ncode} has been proceed.`,
+                        icon: (contestChallengeSubmitSolutionRet.ret.submission.verdict=="Partially Accepted" || contestChallengeSubmitSolutionRet.ret.submission.verdict=="Accepted") ? path.join(__dirname, 'resources/icons/checked.png') : path.join(__dirname, 'resources/icons/cancel.png'),
+                        timeoutType: "default"
+                    }).on("click",()=>{
+                        mainWindow.focus();
+                    }).show();
+                }
             } else {
                 fetchVerdictTimeout(sid);
             }
             return contestWindow.webContents.send('fetchedVerdict', {
                 code: 200,
                 desc: "Success.",
-                data: contestChallengeSubmitSolutionRet.ret
+                data: contestChallengeSubmitSolutionRet.ret.submission
             });
         }
         catch (e) {
