@@ -26,21 +26,21 @@
             <div style="padding-bottom: 2rem;">
                 <div class="noj-form-group-with-icon">
                     <i class="MDI server-network"></i>
-                    <div class="form-group">
+                    <div class="form-group" id="domainConfigFormGroup">
                         <label for="domainConfig" class="bmd-label-floating">Domain Configuration</label>
                         <input type="url" class="form-control" id="domainConfig">
                     </div>
                 </div>
                 <div class="noj-form-group-with-icon">
                     <i class="MDI email-variant"></i>
-                    <div class="form-group">
+                    <div class="form-group" id="accountEmailFormGroup">
                         <label for="accountEmail" class="bmd-label-floating">Account Email</label>
                         <input type="email" class="form-control" id="accountEmail">
                     </div>
                 </div>
                 <div class="noj-form-group-with-icon">
                     <i class="MDI asterisk"></i>
-                    <div class="form-group">
+                    <div class="form-group" id="accountPasswordFormGroup">
                         <label for="accountPassword" class="bmd-label-floating">Account Password</label>
                         <input type="password" class="form-control" id="accountPassword">
                     </div>
@@ -70,6 +70,20 @@
     $(document).ready(function () {
         $('body').bootstrapMaterialDesign();
         $("body").append(`<div id="snackbar-container"></div>`);
+        if (typeof(Storage) !== "undefined") {
+            let domain = (localStorage.getItem("domain")===null ? "" : localStorage.getItem("domain")).trim();
+            let email = (localStorage.getItem("domain")===null ? "" : localStorage.getItem("email")).trim();
+            if(domain.length>0){
+                $("#domainConfig").val(domain);
+                $("#domainConfigFormGroup").addClass("is-filled");
+                hasDomainConfig = true;
+            }
+            if(email.length>0){
+                $("#accountEmail").val(email);
+                $("#accountEmailFormGroup").addClass("is-filled");
+                hasAccountEmail = true;
+            }
+        }
     });
 
     var hasDomainConfig=false;
@@ -111,6 +125,10 @@
         $("#domainConfig").attr("disabled", true);
         $("#accountEmail").attr("disabled", true);
         $("#accountPassword").attr("disabled", true);
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("domain", $("#domainConfig").val());
+            localStorage.setItem("email", $("#accountEmail").val());
+        }
         console.log("Login");
         ipcRenderer.send('attemptLogin', {
             domain: $("#domainConfig").val(),
