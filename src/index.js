@@ -534,6 +534,13 @@ ipcMain.on('updateContestStatus', (event, arg) => {
             });
         }
         try{
+            if(contestStatusRet.success === false){
+                return contestWindow.webContents.send('updatedContestStatus', {
+                    code: 4000,
+                    desc: contestStatusRet.message,
+                    data: contestStatusRet.err
+                });
+            }
             return contestWindow.webContents.send('updatedContestStatus', {
                 code: 200,
                 desc: "Success.",
@@ -581,6 +588,13 @@ ipcMain.on('updateContestScoreBoard', (event, arg) => {
             });
         }
         try{
+            if(contestScoreBoardRet.success === false){
+                return contestWindow.webContents.send('updatedContestScoreBoard', {
+                    code: 4000,
+                    desc: contestScoreBoardRet.message,
+                    data: contestScoreBoardRet.err
+                });
+            }
             return contestWindow.webContents.send('updatedContestScoreBoard', {
                 code: 200,
                 desc: "Success.",
@@ -628,6 +642,13 @@ ipcMain.on('updateContestClarification', (event, arg) => {
             });
         }
         try{
+            if(contestClarificationRet.success === false){
+                return contestWindow.webContents.send('updatedContestClarification', {
+                    code: 4000,
+                    desc: contestClarificationRet.message,
+                    data: contestClarificationRet.err
+                });
+            }
             return contestWindow.webContents.send('updatedContestClarification', {
                 code: 200,
                 desc: "Success.",
@@ -677,6 +698,13 @@ ipcMain.on('requestContestClarification', (event, arg) => {
             });
         }
         try{
+            if(contestClarificationRet.success === false){
+                return contestWindow.webContents.send('requestedContestClarification', {
+                    code: 4000,
+                    desc: contestClarificationRet.message,
+                    data: contestClarificationRet.err
+                });
+            }
             return contestWindow.webContents.send('requestedContestClarification', {
                 code: 200,
                 desc: "Success.",
@@ -724,6 +752,13 @@ ipcMain.on('updateContestChallenge', (event, arg) => {
             });
         }
         try{
+            if(contestChallengeRet.success === false){
+                return contestWindow.webContents.send('updatedContestChallenge', {
+                    code: 4000,
+                    desc: contestChallengeRet.message,
+                    data: contestChallengeRet.err
+                });
+            }
             return contestWindow.webContents.send('updatedContestChallenge', {
                 code: 200,
                 desc: "Success.",
@@ -858,6 +893,13 @@ ipcMain.on('showSubmissionDetails', (event, arg) => {
                     data: null
                 });
             }
+            if(submissionRet.success === false){
+                return contestWindow.webContents.send('closeSubmissionDetails', {
+                    code: 4000,
+                    desc: submissionRet.message,
+                    data: submissionRet.err
+                });
+            }
             return submissionModel.webContents.send('updatedSubmissionDetail', {
                 code: 200,
                 desc: "Success.",
@@ -870,6 +912,7 @@ ipcMain.on('showSubmissionDetails', (event, arg) => {
     submissionModel.webContents.once('did-finish-load', () => {
         submissionModel.show();
         submissionModel.webContents.send('initVisible');
+        // submissionModel.webContents.openDevTools();
     });
 });
 
