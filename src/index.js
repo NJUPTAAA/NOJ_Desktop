@@ -7,6 +7,7 @@ const Store = require('electron-store');
 const store = new Store();
 const isDebug = app.isPackaged === false;
 const url = require("url");
+const NOJFileType = require("./NOJFileType");
 var compareVersions = require('compare-versions');
 var generalDomain = false;
 var userToken;
@@ -309,6 +310,7 @@ ipcMain.on('attemptLogin', (event, arg) => {
                 });
             }
             console.log('API SUCCESS:');
+            // console.log(httpResponse);
             var loginRet = tryParseJSON(body);
             if(loginRet === false) {
                 return loginWindow.webContents.send('attempedtLogin', {
@@ -383,6 +385,14 @@ ipcMain.on('updateContestBasic', (event, arg) => {
             });
         }
         try{
+            console.log(contestInfoRet);
+            if(contestInfoRet.success === false){
+                return contestWindow.webContents.send('updatedContestBasic', {
+                    code: 4000,
+                    desc: contestInfoRet.message,
+                    data: contestInfoRet.err
+                });
+            }
             tillBegin = parseInt((new Date(contestInfoRet.ret.begin_time) - new Date())/1000);
             tillEnd = parseInt((new Date(contestInfoRet.ret.end_time) - new Date())/1000);
             clearInterval(preCounter);
@@ -436,10 +446,14 @@ function preCounting(){
         timer: tillBegin
     });
     preCounter = setInterval(() => {
-        contestWindow.webContents.send('updatedContestTimer', {
-            stage: "pre",
-            timer: tillBegin
-        });
+        try{
+            contestWindow.webContents.send('updatedContestTimer', {
+                stage: "pre",
+                timer: tillBegin
+            });
+        }catch(e){
+            
+        }
         tillBegin--;
         console.log(`Starting at ${tillBegin}`);
         if(tillBegin<=0){
@@ -450,22 +464,34 @@ function preCounting(){
 }
 
 function contestCounting(){
-    contestWindow.webContents.send('updatedContestTimer', {
-        stage: "ongoing",
-        timer: tillEnd
-    });
-    contestCounter = setInterval(() => {
+    try{
         contestWindow.webContents.send('updatedContestTimer', {
             stage: "ongoing",
             timer: tillEnd
         });
+    }catch(e){
+        
+    }
+    contestCounter = setInterval(() => {
+        try{
+            contestWindow.webContents.send('updatedContestTimer', {
+                stage: "ongoing",
+                timer: tillEnd
+            });
+        }catch(e){
+            
+        }
         tillEnd--;
         console.log(`Ending at ${tillEnd}`);
         if(tillEnd<=0){
-            contestWindow.webContents.send('updatedContestTimer', {
-                stage: "after",
-                timer: 0
-            });
+            try{
+                contestWindow.webContents.send('updatedContestTimer', {
+                    stage: "after",
+                    timer: 0
+                });
+            }catch(e){
+                
+            }
             clearInterval(contestCounter);
         }
     }, 1000);
@@ -838,8 +864,46 @@ ipcMain.on('showSubmissionDetails', (event, arg) => {
                 data: submissionRet.ret
             });
         });
-        submissionModel.show();
+        // submissionModel.show();
+        // submissionModel.webContents.send('initVisible');
     });
+    submissionModel.webContents.once('did-finish-load', () => {
+        submissionModel.show();
+        submissionModel.webContents.send('initVisible');
+    });
+});
+
+
+ipcMain.on('showSubmissionSaveDialog', (event, arg) => {
+    let langConfig = NOJFileType.getFileType(arg.language);
+    let filters = [{ name: 'All Files', extensions: ['*'] }];
+    let extension = "";
+    if(typeof langConfig !== "undefined") {
+        let extensions = [];
+        langConfig.extensions.forEach(ele => {
+            extensions.push(ele.substr(1));
+        });
+        filters.unshift({ name: `${langConfig.aliases[0]} source file`, extensions: extensions });
+        extension = `.${extensions[0]}`;
+    }
+    let savePath = dialog.showSaveDialogSync(submissionModel, {
+        title: "Save Source Code As",
+        defaultPath: path.join(app.getPath("downloads"), `${arg.fileName}${extension}`),
+        filters: filters,
+    });
+    if(typeof savePath !== "undefined") {
+        try {
+            fs.writeFileSync(savePath, arg.code, 'utf-8');
+        }
+        catch(e) {
+            dialog.showMessageBoxSync(submissionModel, {
+                type: "error",
+                title: "Save Source Code Failed",
+                message: "Save Source Code Failed",
+                detail: "Failed to save the source code to local."
+            });
+        }
+    }
 });
 
 var verdictTimer = {};
