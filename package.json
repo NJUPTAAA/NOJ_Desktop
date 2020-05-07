@@ -84,7 +84,7 @@
         "mathjax": "^2.7.8",
         "monaco-editor": "^0.20.0",
         "node-notifier": "^7.0.0",
-        "popper.js": "^1.15.0",
+        "popper.js": "^1.16.1",
         "request": "^2.88.2",
         "simplemde": "^1.11.2",
         "snackbarjs": "^1.1.0",
