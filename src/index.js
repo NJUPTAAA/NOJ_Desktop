@@ -526,6 +526,7 @@ ipcMain.on('updateContestStatus', (event, arg) => {
         console.log('REQUEST SUCCESS:');
         console.log(`${generalDomain}/api/contest/status`);
         let contestStatusRet = tryParseJSON(body);
+        console.log(contestStatusRet);
         if(contestStatusRet === false){
             return contestWindow.webContents.send('updatedContestStatus', {
                 code: 3100,
