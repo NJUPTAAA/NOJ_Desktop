@@ -7,6 +7,8 @@
     "scripts": {
         "start": "electron-forge start",
         "debug": "electron-forge start --inspect-electron",
+        "startWin": "chcp 65001 && electron-forge start",
+        "debugWin": "chcp 65001 && electron-forge start --inspect-electron",
         "package": "electron-forge package",
         "make": "electron-forge make",
         "publish": "electron-forge publish",
