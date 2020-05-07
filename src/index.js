@@ -884,7 +884,7 @@ ipcMain.on('showSubmissionDetails', (event, arg) => {
                 });
             }
             console.log('REQUEST SUCCESS:');
-            console.log(`${generalDomain}/api/contest/info`);
+            console.log(`${generalDomain}/api/submission/info`);
             let submissionRet = tryParseJSON(body);
             if(submissionRet === false){
                 return contestWindow.webContents.send('closeSubmissionDetails', {
