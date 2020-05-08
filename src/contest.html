@@ -139,6 +139,23 @@
         }
     }
 
+    ipcRenderer.on('switchTo', (event, arg) => {
+        console.log(arg);
+        switchFrame(arg.target);
+        switch (arg.target) {
+            case "frameStatus":
+                contestStatusForceSearch(arg.parameters);
+                break;
+        
+            case "frameClarification":
+                contestClarificationForceUpdate();
+                break;
+        
+            default:
+                break;
+        }
+    });
+
     ipcRenderer.on("initVisible", (event, arg) => {
         $("body").css("opacity",1);
         $(".noj-drawer").addClass("animated fadeInLeft");

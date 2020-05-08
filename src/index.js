@@ -705,6 +705,12 @@ ipcMain.on('updateContestClarification', (event, arg) => {
                     data: contestClarificationRet.err
                 });
             }
+            contestClarificationRet.ret.clarifications.forEach(clarification => {
+                viewed_ccid[clarification.ccid] = true;
+            });
+            if(fetchAnnouncementTimeoutStarted === false){
+                fetchAnnouncementTimeout(true);
+            }
             return contestWindow.webContents.send('updatedContestClarification', {
                 code: 200,
                 desc: "Success.",
@@ -1059,6 +1065,15 @@ function fetchVerdict(sid){
                         timeoutType: "default"
                     }).on("click",()=>{
                         mainWindow.focus();
+                        mainWindow.webContents.webContents.send('switchTo',{
+                            target: "frameStatus",
+                            forceUpdate: true,
+                            parameters: {
+                                account: userInfo.name,
+                                problem: contestChallengeSubmitSolutionRet.ret.ncode,
+                                result: ""
+                            }
+                        });
                     }).show();
                 }
             } else {
@@ -1072,6 +1087,79 @@ function fetchVerdict(sid){
         }
         catch (e) {
             fetchVerdictTimeout(sid);
+            return;
+        }
+    });
+}
+
+var viewed_ccid = {};
+var fetchAnnouncementTimeoutStarted = false;
+
+function fetchAnnouncementTimeout(init = false){
+    if(init){
+        fetchAnnouncementTimeoutStarted = true;
+        console.log("Contest Announcement Fetching Started...");
+        fetchAnnouncement();
+    }else{
+        setTimeout(() => {
+            fetchAnnouncement();
+        }, 30000);
+    }
+}
+
+function fetchAnnouncement(){
+    request.post({
+        url: `${generalDomain}/api/contest/fetchAnnouncement`,
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${userToken}`,
+        },
+        form: {
+            cid: cid
+        }
+    }, function optionalCallback(err, httpResponse, body) {
+        if (err) {
+            console.error('REQUEST FAILURE:', err);
+            fetchAnnouncementTimeout();
+            return;
+        }
+        console.log('REQUEST SUCCESS:');
+        console.log(`${generalDomain}/api/contest/fetchAnnouncement`);
+        let contestAnnouncementRet = tryParseJSON(body);
+        if(contestAnnouncementRet === false){
+            fetchAnnouncementTimeout();
+            return;
+        }
+        try{
+            if(contestAnnouncementRet.success === false){
+                fetchAnnouncementTimeout();
+                return;
+            }
+            contestAnnouncementRet.ret.clarifications.forEach(clarification => {
+                if(typeof viewed_ccid[clarification.ccid] === "undefined"){
+                    viewed_ccid[clarification.ccid] = true;
+                    if(Notification.isSupported()){
+                        new Notification({
+                            title: clarification.title,
+                            subtitle: "Announcement",
+                            body: clarification.content,
+                            icon: path.join(__dirname, 'resources/icons/announcement.png'),
+                            timeoutType: "default"
+                        }).on("click",()=>{
+                            mainWindow.focus();
+                            mainWindow.webContents.webContents.send('switchTo',{
+                                target: "frameClarification",
+                                forceUpdate: true,
+                                parameters: {}
+                            });
+                        }).show();
+                    }
+                }
+            });
+            fetchAnnouncementTimeout();
+        }
+        catch (e) {
+            fetchAnnouncementTimeout();
             return;
         }
     });

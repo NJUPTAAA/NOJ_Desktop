@@ -46,6 +46,11 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 
+    function contestClarificationForceUpdate() {
+        if(clarificationUpdating === true) return;
+        updateContestClarification();
+    }
+
     function updateContestClarification() {
         if(clarificationUpdating === true) return;
         clarificationUpdating = true;
