@@ -343,7 +343,60 @@ ipcMain.on('attemptLogin', (event, arg) => {
                 generalDomain = realDomain;
                 userToken = loginRet.ret.token;
                 userInfo = loginRet.ret.user;
-                showContestWindow();
+                request.post({
+                    url: `${generalDomain}/api/contest/info`,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                    form: {
+                        cid: cid
+                    }
+                }, function optionalCallback(err, httpResponse, body) {
+                    if (err) {
+                        console.error('REQUEST FAILURE:', err);
+                        return loginWindow.webContents.send('attempedtLogin', {
+                            code: 2003,
+                            desc: "Network Error.",
+                            data: null
+                        });
+                    }
+                    console.log('REQUEST SUCCESS:');
+                    console.log(`${generalDomain}/api/contest/info`);
+                    let contestInfoRet = tryParseJSON(body);
+                    if(contestInfoRet === false){
+                        return loginWindow.webContents.send('attempedtLogin', {
+                            code: 3100,
+                            desc: "API Response Error, Please Contact Site Admin.",
+                            data: null
+                        });
+                    }
+                    try{
+                        console.log(contestInfoRet);
+                        if(contestInfoRet.success === false){
+                            return loginWindow.webContents.send('attempedtLogin', {
+                                code: 4000,
+                                desc: contestInfoRet.message,
+                                data: contestInfoRet.err
+                            });
+                        }
+                        if(contestInfoRet.ret.badges.desktop === false){
+                            return loginWindow.webContents.send('attempedtLogin', {
+                                code: 5000,
+                                desc: "The Contest doesn't support NOJ Desktop",
+                                data: null
+                            });
+                        }
+                        showContestWindow();
+                    }
+                    catch (e) {
+                        return loginWindow.webContents.send('attempedtLogin', {
+                            code: 3100,
+                            desc: "API Response Error, Please Contact Site Admin.",
+                            data: null
+                        });
+                    }
+                });
             }
             catch (e) {
                 loginWindow.webContents.send('attempedtLogin', {

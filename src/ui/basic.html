@@ -168,22 +168,22 @@
                 $("#contestBasicBadge > span").addClass("d-none");
                 $("#contestBasicBadgeRule").removeClass("d-none");
                 $("#contestBasicBadgeRule").html(`<i class="MDI trophy"></i> ${arg.data.badges.rule_parsed}`);
-                if(arg.data.badges.desktop !== 0){
+                if(arg.data.badges.desktop === true){
                     $("#contestBasicBadgeDesktop").removeClass("d-none");
                 }
-                if(arg.data.badges.audit_status === 0){
+                if(arg.data.badges.audit_status === false){
                     $("#contestBasicBadgeAuditing").removeClass("d-none");
                 }
-                if(arg.data.badges.public !== 0){
+                if(arg.data.badges.public === false){
                     $("#contestBasicBadgePrivate").removeClass("d-none");
                 }
-                if(arg.data.badges.verified === 0){
+                if(arg.data.badges.verified === true){
                     $("#contestBasicBadgeVerified").removeClass("d-none");
                 }
-                if(arg.data.badges.rated !== 0){
+                if(arg.data.badges.rated === true){
                     $("#contestBasicBadgeRated").removeClass("d-none");
                 }
-                if(arg.data.badges.anticheated !== 0){
+                if(arg.data.badges.anticheated === true){
                     $("#contestBasicBadgeAnticheat").removeClass("d-none");
                 }
                 MathJax.Hub.Queue(["Typeset",MathJax.Hub,"contestBasicMarkdownProcessing"]);
