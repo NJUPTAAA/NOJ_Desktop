@@ -175,12 +175,14 @@
     
     $("#verdict_info").on("click", function () {
         if(typeof challengeConfig[currentPID].status.last_submission !=="undefined" && challengeConfig[currentPID].status.last_submission.compile_info !== null){
-            dialog.showMessageBoxSync(remote.getCurrentWindow(), {
-                type: "warning",
-                title: "Compile Info",
-                message: "Compile Info",
-                detail: challengeConfig[currentPID].status.last_submission.compile_info
-            });
+            if(typeof challengeConfig[currentPID].status.last_submission.compile_info === "string" && challengeConfig[currentPID].status.last_submission.compile_info.trim().length>0){
+                dialog.showMessageBoxSync(remote.getCurrentWindow(), {
+                    type: "warning",
+                    title: "Compile Info",
+                    message: "Compile Info",
+                    detail: challengeConfig[currentPID].status.last_submission.compile_info
+                });
+            }
         }
     });
 
@@ -215,7 +217,11 @@
         $("#verdict_circle").html(`<i class="MDI ${verdict_icon}"></i>`);
         $("#verdict_info").removeClass();
         $("#verdict_info").addClass(verdict_color);
-        $("#verdict_text").text(verdict_text);
+        if(verdict_text == "Partially Accepted"){
+            $("#verdict_text").text(`${verdict_text} (${config.statistics.current_score})`);
+        } else {
+            $("#verdict_text").text(verdict_text);
+        }
         $("#verdict_text").removeClass("cm-popover-decoration");
         if(verdict_text=="Compile Error"){
             $("#verdict_text").addClass("cm-popover-decoration");
@@ -346,7 +352,10 @@
                 let color = submissionEntry.color;
 
                 $(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`).html(`<i class="MDI ${icon} ${color}"></i>`);
-                console.log(`challenge-item[data-pid="${submissionEntry.pid}"] > div:first-of-type`);
+                if(submissionEntry.score_parsed > challengeConfig[submissionEntry.pid].statistics.current_score) {
+                    challengeConfig[submissionEntry.pid].statistics.current_score = submissionEntry.score_parsed;
+                    $(`challenge-item[data-pid="${submissionEntry.pid}"] small`).text(`${challengeConfig[submissionEntry.pid].statistics.current_score} / ${challengeConfig[submissionEntry.pid].statistics.score} Points`);
+                }
             }
 
             if(submissionEntry.pid === currentPID) {
@@ -354,7 +363,11 @@
                 $("#verdict_circle").html(`<i class="MDI ${verdict_icon}"></i>`);
                 $("#verdict_info").removeClass();
                 $("#verdict_info").addClass(submissionEntry.color);
-                $("#verdict_text").text(submissionEntry.verdict);
+                if(submissionEntry.verdict==="Partially Accepted"){
+                    $("#verdict_text").text(`${submissionEntry.verdict} (${submissionEntry.score_parsed})`);
+                } else {
+                    $("#verdict_text").text(submissionEntry.verdict);
+                }
                 $("#verdict_text").removeClass("cm-popover-decoration");
                 if(submissionEntry.verdict == "Compile Error"){
                     $("#verdict_text").addClass("cm-popover-decoration");
@@ -421,7 +434,7 @@
                     if(ele.statistics.score===null) {
                         challengeItem += `<small>${ele.statistics.accepted} / ${ele.statistics.attempted}</small>`;
                     } else {
-                        challengeItem += `<small>${ele.statistics.score} Points</small>`;
+                        challengeItem += `<small>${ele.statistics.current_score} / ${ele.statistics.score} Points</small>`;
                     }
                     
                     challengeItem += `
