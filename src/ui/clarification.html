@@ -178,8 +178,8 @@
                 var firstCCID="new";
                 arg.data.clarifications.forEach(ele => {
                     if(firstCCID==="new") firstCCID = ele.ccid;
-                    let color = ele.type ? "wemd-pink-text" : "wemd-amber-text";
-                    let tooltip = ele.type ? "Announcement" : "Clarification";
+                    let color = ele.type ?  "wemd-amber-text" : "wemd-pink-text";
+                    let tooltip = ele.type ? "Clarification" : "Announcement";
                     // insecure, fixed next time
                     // wemd-light-blue
                     $(".noj-msg-list").append(`
