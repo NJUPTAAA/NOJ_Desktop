@@ -151,7 +151,8 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true
         },
-        show: false
+        show: false,
+        maximizable: false
     });
 
     loginWindow.webContents.loadFile(path.join(__dirname, 'login.html'));
@@ -643,6 +644,7 @@ ipcMain.on('updateContestClarification', (event, arg) => {
             });
         }
         try{
+            console.log(contestClarificationRet);
             if(contestClarificationRet.success === false){
                 return contestWindow.webContents.send('updatedContestClarification', {
                     code: 4000,
@@ -753,6 +755,7 @@ ipcMain.on('updateContestChallenge', (event, arg) => {
             });
         }
         try{
+            console.log(contestChallengeRet);
             if(contestChallengeRet.success === false){
                 return contestWindow.webContents.send('updatedContestChallenge', {
                     code: 4000,
@@ -852,6 +855,8 @@ ipcMain.on('showSubmissionDetails', (event, arg) => {
         useContentSize: true,
         frame: false,
         transparent: true,
+        maximizable: false,
+        minimizable: false
     }).on('closed', (event) => {
         contestWindow.setAlwaysOnTop(false);
         contestWindow.webContents.send('closeSubmissionDetails', {
