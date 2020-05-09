@@ -124,11 +124,13 @@
                 $(".noj-frame#frameScoreBoard tbody").html("");
                 arg.data.body.forEach(ele => {
                     let record=`<tr class=" animated flipInX `;
-                    if(ele.extra.owner===true){
-                        record+=` cm-me `;
-                    }
-                    if(ele.extra.remote===true){
-                        record+=` cm-remote `;
+                    if(typeof ele.extra !== "undefined"){
+                        if(ele.extra.owner===true){
+                            record+=` cm-me `;
+                        }
+                        if(ele.extra.remote===true){
+                            record+=` cm-remote `;
+                        }
                     }
                     record+=` ">`;
                     record+=`<th scope="row">${ele.rank}</th>`;
