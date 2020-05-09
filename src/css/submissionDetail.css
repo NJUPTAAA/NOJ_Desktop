@@ -105,6 +105,9 @@ pre{
     z-index: 1;
     padding: 1rem!important;
     margin: 0;
+}
+
+pre,pre *{
     user-select: text;
 }
 
