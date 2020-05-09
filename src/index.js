@@ -1059,8 +1059,8 @@ function fetchVerdict(sid){
                 if(Notification.isSupported()){
                     new Notification({
                         title: contestChallengeSubmitSolutionRet.ret.submission.verdict,
-                        subtitle: contestChallengeSubmitSolutionRet.ret.ncode,
-                        body: `Your submission to problem ${contestChallengeSubmitSolutionRet.ret.ncode} has been proceed.`,
+                        subtitle: contestChallengeSubmitSolutionRet.ret.submission.ncode,
+                        body: `Your submission to problem ${contestChallengeSubmitSolutionRet.ret.submission.ncode} has been proceed.`,
                         icon: (contestChallengeSubmitSolutionRet.ret.submission.verdict=="Partially Accepted" || contestChallengeSubmitSolutionRet.ret.submission.verdict=="Accepted") ? path.join(__dirname, 'resources/icons/checked.png') : path.join(__dirname, 'resources/icons/cancel.png'),
                         timeoutType: "default"
                     }).on("click",()=>{
@@ -1070,7 +1070,7 @@ function fetchVerdict(sid){
                             forceUpdate: true,
                             parameters: {
                                 account: userInfo.name,
-                                problem: contestChallengeSubmitSolutionRet.ret.ncode,
+                                problem: contestChallengeSubmitSolutionRet.ret.submission.ncode,
                                 result: ""
                             }
                         });
