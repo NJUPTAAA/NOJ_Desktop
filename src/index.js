@@ -656,6 +656,7 @@ ipcMain.on('updateContestScoreBoard', (event, arg) => {
             });
         }
         try{
+            console.log(contestScoreBoardRet);
             if(contestScoreBoardRet.success === false){
                 return contestWindow.webContents.send('updatedContestScoreBoard', {
                     code: 4000,

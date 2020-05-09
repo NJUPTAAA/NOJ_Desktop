@@ -180,12 +180,16 @@
             try{
                 $(".noj-frame#frameStatus tbody").html("");
                 arg.data.data.forEach(data => {
+                    let verdict = data.verdict;
+                    if(data.verdict=="Partially Accepted" && data.score_parsed !== null && Number.isInteger(data.score_parsed)){
+                        verdict += ` (${data.score_parsed})`;
+                    }
                     $(".noj-frame#frameStatus tbody").append(`
                         <tr class="animated fadeInUp" onclick="submissionDetails(${data.sid});">
                             <th scope="row">${data.sid}</th>
                             <td>${_.escape(data.name)}</td>
                             <td>${data.ncode}</td>
-                            <td class="${data.color}">${data.verdict}</td>
+                            <td class="${data.color}">${verdict}</td>
                             <td>${data.time}ms</td>
                             <td>${data.memory}k</td>
                             <td>${_.escape(data.language)}</td>
