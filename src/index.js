@@ -175,8 +175,21 @@ app.setAboutPanelOptions({
     "website":"https://acm.njut.edu.cn",
     "iconPath":"../resources/icon.png"
 });
-app.on('ready', createMenu);
-app.on('ready', createWindow);
+
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore();
+            mainWindow.focus();
+        }
+    });
+    app.on('ready', createMenu);
+    app.on('ready', createWindow);
+}
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
