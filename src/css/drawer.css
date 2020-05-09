@@ -95,6 +95,12 @@ body{
     color: rgba(0, 0, 0, 0.54);
     font-size: 0.65rem;
 }
+.noj-menu-copyright img{
+    display:block;
+    width: 5rem;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+}
 .noj-section-menu .list-group{
     margin-top: 1rem;
 }
