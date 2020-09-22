@@ -74,7 +74,7 @@
         "animate.css": "^3.7.2",
         "bootstrap-material-design": "^4.1.2",
         "compare-versions": "^3.6.0",
-        "dompurify": "^2.0.11",
+        "dompurify": "^2.0.17",
         "electron-squirrel-startup": "^1.0.0",
         "electron-store": "^5.1.1",
         "fileicon-svg": "^1.0.0",
