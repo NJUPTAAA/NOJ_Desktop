@@ -1,0 +1,36 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mathjax
+    versions:
+    - "> 2.7.8"
+  - dependency-name: popper.js
+    versions:
+    - "> 1.15.0"
+  - dependency-name: electron-store
+    versions:
+    - 7.0.0
+    - 7.0.1
+    - 7.0.2
+    - 7.0.3
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+  - dependency-name: marked
+    versions:
+    - 1.2.8
+    - 1.2.9
+    - 2.0.0
+    - 2.0.1
+  - dependency-name: electron-builder
+    versions:
+    - 22.9.1
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
