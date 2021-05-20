@@ -80,7 +80,7 @@
         "fileicon-svg": "^1.0.0",
         "highlightjs": "^9.16.2",
         "jquery": "^3.5.1",
-        "marked": "^1.0.0",
+        "marked": "^2.0.4",
         "mathjax": "^2.7.8",
         "monaco-editor": "^0.20.0",
         "node-notifier": "^7.0.0",
